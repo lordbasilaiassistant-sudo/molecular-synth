@@ -1,0 +1,22 @@
+##### oxDNA force-capped MD relaxation (step 2 of relaxation) #####
+sim_type = MD
+steps = 100000
+dt = 0.003
+thermostat = brownian
+newtonian_steps = 103
+diff_coeff = 2.5
+max_backbone_force = 5.
+max_backbone_force_far = 10.
+conf_file = min.dat
+lastconf_file = relaxed.dat
+trajectory_file = relax_trajectory.dat
+energy_file = relax_energy.dat
+print_conf_interval = 10000
+print_energy_every = 10000
+restart_step_counter = 1
+refresh_vel = 1
+interaction_type = DNA2
+salt_concentration = 0.5
+T = 20C
+topology = design.top
+backend = CPU

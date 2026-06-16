@@ -147,6 +147,22 @@ class TestScience(unittest.TestCase):
         self.assertEqual(len(m.vertices), 6)
         self.assertEqual(len(m.edges), 12)
 
+    def test_ply_roundtrip(self):
+        ply = ("ply\nformat ascii 1.0\nelement vertex 4\n"
+               "property float x\nproperty float y\nproperty float z\n"
+               "element face 4\nproperty list uchar int vertex_indices\n"
+               "end_header\n1 1 1\n1 -1 -1\n-1 1 -1\n-1 -1 1\n"
+               "3 0 1 2\n3 0 3 1\n3 0 2 3\n3 1 3 2\n")
+        with tempfile.NamedTemporaryFile("w", suffix=".ply", delete=False) as fh:
+            fh.write(ply)
+            path = fh.name
+        try:
+            m = geometry.load_shape(path)
+            self.assertEqual(len(m.vertices), 4)
+            self.assertEqual(len(m.edges), 6)   # tetrahedron
+        finally:
+            os.unlink(path)
+
 
 class TestStructure3D(unittest.TestCase):
     def setUp(self):
@@ -200,7 +216,8 @@ class TestEndToEnd(unittest.TestCase):
             summary = molsynth.compile_shape("tetrahedron", outdir=d, iterations=2000)
             for f in ("scaffold.fasta", "staples.csv", "staples_idt_plate.txt",
                       "staples_opool.txt", "design.json", "design.top", "conf.dat",
-                      "structure.pdb", "protocol.md", "diagnostics.md"):
+                      "structure.pdb", "oxdna_min.input", "oxdna_relax.input",
+                      "protocol.md", "diagnostics.md", "screen.md"):
                 self.assertTrue(os.path.exists(os.path.join(d, f)), f)
             self.assertGreater(summary["n_staples"], 0)
             self.assertGreater(summary["approx_nm"], 0)

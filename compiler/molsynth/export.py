@@ -150,6 +150,54 @@ def write_oxdna(outdir, nucs, box):
     return top_path, conf_path
 
 
+def write_oxdna_inputs(outdir, salt_M=0.5, temp_c=20):
+    """Emit ready-to-run oxDNA relaxation input files. conf.dat is a STARTING config
+    with over-stretched vertex-junction backbones; the documented fix is a two-step
+    force-capped relaxation: (1) energy minimisation, then (2) short MD with a capped
+    backbone force. Run:  oxDNA oxdna_min.input   then   oxDNA oxdna_relax.input."""
+    common = (f"interaction_type = DNA2\n"
+              f"salt_concentration = {salt_M}\n"
+              f"T = {temp_c}C\n"
+              f"topology = design.top\n"
+              f"backend = CPU\n")
+    min_input = (
+        "##### oxDNA energy minimisation (step 1 of relaxation) #####\n"
+        "sim_type = min\n"
+        "steps = 2000\n"
+        "conf_file = conf.dat\n"
+        "lastconf_file = min.dat\n"
+        "trajectory_file = min_trajectory.dat\n"
+        "energy_file = min_energy.dat\n"
+        "print_conf_interval = 200\n"
+        "print_energy_every = 200\n"
+        "restart_step_counter = 1\n"
+        + common)
+    relax_input = (
+        "##### oxDNA force-capped MD relaxation (step 2 of relaxation) #####\n"
+        "sim_type = MD\n"
+        "steps = 100000\n"
+        "dt = 0.003\n"
+        "thermostat = brownian\n"
+        "newtonian_steps = 103\n"
+        "diff_coeff = 2.5\n"
+        "max_backbone_force = 5.\n"
+        "max_backbone_force_far = 10.\n"
+        "conf_file = min.dat\n"
+        "lastconf_file = relaxed.dat\n"
+        "trajectory_file = relax_trajectory.dat\n"
+        "energy_file = relax_energy.dat\n"
+        "print_conf_interval = 10000\n"
+        "print_energy_every = 10000\n"
+        "restart_step_counter = 1\n"
+        "refresh_vel = 1\n"
+        + common)
+    p1 = os.path.join(outdir, "oxdna_min.input")
+    p2 = os.path.join(outdir, "oxdna_relax.input")
+    _w(p1, min_input)
+    _w(p2, relax_input)
+    return p1, p2
+
+
 _PDB_RES = {"A": "DA", "T": "DT", "G": "DG", "C": "DC"}
 _PDB_CHAINS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
@@ -222,6 +270,9 @@ def write_all(outdir, design, mesh, routing, staples):
     written["design.top"] = top_path
     written["conf.dat"] = conf_path
     written["structure.pdb"] = write_pdb(outdir, nucs)
+    mn, rx = write_oxdna_inputs(outdir, salt_M=0.5, temp_c=int(design.get("t_cold", 20)))
+    written["oxdna_min.input"] = mn
+    written["oxdna_relax.input"] = rx
 
     sc_path = write_scadnano(outdir, routing, staples)
     if sc_path:

@@ -58,8 +58,10 @@ You get, in `out/tetra/`:
 | `protocol.md` | the auto-emitted wet-lab recipe for *this* design |
 | `diagnostics.md` | predicted-yield report (Tm histogram, crossover balance) |
 
-Other shapes: `cube`, `octahedron`, `square`, any `.stl`, or a `.json` wireframe
-(see [`examples/square_pyramid.json`](examples/square_pyramid.json)).
+Other shapes: `cube`, `octahedron`, `square`, any `.stl` / `.ply` mesh, or a `.json`
+wireframe (see [`examples/square_pyramid.json`](examples/square_pyramid.json)). It also
+emits `screen.md` (the Mg²⁺ × ramp folding screen) and `oxdna_min.input` /
+`oxdna_relax.input` (ready-to-run oxDNA relaxation).
 
 Optional extras: `pip install -r compiler/requirements.txt` then
 `python -m molsynth fetch-scaffold` to pull the real M13mp18 (already cached here),

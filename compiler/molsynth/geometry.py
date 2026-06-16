@@ -199,6 +199,42 @@ def load_stl(path) -> Mesh:
     return Mesh(name, verts, _dedup_edges(raw_edges), faces)
 
 
+def load_ply(path) -> Mesh:
+    """Minimal ASCII PLY reader (the mesh format DAEDALUS/PERDIX use). Reads the
+    vertex/face elements and welds faces into a wireframe."""
+    with open(path, "r", encoding="utf-8", errors="ignore") as fh:
+        lines = fh.read().splitlines()
+    n_vert = n_face = 0
+    i = 0
+    while i < len(lines):
+        parts = lines[i].split()
+        if parts and parts[0] == "element":
+            if parts[1] == "vertex":
+                n_vert = int(parts[2])
+            elif parts[1] == "face":
+                n_face = int(parts[2])
+        if lines[i].strip() == "end_header":
+            i += 1
+            break
+        i += 1
+    verts = []
+    for _ in range(n_vert):
+        p = lines[i].split()
+        verts.append((float(p[0]), float(p[1]), float(p[2])))
+        i += 1
+    faces, raw_edges = [], []
+    for _ in range(n_face):
+        p = lines[i].split()
+        cnt = int(p[0])
+        f = tuple(int(x) for x in p[1:1 + cnt])
+        faces.append(f)
+        for a, b in zip(f, f[1:] + f[:1]):
+            raw_edges.append((a, b))
+        i += 1
+    name = path.replace("\\", "/").split("/")[-1]
+    return Mesh(name, verts, _dedup_edges(raw_edges), faces)
+
+
 def load_json_spec(path) -> Mesh:
     with open(path, "r", encoding="utf-8") as fh:
         spec = json.load(fh)
@@ -216,9 +252,11 @@ def load_shape(spec: str) -> Mesh:
     low = spec.lower()
     if low.endswith(".stl"):
         return load_stl(spec)
+    if low.endswith(".ply"):
+        return load_ply(spec)
     if low.endswith(".json"):
         return load_json_spec(spec)
     raise ValueError(
-        f"Unknown shape '{spec}'. Use a preset {sorted(PRESETS)}, an .stl file, "
+        f"Unknown shape '{spec}'. Use a preset {sorted(PRESETS)}, an .stl/.ply file, "
         f"or a .json wireframe spec."
     )

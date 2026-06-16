@@ -1,0 +1,463 @@
+{
+  "meta": {
+    "design_name": "tetrahedron",
+    "shape": "tetrahedron.ply",
+    "approx_nm": 21.4,
+    "scaffold_name": "M13mp18",
+    "scaffold_len_used": 756,
+    "scaffold_total": 7255,
+    "scaffold_offset": 0,
+    "synthetic_scaffold": false,
+    "n_staples": 20,
+    "total_staple_bases": 756,
+    "scaffold_nM": 20,
+    "staple_excess": 10,
+    "mg_mM": 12.5,
+    "reaction_uL": 50,
+    "anneal_ramp": [
+      [
+        90,
+        5
+      ],
+      [
+        85.0,
+        8.6
+      ],
+      [
+        80.0,
+        8.6
+      ],
+      [
+        75.0,
+        8.6
+      ],
+      [
+        70.0,
+        8.6
+      ],
+      [
+        65.0,
+        8.6
+      ],
+      [
+        60.0,
+        8.6
+      ],
+      [
+        55.0,
+        8.6
+      ],
+      [
+        50.0,
+        8.6
+      ],
+      [
+        45.0,
+        8.6
+      ],
+      [
+        40.0,
+        8.6
+      ],
+      [
+        35.0,
+        8.6
+      ],
+      [
+        30.0,
+        8.6
+      ],
+      [
+        25.0,
+        8.6
+      ],
+      [
+        20.0,
+        8.6
+      ]
+    ],
+    "mesh": {
+      "name": "tetrahedron.ply",
+      "vertices": 4,
+      "edges": 6,
+      "faces": 4,
+      "min_degree": 3,
+      "max_degree": 3,
+      "min_edge_len": 2.8284,
+      "max_edge_len": 2.8284
+    },
+    "staple_stats": {
+      "n_staples": 20,
+      "n_crossover_staples": 11,
+      "n_overloaded_staples": 0,
+      "len_min": 32,
+      "len_max": 42,
+      "len_mean": 37.8,
+      "tm_min_C": 62.7,
+      "tm_max_C": 77.8,
+      "tm_mean_C": 68.5,
+      "tm_stdev_C": 4.48,
+      "total_bases_ordered": 756
+    },
+    "optimizer_score": 81.285,
+    "optimizer_score_initial": 99.018,
+    "structure_check": {
+      "max_unit_dev": 2.220446049250313e-16,
+      "max_orth_dev": 0.0
+    }
+  },
+  "scaffold": {
+    "name": "M13mp18",
+    "synthetic": false,
+    "len_used": 756,
+    "sequence": "CACAATTTCCCTTCCTTTCTCGCCACGTTCGCCGGCTTTCCCCGTCAAGCTCTAAATCGGGGGCTCCCTTTAGGGTTCCGATTTAGTGCTTTACGGCACCTCGACCCCAAAAAACTTGATTTGGGTGATGGTTCACGTAGTGGGCCATCGCCCTGATAGACGGTTTTTCGCCCTTTGACGTTGGAGTCCACGTTCTTTAATAGTGGACTCTTGTTCCAAACTGGAACAACACTCAACCCTATCTCGGGCTATTCTTTTGATTTATAAGGGATTTTGCCGATTTCGGAACCACCATCAAACAGGATTTTCGCCTGCTGGGGCAAACCAGCGTGGACCGCTTGCTGCAACTCTCTCAGGGCCAGGCGGTGAAGGGCAATCAGCTGTTGCCCGTCTCACTGGTGAAAAGAAAAACCACCCTGGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGCTGGCACGACAGGTTTCCCGACTGGAAAGCGGGCAGTGAGCGCAACGCAATTAATGTGAGTTAGCTCACTCATTAGGCACCCCAGGCTTTACACTTTATGCTTCCGGCTCGTATGTTGTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGCTATGACCATGATTACGAATTCGAGCTCGGTACCCGGGGATCCTCTAGAGTCGACCTGCAGGCATGCAAGCTTGGCACTGGCCGTCGTTTTACAACGTCGTGACTGGGAAAACCCTGGCGTTAC"
+  },
+  "edges_bp": {
+    "0-1": 63,
+    "1-2": 63,
+    "0-2": 63,
+    "0-3": 63,
+    "1-3": 63,
+    "2-3": 63
+  },
+  "segments": [
+    {
+      "order": 0,
+      "arc": [
+        0,
+        1
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 0
+    },
+    {
+      "order": 1,
+      "arc": [
+        1,
+        0
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 63
+    },
+    {
+      "order": 2,
+      "arc": [
+        0,
+        2
+      ],
+      "edge": [
+        0,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 126
+    },
+    {
+      "order": 3,
+      "arc": [
+        2,
+        1
+      ],
+      "edge": [
+        1,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 189
+    },
+    {
+      "order": 4,
+      "arc": [
+        1,
+        2
+      ],
+      "edge": [
+        1,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 252
+    },
+    {
+      "order": 5,
+      "arc": [
+        2,
+        0
+      ],
+      "edge": [
+        0,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 315
+    },
+    {
+      "order": 6,
+      "arc": [
+        0,
+        3
+      ],
+      "edge": [
+        0,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 378
+    },
+    {
+      "order": 7,
+      "arc": [
+        3,
+        1
+      ],
+      "edge": [
+        1,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 441
+    },
+    {
+      "order": 8,
+      "arc": [
+        1,
+        3
+      ],
+      "edge": [
+        1,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 504
+    },
+    {
+      "order": 9,
+      "arc": [
+        3,
+        2
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 567
+    },
+    {
+      "order": 10,
+      "arc": [
+        2,
+        3
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 630
+    },
+    {
+      "order": 11,
+      "arc": [
+        3,
+        0
+      ],
+      "edge": [
+        0,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 693
+    }
+  ],
+  "staples": [
+    {
+      "name": "tetrahedron-st000",
+      "well": "A1",
+      "seq": "GTAACGCCAGGGTTTTCCCAGTCACGACGTTGTAAAA",
+      "length": 37,
+      "tm_C": 66.58,
+      "gc": 0.486,
+      "crossovers": 0
+    },
+    {
+      "name": "tetrahedron-st001",
+      "well": "B1",
+      "seq": "CGACGGCCAGTGCCAAGCTTGCATGCCTGCAGGTCGACTCTA",
+      "length": 42,
+      "tm_C": 75.98,
+      "gc": 0.619,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st002",
+      "well": "C1",
+      "seq": "GAGGATCCCCGGGTACCGAGCTCGAATTCGTAATC",
+      "length": 35,
+      "tm_C": 68.26,
+      "gc": 0.571,
+      "crossovers": 0
+    },
+    {
+      "name": "tetrahedron-st003",
+      "well": "D1",
+      "seq": "ATGGTCATAGCTGTTTCCTGTGTGAAATTGTTATCCGCTC",
+      "length": 40,
+      "tm_C": 64.04,
+      "gc": 0.425,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st004",
+      "well": "E1",
+      "seq": "ACAATTCCACACAACATACGAGCCGGAAGCATAAAGTG",
+      "length": 38,
+      "tm_C": 64.84,
+      "gc": 0.447,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st005",
+      "well": "F1",
+      "seq": "TAAAGCCTGGGGTGCCTAATGAGTGAGCTAACTC",
+      "length": 34,
+      "tm_C": 65.08,
+      "gc": 0.5,
+      "crossovers": 0
+    },
+    {
+      "name": "tetrahedron-st006",
+      "well": "G1",
+      "seq": "ACATTAATTGCGTTGCGCTCACTGCCCGCTTTCCAGTCGG",
+      "length": 40,
+      "tm_C": 71.96,
+      "gc": 0.55,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st007",
+      "well": "H1",
+      "seq": "GAAACCTGTCGTGCCAGCTGCATTAATGAATCGGCCAACGCG",
+      "length": 42,
+      "tm_C": 71.72,
+      "gc": 0.548,
+      "crossovers": 0
+    },
+    {
+      "name": "tetrahedron-st008",
+      "well": "A2",
+      "seq": "CGGGGAGAGGCGGTTTGCGTATTGGGCGCCAGGGTGGTTTT",
+      "length": 41,
+      "tm_C": 77.11,
+      "gc": 0.634,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st009",
+      "well": "B2",
+      "seq": "TCTTTTCACCAGTGAGACGGGCAACAGCTGATTGCCCTTCAC",
+      "length": 42,
+      "tm_C": 70.64,
+      "gc": 0.524,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st010",
+      "well": "C2",
+      "seq": "CGCCTGGCCCTGAGAGAGTTGCAGCAAGCGGTCCACGCTG",
+      "length": 40,
+      "tm_C": 77.8,
+      "gc": 0.675,
+      "crossovers": 0
+    },
+    {
+      "name": "tetrahedron-st011",
+      "well": "D2",
+      "seq": "GTTTGCCCCAGCAGGCGAAAATCCTGTTTGAT",
+      "length": 32,
+      "tm_C": 65.91,
+      "gc": 0.5,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st012",
+      "well": "E2",
+      "seq": "GGTGGTTCCGAAATCGGCAAAATCCCTTATAAATCAAAAGAA",
+      "length": 42,
+      "tm_C": 62.69,
+      "gc": 0.381,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st013",
+      "well": "F2",
+      "seq": "TAGCCCGAGATAGGGTTGAGTGTTGTTCCAGTTT",
+      "length": 34,
+      "tm_C": 64.43,
+      "gc": 0.471,
+      "crossovers": 0
+    },
+    {
+      "name": "tetrahedron-st014",
+      "well": "G2",
+      "seq": "GGAACAAGAGTCCACTATTAAAGAACGTGGACTCCAACG",
+      "length": 39,
+      "tm_C": 64.29,
+      "gc": 0.462,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st015",
+      "well": "H2",
+      "seq": "TCAAAGGGCGAAAAACCGTCTATCAGGGCGATG",
+      "length": 33,
+      "tm_C": 66.26,
+      "gc": 0.515,
+      "crossovers": 0
+    },
+    {
+      "name": "tetrahedron-st016",
+      "well": "A3",
+      "seq": "GCCCACTACGTGAACCATCACCCAAATCAAGTT",
+      "length": 33,
+      "tm_C": 64.69,
+      "gc": 0.485,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st017",
+      "well": "B3",
+      "seq": "TTTTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACC",
+      "length": 39,
+      "tm_C": 68.82,
+      "gc": 0.513,
+      "crossovers": 0
+    },
+    {
+      "name": "tetrahedron-st018",
+      "well": "C3",
+      "seq": "CTAAAGGGAGCCCCCGATTTAGAGCTTGACGG",
+      "length": 32,
+      "tm_C": 66.64,
+      "gc": 0.562,
+      "crossovers": 1
+    },
+    {
+      "name": "tetrahedron-st019",
+      "well": "D3",
+      "seq": "GGAAAGCCGGCGAACGTGGCGAGAAAGGAAGGGAAATTGTG",
+      "length": 41,
+      "tm_C": 71.93,
+      "gc": 0.561,
+      "crossovers": 0
+    }
+  ]
+}

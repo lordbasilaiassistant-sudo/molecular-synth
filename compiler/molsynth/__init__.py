@@ -107,6 +107,12 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
         fh.write(diag_md)
     written["diagnostics.md"] = dpath
 
+    screen_md = protocol_mod.emit_screen(design)
+    spath = os.path.join(outdir, "screen.md")
+    with open(spath, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(screen_md)
+    written["screen.md"] = spath
+
     summary = dict(design)
     summary["outdir"] = os.path.abspath(outdir)
     summary["files"] = {k: os.path.abspath(v) for k, v in written.items()}

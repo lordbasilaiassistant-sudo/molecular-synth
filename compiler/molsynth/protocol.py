@@ -24,6 +24,48 @@ def anneal_ramp(t_hot=90, t_cold=20, hold_hot_min=5, total_min=120, steps=14):
     return ramp
 
 
+def emit_screen(design: dict,
+                mg_grid=(5, 8, 12.5, 16, 20),
+                strategies=("ramp 90->20 (2h)", "ramp 65->25 (16h)",
+                            "isothermal 50C", "isothermal 55C", "isothermal 60C")) -> str:
+    """Auto-emit the per-design folding screen. Yield on a NEW shape is set mostly by
+    MgCl2 x thermal strategy (Castro 2011; Wagenbauer 2017), so the compiler hands you a
+    ready grid: one well per (MgCl2 x strategy), the plate map, and the exact host_ramp /
+    setpoint to run for each. Pick the condition that gives the tightest gel band."""
+    d = design
+    rows = []
+    well = 0
+    cols = "ABCDEFGH"
+    for s_i, strat in enumerate(strategies):
+        for mg in mg_grid:
+            r = cols[s_i % len(cols)]
+            c = list(mg_grid).index(mg) + 1
+            rows.append(f"| {r}{c} | {mg} | {strat} |")
+            well += 1
+    table = "\n".join(rows)
+    return f"""# Folding screen - {d['design_name']}
+
+Run this {len(rows)}-condition screen ONCE on a new design; read the winner off the gel
+(tightest, fastest single band vs the scaffold-only lane). Then fold production batches
+at the winning MgCl2 x strategy.
+
+Each well: scaffold {d.get('scaffold_nM', 20)} nM + staples {d.get('staple_excess', 10)}x
+in 1x TAE + the row's MgCl2, ~20 uL.
+
+| Well | MgCl2 (mM) | Thermal strategy |
+|------|-----------|------------------|
+{table}
+
+How to run each strategy on the rig (hardware/firmware):
+- `ramp ...`  -> `python hardware/firmware/host_ramp.py --design design.json --port <COM>`
+  (edit `--t-hot/--t-cold/--anneal-min` when you recompile, or step a sous-vide bath).
+- `isothermal T` -> hold the block at T (firmware `SET <T>`) for 1-4 h, then cool.
+
+Gel-score every well together (run cold, 1x TAE + ~11 mM MgCl2, 60-90 V). The
+condition with the sharpest monomer band wins.
+"""
+
+
 def emit_protocol(design: dict) -> str:
     d = design
     ramp = d.get("anneal_ramp") or anneal_ramp()
