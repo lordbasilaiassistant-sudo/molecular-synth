@@ -216,9 +216,9 @@ class TestDecorate(unittest.TestCase):
     def setUp(self):
         from molsynth import decorate as decorate_mod
         self.decorate_mod = decorate_mod
-        mesh = geometry.load_shape("cube")
+        self.mesh = geometry.load_shape("cube")
         s, name, synth = sc.load_scaffold()
-        self.routing = sc.route(mesh, s, name, synth)
+        self.routing = sc.route(self.mesh, s, name, synth)
         self.staples, _ = build_staples(self.routing, YieldModel(), iterations=600, seed=4)
 
     def test_handles_orthogonal_and_absent_from_scaffold(self):
@@ -255,6 +255,16 @@ class TestDecorate(unittest.TestCase):
         records = self.decorate_mod.decorate(self.staples, self.routing, 2)
         for r in records:
             self.assertEqual(r["anti_handle"], seq.reverse_complement(r["handle"]))
+
+    def test_cascade_orders_guests_and_measures_spacing(self):
+        recs = self.decorate_mod.decorate_cascade(
+            self.staples, self.routing, self.mesh, ["GOx", "HRP", "catalase"],
+            spacing_nm=10)
+        self.assertEqual(len(recs), 3)
+        self.assertEqual([r["guest"] for r in recs], ["GOx", "HRP", "catalase"])
+        self.assertEqual(recs[0]["spacing_nm"], 0.0)        # first site = reference
+        for r in recs[1:]:
+            self.assertGreater(r["spacing_nm"], 0)          # real measured 3D distance
 
 
 class TestEndToEnd(unittest.TestCase):

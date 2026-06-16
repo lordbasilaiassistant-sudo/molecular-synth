@@ -1,0 +1,15 @@
+##### oxDNA energy minimisation (step 1 of relaxation) #####
+sim_type = min
+steps = 2000
+conf_file = conf.dat
+lastconf_file = min.dat
+trajectory_file = min_trajectory.dat
+energy_file = min_energy.dat
+print_conf_interval = 200
+print_energy_every = 200
+restart_step_counter = 1
+interaction_type = DNA2
+salt_concentration = 0.5
+T = 20C
+topology = design.top
+backend = CPU

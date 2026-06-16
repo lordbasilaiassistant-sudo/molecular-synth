@@ -34,6 +34,15 @@ position. The binding region of each staple is unchanged (still the exact scaffo
 complement); `staples.csv` gains `order_sequence` (= staple + spacer + handle) and the
 IDT/oPool exports order that full sequence.
 
+**Cascade placement** (toward rung 3): because enzyme-cascade efficiency is
+distance-dependent (Fu 2012), `--cascade` places an *ordered* set of guests at a target
+nm spacing, computed from the 3D structure:
+```bash
+python -m molsynth compile cube --out out/cube --cascade "glucose-oxidase,HRP" \
+    --cascade-spacing-nm 10
+```
+`decoration.md` then reports the actual measured inter-enzyme spacing at each site.
+
 ```python
 from molsynth import compile_shape
 summary = compile_shape("cube", outdir="out/cube", iterations=8000)

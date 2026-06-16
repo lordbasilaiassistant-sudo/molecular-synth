@@ -19,12 +19,15 @@ standard, demonstrated origami functionalisation - the first chemistry-capable r
 
 from __future__ import annotations
 
+import math
 import random
 
 from . import sequences as sq
+from . import structure3d
 
 HANDLE_LEN = 20
 DEFAULT_SPACER = "TT"
+NM_PER_UNIT = 0.8518          # oxDNA length unit -> nm
 _LABELS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
@@ -117,14 +120,88 @@ def decorate(staples, routing, n, end="3p", spacer=DEFAULT_SPACER, guests=None):
     return records
 
 
+def site_positions_nm(staples, routing, mesh):
+    """3D position (nm) of each staple's handle site = mean of its binding region's
+    scaffold-base coordinates, from the compiler's 3D structure."""
+    sf, _pf, S = structure3d.place_frames(mesh, routing)
+    pos = {}
+    for s in staples:
+        pts = [sf[g][0] for g in range(s.scaffold_start, s.scaffold_end)
+               if 0 <= g < S and sf[g] is not None]
+        if not pts:
+            continue
+        cx = sum(p[0] for p in pts) / len(pts)
+        cy = sum(p[1] for p in pts) / len(pts)
+        cz = sum(p[2] for p in pts) / len(pts)
+        pos[id(s)] = (cx * NM_PER_UNIT, cy * NM_PER_UNIT, cz * NM_PER_UNIT)
+    return pos
+
+
+def decorate_cascade(staples, routing, mesh, guests, spacing_nm=10.0,
+                     end="3p", spacer=DEFAULT_SPACER):
+    """Place an ORDERED cascade of guests so consecutive enzymes sit ~spacing_nm apart -
+    cascade efficiency is distance-dependent (Fu et al. 2012). Greedily chains handle
+    sites whose 3D separation is closest to the target. Returns records with the actual
+    measured inter-site spacing (the structure is a relaxable starting config, so treat
+    spacings as approximate until oxDNA-relaxed)."""
+    handles = generate_handles(routing.scaffold_seq, n=max(len(guests), 1))
+    pos = site_positions_nm(staples, routing, mesh)
+    cands = [s for s in staples if s.crossovers > 0 and id(s) in pos] \
+        or [s for s in staples if id(s) in pos]
+    if not cands:
+        return []
+
+    def d(a, b):
+        return math.dist(pos[id(a)], pos[id(b)])
+
+    chain = [cands[0]]
+    remaining = cands[1:]
+    while len(chain) < len(guests) and remaining:
+        cur = chain[-1]
+        nxt = min(remaining, key=lambda s: abs(d(cur, s) - spacing_nm))
+        remaining.remove(nxt)
+        chain.append(nxt)
+
+    records = []
+    for i, s in enumerate(chain):
+        s.handle = handles[i]
+        s.handle_end = end
+        s.spacer = spacer
+        s.guest = guests[i] if i < len(guests) else f"guest_{_LABELS[i % 26]}"
+        records.append({
+            "label": _LABELS[i % 26],
+            "staple": s.name,
+            "well": s.well,
+            "edge": _staple_edge(s, routing),
+            "scaffold_pos": [s.scaffold_start, s.scaffold_end],
+            "guest": s.guest,
+            "handle": s.handle,
+            "anti_handle": sq.reverse_complement(s.handle),
+            "end": end,
+            "spacer": spacer,
+            "spacing_nm": round(d(chain[i - 1], s), 1) if i > 0 else 0.0,
+        })
+    return records
+
+
 def decoration_md(design_name, records):
     if not records:
         return ""
+    cascade = any("spacing_nm" in r for r in records)
+    sp_hdr = " Spacing to prev (nm) |" if cascade else ""
+    sp_sep = "----------------------|" if cascade else ""
     rows = "\n".join(
         f"| {r['label']} | {r['guest']} | {r['staple']} ({r['well']}) | "
         f"edge {r['edge']} | {r['end']} | `{r['handle']}` | `{r['anti_handle']}` |"
+        + (f" {r.get('spacing_nm', 0.0)} |" if cascade else "")
         for r in records)
+    cascade_note = ("\nThis is an **ordered cascade**: guests are placed so consecutive "
+                    "enzymes sit near the target spacing (cascade efficiency is "
+                    "distance-dependent - Fu et al. 2012). Spacings are from the 3D "
+                    "starting structure; relax in oxDNA for refined distances.\n"
+                    if cascade else "")
     return f"""# Decoration map (DNA breadboard) - {design_name}
+{cascade_note}
 
 Rung 2 of the ladder: each handle below protrudes from the folded origami at a known
 site. Attach your guest (enzyme / catalyst / nanoparticle / dye) by conjugating it to the
@@ -133,8 +210,8 @@ positioned at that site. Order the decorated staples as their full `order_sequen
 (staple + {records[0]['spacer']} spacer + handle, on the {records[0]['end']} end) - see
 staples.csv.
 
-| Site | Guest | Staple (well) | Location | End | Handle (on origami, 5'->3') | Anti-handle (on guest, 5'->3') |
-|------|-------|---------------|----------|-----|------------------------------|--------------------------------|
+| Site | Guest | Staple (well) | Location | End | Handle (on origami, 5'->3') | Anti-handle (on guest, 5'->3') |{sp_hdr}
+|------|-------|---------------|----------|-----|------------------------------|--------------------------------|{sp_sep}
 {rows}
 
 **How to attach a guest:**

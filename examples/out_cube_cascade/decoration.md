@@ -1,5 +1,7 @@
 # Decoration map (DNA breadboard) - cube
 
+This is an **ordered cascade**: guests are placed so consecutive enzymes sit near the target spacing (cascade efficiency is distance-dependent - Fu et al. 2012). Spacings are from the 3D starting structure; relax in oxDNA for refined distances.
+
 
 Rung 2 of the ladder: each handle below protrudes from the folded origami at a known
 site. Attach your guest (enzyme / catalyst / nanoparticle / dye) by conjugating it to the
@@ -8,11 +10,11 @@ positioned at that site. Order the decorated staples as their full `order_sequen
 (staple + TT spacer + handle, on the 3p end) - see
 staples.csv.
 
-| Site | Guest | Staple (well) | Location | End | Handle (on origami, 5'->3') | Anti-handle (on guest, 5'->3') |
-|------|-------|---------------|----------|-----|------------------------------|--------------------------------|
-| A | glucose-oxidase | cube-st039 (H5) | edge (0, 1) | 3p | `ATTTGCTGCTTAGTGGACGC` | `GCGTCCACTAAGCAGCAAAT` |
-| B | HRP | cube-st027 (D4) | edge (1, 3) | 3p | `GAGGATCTATGGCAGCCGTA` | `TACGGCTGCCATAGATCCTC` |
-| C | fluorophore | cube-st013 (F2) | edge (6, 7) | 3p | `TGCGAGGTAACCTTTCGATC` | `GATCGAAAGGTTACCTCGCA` |
+| Site | Guest | Staple (well) | Location | End | Handle (on origami, 5'->3') | Anti-handle (on guest, 5'->3') | Spacing to prev (nm) |
+|------|-------|---------------|----------|-----|------------------------------|--------------------------------|----------------------|
+| A | glucose-oxidase | cube-st001 (B1) | edge (0, 4) | 3p | `ATTTGCTGCTTAGTGGACGC` | `GCGTCCACTAAGCAGCAAAT` | 0.0 |
+| B | HRP | cube-st022 (G3) | edge (4, 5) | 3p | `GAGGATCTATGGCAGCCGTA` | `TACGGCTGCCATAGATCCTC` | 6.4 |
+| C | catalase | cube-st023 (H3) | edge (4, 5) | 3p | `TGCGAGGTAACCTTTCGATC` | `GATCGAAAGGTTACCTCGCA` | 12.8 |
 
 **How to attach a guest:**
 1. Conjugate the **anti-handle** oligo to your guest (NHS-ester/thiol/click for proteins;

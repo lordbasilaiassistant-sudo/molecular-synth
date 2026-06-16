@@ -33,7 +33,8 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
                   scaffold_nM=20, staple_excess=10, mg_mM=12.5, reaction_uL=50,
                   seed=12345, weights_path=None, t_hot=90, t_cold=20, total_min=120,
                   scaffold_offset=0, scaffold_search=1,
-                  decorate=0, decorate_end="3p", decorate_spacer="TT", decorate_guests=None):
+                  decorate=0, decorate_end="3p", decorate_spacer="TT", decorate_guests=None,
+                  cascade=None, cascade_spacing_nm=10.0):
     """Run the full compile pipeline and write all artifacts to `outdir`.
     Returns a summary dict.
 
@@ -70,7 +71,11 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
         routing, model, iterations=iterations, seed=seed, design_name=design_name,
     )
     decoration_records = []
-    if decorate and decorate > 0:
+    if cascade:
+        decoration_records = decorate_mod.decorate_cascade(
+            staples, routing, mesh, cascade, spacing_nm=cascade_spacing_nm,
+            end=decorate_end, spacer=decorate_spacer)
+    elif decorate and decorate > 0:
         decoration_records = decorate_mod.decorate(
             staples, routing, decorate, end=decorate_end,
             spacer=decorate_spacer, guests=decorate_guests)

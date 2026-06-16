@@ -12,6 +12,7 @@ from . import scaffold as scaffold_mod
 
 def _cmd_compile(a):
     guests = [g.strip() for g in a.decorate_guests.split(",")] if a.decorate_guests else None
+    cascade = [g.strip() for g in a.cascade.split(",")] if a.cascade else None
     summary = compile_shape(
         a.shape, outdir=a.out, iterations=a.iterations, min_edge_bp=a.min_edge_bp,
         scaffold_nM=a.scaffold_nM, staple_excess=a.excess, mg_mM=a.mg,
@@ -20,6 +21,7 @@ def _cmd_compile(a):
         scaffold_search=a.scaffold_search, scaffold_offset=a.scaffold_offset,
         decorate=a.decorate, decorate_end=a.decorate_end,
         decorate_spacer=a.decorate_spacer, decorate_guests=guests,
+        cascade=cascade, cascade_spacing_nm=a.cascade_spacing_nm,
     )
     st = summary["staple_stats"]
     print(f"[molsynth] compiled '{summary['shape']}' -> {summary['outdir']}")
@@ -107,6 +109,11 @@ def build_parser():
     c.add_argument("--decorate-spacer", default="TT", dest="decorate_spacer")
     c.add_argument("--decorate-guests", default=None, dest="decorate_guests",
                    help="comma-separated guest labels for the handle sites")
+    c.add_argument("--cascade", default=None,
+                   help="ordered enzyme cascade, comma-separated (e.g. 'GOx,HRP'); places "
+                        "sites at --cascade-spacing-nm apart")
+    c.add_argument("--cascade-spacing-nm", type=float, default=10.0, dest="cascade_spacing_nm",
+                   help="target inter-enzyme spacing in nm for --cascade")
     c.add_argument("--json", action="store_true", help="also print a JSON summary")
     c.set_defaults(func=_cmd_compile)
 
