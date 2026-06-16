@@ -19,7 +19,20 @@ mesh, or a `.json` wireframe (`{"vertices": [...], "edges": [[i,j],...]}`).
 
 Useful options: `--iterations N` (optimizer budget), `--min-edge-bp`, `--scaffold-nM`,
 `--excess`, `--mg` (MgCl₂ mM), `--t-hot/--t-cold/--anneal-min` (ramp),
-`--weights w.json` (load learned YieldModel weights), `--seed`.
+`--weights w.json` (load learned YieldModel weights), `--seed`,
+`--scaffold-search N` (search M13 start offsets for better Tm uniformity).
+
+**Rung 2 — DNA as a breadboard** ([`docs/the-ladder.md`](../docs/the-ladder.md)):
+```bash
+python -m molsynth compile cube --out out/cube --decorate 3 \
+    --decorate-guests "glucose-oxidase,HRP,fluorophore"
+```
+`--decorate N` extends N spread-out staples with orthogonal single-stranded **handles**
+and writes `decoration.md` — a map of each site's handle + the **anti-handle** to
+conjugate to your guest (enzyme/catalyst/nanoparticle) so it docks at that nm-precise
+position. The binding region of each staple is unchanged (still the exact scaffold
+complement); `staples.csv` gains `order_sequence` (= staple + spacer + handle) and the
+IDT/oPool exports order that full sequence.
 
 ```python
 from molsynth import compile_shape

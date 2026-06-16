@@ -16,6 +16,7 @@ from __future__ import annotations
 import os
 
 from . import geometry, scaffold as scaffold_mod, export, protocol as protocol_mod, report as report_mod
+from . import decorate as decorate_mod
 from .staples import build_staples, staple_stats
 from .optimizer import YieldModel
 
@@ -31,7 +32,8 @@ def _rotate(s, off):
 def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
                   scaffold_nM=20, staple_excess=10, mg_mM=12.5, reaction_uL=50,
                   seed=12345, weights_path=None, t_hot=90, t_cold=20, total_min=120,
-                  scaffold_offset=0, scaffold_search=1):
+                  scaffold_offset=0, scaffold_search=1,
+                  decorate=0, decorate_end="3p", decorate_spacer="TT", decorate_guests=None):
     """Run the full compile pipeline and write all artifacts to `outdir`.
     Returns a summary dict.
 
@@ -67,6 +69,11 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
     staples, history = build_staples(
         routing, model, iterations=iterations, seed=seed, design_name=design_name,
     )
+    decoration_records = []
+    if decorate and decorate > 0:
+        decoration_records = decorate_mod.decorate(
+            staples, routing, decorate, end=decorate_end,
+            spacer=decorate_spacer, guests=decorate_guests)
     stats = staple_stats(staples)
 
     max_edge_bp = max(routing.edge_bp.values()) if routing.edge_bp else 0
@@ -83,6 +90,7 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
         "synthetic_scaffold": synthetic,
         "n_staples": stats.get("n_staples", 0),
         "total_staple_bases": stats.get("total_bases_ordered", 0),
+        "decorations": len(decoration_records),
         "scaffold_nM": scaffold_nM,
         "staple_excess": staple_excess,
         "mg_mM": mg_mM,
@@ -112,6 +120,13 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
     with open(spath, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(screen_md)
     written["screen.md"] = spath
+
+    if decoration_records:
+        dec_md = decorate_mod.decoration_md(design_name, decoration_records)
+        decpath = os.path.join(outdir, "decoration.md")
+        with open(decpath, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(dec_md)
+        written["decoration.md"] = decpath
 
     summary = dict(design)
     summary["outdir"] = os.path.abspath(outdir)

@@ -1,7 +1,7 @@
 {
   "meta": {
-    "design_name": "octahedron",
-    "shape": "octahedron",
+    "design_name": "cube",
+    "shape": "cube",
     "approx_nm": 21.4,
     "scaffold_name": "M13mp18",
     "scaffold_len_used": 1512,
@@ -10,7 +10,7 @@
     "synthetic_scaffold": false,
     "n_staples": 41,
     "total_staple_bases": 1512,
-    "decorations": 0,
+    "decorations": 3,
     "scaffold_nM": 20,
     "staple_excess": 10,
     "mg_mM": 12.5,
@@ -78,14 +78,14 @@
       ]
     ],
     "mesh": {
-      "name": "octahedron",
-      "vertices": 6,
+      "name": "cube",
+      "vertices": 8,
       "edges": 12,
-      "faces": 8,
-      "min_degree": 4,
-      "max_degree": 4,
-      "min_edge_len": 1.4142,
-      "max_edge_len": 1.4142
+      "faces": 6,
+      "min_degree": 3,
+      "max_degree": 3,
+      "min_edge_len": 2.0,
+      "max_edge_len": 2.0
     },
     "staple_stats": {
       "n_staples": 41,
@@ -103,7 +103,7 @@
     "optimizer_score": 142.73,
     "optimizer_score_initial": 169.551,
     "structure_check": {
-      "max_unit_dev": 2.220446049250313e-16,
+      "max_unit_dev": 0.0,
       "max_orth_dev": 0.0
     }
   },
@@ -114,22 +114,48 @@
     "sequence": "CACAATTTCCCTTCCTTTCTCGCCACGTTCGCCGGCTTTCCCCGTCAAGCTCTAAATCGGGGGCTCCCTTTAGGGTTCCGATTTAGTGCTTTACGGCACCTCGACCCCAAAAAACTTGATTTGGGTGATGGTTCACGTAGTGGGCCATCGCCCTGATAGACGGTTTTTCGCCCTTTGACGTTGGAGTCCACGTTCTTTAATAGTGGACTCTTGTTCCAAACTGGAACAACACTCAACCCTATCTCGGGCTATTCTTTTGATTTATAAGGGATTTTGCCGATTTCGGAACCACCATCAAACAGGATTTTCGCCTGCTGGGGCAAACCAGCGTGGACCGCTTGCTGCAACTCTCTCAGGGCCAGGCGGTGAAGGGCAATCAGCTGTTGCCCGTCTCACTGGTGAAAAGAAAAACCACCCTGGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGCTGGCACGACAGGTTTCCCGACTGGAAAGCGGGCAGTGAGCGCAACGCAATTAATGTGAGTTAGCTCACTCATTAGGCACCCCAGGCTTTACACTTTATGCTTCCGGCTCGTATGTTGTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGCTATGACCATGATTACGAATTCGAGCTCGGTACCCGGGGATCCTCTAGAGTCGACCTGCAGGCATGCAAGCTTGGCACTGGCCGTCGTTTTACAACGTCGTGACTGGGAAAACCCTGGCGTTACCCAACTTAATCGCCTTGCAGCACATCCCCCTTTCGCCAGCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGCGCTTTGCCTGGTTTCCGGCACCAGAAGCGGTGCCGGAAAGCTGGCTGGAGTGCGATCTTCCTGAGGCCGATACTGTCGTCGTCCCCTCAAACTGGCAGATGCACGGTTACGATGCGCCCATCTACACCAACGTGACCTATCCCATTACGGTCAATCCGCCGTTTGTTCCCACGGAGAATCCGACGGGTTGTTACTCGCTCACATTTAATGTTGATGAAAGCTGGCTACAGGAAGGCCAGACGCGAATTATTTTTGATGGCGTTCCTATTGGTTAAAAAATGAGCTGATTTAACAAAAATTTAATGCGAATTTTAACAAAATATTAACGTTTACAATTTAAATATTTGCTTATACAATCTTCCTGTTTTTGGGGCTTTTCTGATTATCAACCGGGGTACATATGATTGACATGCTAGTTTTACGATTACCGTTCATCGATTCTCTTGTTTGCTCCAGACTCTCAGGCAATGACCTGATAGCCTTTGTAGATCTCTCAAAAATAGCTACCCTCTCCGGCATTAATTTATCAGCTAGAACGGTTGAATATCATATTGATGGTGATTTGACTGTCTCCGGCCTTTCTCACCCTTTTGAATCTTTACCTACACATTACTCAGGCATTGCATTTAAAATATATGAGGGTTCT"
   },
   "edges_bp": {
+    "0-1": 63,
     "0-2": 63,
-    "2-4": 63,
     "0-4": 63,
-    "1-2": 63,
-    "1-4": 63,
     "1-3": 63,
-    "3-4": 63,
-    "0-3": 63,
-    "0-5": 63,
-    "2-5": 63,
     "1-5": 63,
-    "3-5": 63
+    "2-3": 63,
+    "2-6": 63,
+    "3-7": 63,
+    "4-5": 63,
+    "4-6": 63,
+    "5-7": 63,
+    "6-7": 63
   },
   "segments": [
     {
       "order": 0,
+      "arc": [
+        0,
+        1
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 0
+    },
+    {
+      "order": 1,
+      "arc": [
+        1,
+        0
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 63
+    },
+    {
+      "order": 2,
       "arc": [
         0,
         2
@@ -139,10 +165,10 @@
         2
       ],
       "bp": 63,
-      "scaffold_start": 0
+      "scaffold_start": 126
     },
     {
-      "order": 1,
+      "order": 3,
       "arc": [
         2,
         0
@@ -152,42 +178,16 @@
         2
       ],
       "bp": 63,
-      "scaffold_start": 63
-    },
-    {
-      "order": 2,
-      "arc": [
-        0,
-        4
-      ],
-      "edge": [
-        0,
-        4
-      ],
-      "bp": 63,
-      "scaffold_start": 126
-    },
-    {
-      "order": 3,
-      "arc": [
-        4,
-        2
-      ],
-      "edge": [
-        2,
-        4
-      ],
-      "bp": 63,
       "scaffold_start": 189
     },
     {
       "order": 4,
       "arc": [
-        2,
+        0,
         4
       ],
       "edge": [
-        2,
+        0,
         4
       ],
       "bp": 63,
@@ -197,11 +197,11 @@
       "order": 5,
       "arc": [
         4,
-        0
+        5
       ],
       "edge": [
-        0,
-        4
+        4,
+        5
       ],
       "bp": 63,
       "scaffold_start": 315
@@ -209,12 +209,12 @@
     {
       "order": 6,
       "arc": [
-        0,
-        3
+        5,
+        1
       ],
       "edge": [
-        0,
-        3
+        1,
+        5
       ],
       "bp": 63,
       "scaffold_start": 378
@@ -222,8 +222,8 @@
     {
       "order": 7,
       "arc": [
-        3,
-        1
+        1,
+        3
       ],
       "edge": [
         1,
@@ -235,12 +235,12 @@
     {
       "order": 8,
       "arc": [
-        1,
-        2
+        3,
+        1
       ],
       "edge": [
         1,
-        2
+        3
       ],
       "bp": 63,
       "scaffold_start": 504
@@ -248,12 +248,12 @@
     {
       "order": 9,
       "arc": [
-        2,
-        1
+        1,
+        5
       ],
       "edge": [
         1,
-        2
+        5
       ],
       "bp": 63,
       "scaffold_start": 567
@@ -261,12 +261,12 @@
     {
       "order": 10,
       "arc": [
-        1,
+        5,
         4
       ],
       "edge": [
-        1,
-        4
+        4,
+        5
       ],
       "bp": 63,
       "scaffold_start": 630
@@ -275,11 +275,11 @@
       "order": 11,
       "arc": [
         4,
-        1
+        6
       ],
       "edge": [
-        1,
-        4
+        4,
+        6
       ],
       "bp": 63,
       "scaffold_start": 693
@@ -287,12 +287,12 @@
     {
       "order": 12,
       "arc": [
-        1,
-        3
+        6,
+        2
       ],
       "edge": [
-        1,
-        3
+        2,
+        6
       ],
       "bp": 63,
       "scaffold_start": 756
@@ -300,12 +300,12 @@
     {
       "order": 13,
       "arc": [
-        3,
-        4
+        2,
+        3
       ],
       "edge": [
-        3,
-        4
+        2,
+        3
       ],
       "bp": 63,
       "scaffold_start": 819
@@ -313,12 +313,12 @@
     {
       "order": 14,
       "arc": [
-        4,
-        3
+        3,
+        2
       ],
       "edge": [
-        3,
-        4
+        2,
+        3
       ],
       "bp": 63,
       "scaffold_start": 882
@@ -326,12 +326,12 @@
     {
       "order": 15,
       "arc": [
-        3,
-        0
+        2,
+        6
       ],
       "edge": [
-        0,
-        3
+        2,
+        6
       ],
       "bp": 63,
       "scaffold_start": 945
@@ -339,12 +339,12 @@
     {
       "order": 16,
       "arc": [
-        0,
-        5
+        6,
+        7
       ],
       "edge": [
-        0,
-        5
+        6,
+        7
       ],
       "bp": 63,
       "scaffold_start": 1008
@@ -352,12 +352,12 @@
     {
       "order": 17,
       "arc": [
-        5,
-        2
+        7,
+        3
       ],
       "edge": [
-        2,
-        5
+        3,
+        7
       ],
       "bp": 63,
       "scaffold_start": 1071
@@ -365,12 +365,12 @@
     {
       "order": 18,
       "arc": [
-        2,
-        5
+        3,
+        7
       ],
       "edge": [
-        2,
-        5
+        3,
+        7
       ],
       "bp": 63,
       "scaffold_start": 1134
@@ -378,12 +378,12 @@
     {
       "order": 19,
       "arc": [
-        5,
-        1
+        7,
+        5
       ],
       "edge": [
-        1,
-        5
+        5,
+        7
       ],
       "bp": 63,
       "scaffold_start": 1197
@@ -391,12 +391,12 @@
     {
       "order": 20,
       "arc": [
-        1,
-        5
+        5,
+        7
       ],
       "edge": [
-        1,
-        5
+        5,
+        7
       ],
       "bp": 63,
       "scaffold_start": 1260
@@ -404,12 +404,12 @@
     {
       "order": 21,
       "arc": [
-        5,
-        3
+        7,
+        6
       ],
       "edge": [
-        3,
-        5
+        6,
+        7
       ],
       "bp": 63,
       "scaffold_start": 1323
@@ -417,12 +417,12 @@
     {
       "order": 22,
       "arc": [
-        3,
-        5
+        6,
+        4
       ],
       "edge": [
-        3,
-        5
+        4,
+        6
       ],
       "bp": 63,
       "scaffold_start": 1386
@@ -430,12 +430,12 @@
     {
       "order": 23,
       "arc": [
-        5,
+        4,
         0
       ],
       "edge": [
         0,
-        5
+        4
       ],
       "bp": 63,
       "scaffold_start": 1449
@@ -443,7 +443,7 @@
   ],
   "staples": [
     {
-      "name": "octahedron-st000",
+      "name": "cube-st000",
       "well": "A1",
       "seq": "AGAACCCTCATATATTTTAAATGCAATGCCTG",
       "order_seq": "AGAACCCTCATATATTTTAAATGCAATGCCTG",
@@ -455,7 +455,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st001",
+      "name": "cube-st001",
       "well": "B1",
       "seq": "AGTAATGTGTAGGTAAAGATTCAAAAGGGTGAGAAAGGCCG",
       "order_seq": "AGTAATGTGTAGGTAAAGATTCAAAAGGGTGAGAAAGGCCG",
@@ -467,7 +467,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st002",
+      "name": "cube-st002",
       "well": "C1",
       "seq": "GAGACAGTCAAATCACCATCAATATGATATTCAACCGTTCTA",
       "order_seq": "GAGACAGTCAAATCACCATCAATATGATATTCAACCGTTCTA",
@@ -479,7 +479,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st003",
+      "name": "cube-st003",
       "well": "D1",
       "seq": "GCTGATAAATTAATGCCGGAGAGGGTAGCTAT",
       "order_seq": "GCTGATAAATTAATGCCGGAGAGGGTAGCTAT",
@@ -491,7 +491,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st004",
+      "name": "cube-st004",
       "well": "E1",
       "seq": "TTTTGAGAGATCTACAAAGGCTATCAGGTCATTGCC",
       "order_seq": "TTTTGAGAGATCTACAAAGGCTATCAGGTCATTGCC",
@@ -503,7 +503,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st005",
+      "name": "cube-st005",
       "well": "F1",
       "seq": "TGAGAGTCTGGAGCAAACAAGAGAATCGATGAACGGTAA",
       "order_seq": "TGAGAGTCTGGAGCAAACAAGAGAATCGATGAACGGTAA",
@@ -515,7 +515,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st006",
+      "name": "cube-st006",
       "well": "G1",
       "seq": "TCGTAAAACTAGCATGTCAATCATATGTACCCCGGT",
       "order_seq": "TCGTAAAACTAGCATGTCAATCATATGTACCCCGGT",
@@ -527,7 +527,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st007",
+      "name": "cube-st007",
       "well": "H1",
       "seq": "TGATAATCAGAAAAGCCCCAAAAACAGGAAGATTGT",
       "order_seq": "TGATAATCAGAAAAGCCCCAAAAACAGGAAGATTGT",
@@ -539,7 +539,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st008",
+      "name": "cube-st008",
       "well": "A2",
       "seq": "ATAAGCAAATATTTAAATTGTAAACGTTAATATTTTGTTAAA",
       "order_seq": "ATAAGCAAATATTTAAATTGTAAACGTTAATATTTTGTTAAA",
@@ -551,7 +551,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st009",
+      "name": "cube-st009",
       "well": "B2",
       "seq": "ATTCGCATTAAATTTTTGTTAAATCAGCTCATTT",
       "order_seq": "ATTCGCATTAAATTTTTGTTAAATCAGCTCATTT",
@@ -563,7 +563,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st010",
+      "name": "cube-st010",
       "well": "C2",
       "seq": "TTTAACCAATAGGAACGCCATCAAAAATAATTCGCGTCT",
       "order_seq": "TTTAACCAATAGGAACGCCATCAAAAATAATTCGCGTCT",
@@ -575,7 +575,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st011",
+      "name": "cube-st011",
       "well": "D2",
       "seq": "GGCCTTCCTGTAGCCAGCTTTCATCAACATTAAATGT",
       "order_seq": "GGCCTTCCTGTAGCCAGCTTTCATCAACATTAAATGT",
@@ -587,7 +587,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st012",
+      "name": "cube-st012",
       "well": "E2",
       "seq": "GAGCGAGTAACAACCCGTCGGATTCTCCGTGG",
       "order_seq": "GAGCGAGTAACAACCCGTCGGATTCTCCGTGG",
@@ -599,19 +599,19 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st013",
+      "name": "cube-st013",
       "well": "F2",
       "seq": "GAACAAACGGCGGATTGACCGTAATGGGATAG",
-      "order_seq": "GAACAAACGGCGGATTGACCGTAATGGGATAG",
-      "handle": "",
-      "guest": "",
+      "order_seq": "GAACAAACGGCGGATTGACCGTAATGGGATAGTTTGCGAGGTAACCTTTCGATC",
+      "handle": "TGCGAGGTAACCTTTCGATC",
+      "guest": "fluorophore",
       "length": 32,
       "tm_C": 63.65,
       "gc": 0.5,
       "crossovers": 1
     },
     {
-      "name": "octahedron-st014",
+      "name": "cube-st014",
       "well": "G2",
       "seq": "GTCACGTTGGTGTAGATGGGCGCATCGTAACCGTG",
       "order_seq": "GTCACGTTGGTGTAGATGGGCGCATCGTAACCGTG",
@@ -623,7 +623,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st015",
+      "name": "cube-st015",
       "well": "H2",
       "seq": "CATCTGCCAGTTTGAGGGGACGACGACAGTATC",
       "order_seq": "CATCTGCCAGTTTGAGGGGACGACGACAGTATC",
@@ -635,7 +635,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st016",
+      "name": "cube-st016",
       "well": "A3",
       "seq": "GGCCTCAGGAAGATCGCACTCCAGCCAGCTTTCCGGCACC",
       "order_seq": "GGCCTCAGGAAGATCGCACTCCAGCCAGCTTTCCGGCACC",
@@ -647,7 +647,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st017",
+      "name": "cube-st017",
       "well": "B3",
       "seq": "GCTTCTGGTGCCGGAAACCAGGCAAAGCGCCATTCG",
       "order_seq": "GCTTCTGGTGCCGGAAACCAGGCAAAGCGCCATTCG",
@@ -659,7 +659,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st018",
+      "name": "cube-st018",
       "well": "C3",
       "seq": "CCATTCAGGCTGCGCAACTGTTGGGAAGGGCGATCGGTGCGG",
       "order_seq": "CCATTCAGGCTGCGCAACTGTTGGGAAGGGCGATCGGTGCGG",
@@ -671,7 +671,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st019",
+      "name": "cube-st019",
       "well": "D3",
       "seq": "GCCTCTTCGCTATTACGCCAGCTGGCGAAAGGGGGATGTG",
       "order_seq": "GCCTCTTCGCTATTACGCCAGCTGGCGAAAGGGGGATGTG",
@@ -683,7 +683,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st020",
+      "name": "cube-st020",
       "well": "E3",
       "seq": "CTGCAAGGCGATTAAGTTGGGTAACGCCAGGGTTTTC",
       "order_seq": "CTGCAAGGCGATTAAGTTGGGTAACGCCAGGGTTTTC",
@@ -695,7 +695,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st021",
+      "name": "cube-st021",
       "well": "F3",
       "seq": "CCAGTCACGACGTTGTAAAACGACGGCCAGTGCCAAGCTTG",
       "order_seq": "CCAGTCACGACGTTGTAAAACGACGGCCAGTGCCAAGCTTG",
@@ -707,7 +707,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st022",
+      "name": "cube-st022",
       "well": "G3",
       "seq": "CATGCCTGCAGGTCGACTCTAGAGGATCCCCGGGTACC",
       "order_seq": "CATGCCTGCAGGTCGACTCTAGAGGATCCCCGGGTACC",
@@ -719,7 +719,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st023",
+      "name": "cube-st023",
       "well": "H3",
       "seq": "GAGCTCGAATTCGTAATCATGGTCATAGCTGTTTCCTGTG",
       "order_seq": "GAGCTCGAATTCGTAATCATGGTCATAGCTGTTTCCTGTG",
@@ -731,7 +731,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st024",
+      "name": "cube-st024",
       "well": "A4",
       "seq": "TGAAATTGTTATCCGCTCACAATTCCACACAACATACGAGC",
       "order_seq": "TGAAATTGTTATCCGCTCACAATTCCACACAACATACGAGC",
@@ -743,7 +743,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st025",
+      "name": "cube-st025",
       "well": "B4",
       "seq": "CGGAAGCATAAAGTGTAAAGCCTGGGGTGCCTAAT",
       "order_seq": "CGGAAGCATAAAGTGTAAAGCCTGGGGTGCCTAAT",
@@ -755,7 +755,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st026",
+      "name": "cube-st026",
       "well": "C4",
       "seq": "GAGTGAGCTAACTCACATTAATTGCGTTGCGC",
       "order_seq": "GAGTGAGCTAACTCACATTAATTGCGTTGCGC",
@@ -767,19 +767,19 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st027",
+      "name": "cube-st027",
       "well": "D4",
       "seq": "TCACTGCCCGCTTTCCAGTCGGGAAACCTGTC",
-      "order_seq": "TCACTGCCCGCTTTCCAGTCGGGAAACCTGTC",
-      "handle": "",
-      "guest": "",
+      "order_seq": "TCACTGCCCGCTTTCCAGTCGGGAAACCTGTCTTGAGGATCTATGGCAGCCGTA",
+      "handle": "GAGGATCTATGGCAGCCGTA",
+      "guest": "HRP",
       "length": 32,
       "tm_C": 70.11,
       "gc": 0.594,
       "crossovers": 1
     },
     {
-      "name": "octahedron-st028",
+      "name": "cube-st028",
       "well": "E4",
       "seq": "GTGCCAGCTGCATTAATGAATCGGCCAACGCGCGGGGAGAGG",
       "order_seq": "GTGCCAGCTGCATTAATGAATCGGCCAACGCGCGGGGAGAGG",
@@ -791,7 +791,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st029",
+      "name": "cube-st029",
       "well": "F4",
       "seq": "CGGTTTGCGTATTGGGCGCCAGGGTGGTTTTT",
       "order_seq": "CGGTTTGCGTATTGGGCGCCAGGGTGGTTTTT",
@@ -803,7 +803,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st030",
+      "name": "cube-st030",
       "well": "G4",
       "seq": "CTTTTCACCAGTGAGACGGGCAACAGCTGATTG",
       "order_seq": "CTTTTCACCAGTGAGACGGGCAACAGCTGATTG",
@@ -815,7 +815,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st031",
+      "name": "cube-st031",
       "well": "H4",
       "seq": "CCCTTCACCGCCTGGCCCTGAGAGAGTTGCAGCAAGC",
       "order_seq": "CCCTTCACCGCCTGGCCCTGAGAGAGTTGCAGCAAGC",
@@ -827,7 +827,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st032",
+      "name": "cube-st032",
       "well": "A5",
       "seq": "GGTCCACGCTGGTTTGCCCCAGCAGGCGAAAATC",
       "order_seq": "GGTCCACGCTGGTTTGCCCCAGCAGGCGAAAATC",
@@ -839,7 +839,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st033",
+      "name": "cube-st033",
       "well": "B5",
       "seq": "CTGTTTGATGGTGGTTCCGAAATCGGCAAAATCCCTTATAAA",
       "order_seq": "CTGTTTGATGGTGGTTCCGAAATCGGCAAAATCCCTTATAAA",
@@ -851,7 +851,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st034",
+      "name": "cube-st034",
       "well": "C5",
       "seq": "TCAAAAGAATAGCCCGAGATAGGGTTGAGTGTTGTTCC",
       "order_seq": "TCAAAAGAATAGCCCGAGATAGGGTTGAGTGTTGTTCC",
@@ -863,7 +863,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st035",
+      "name": "cube-st035",
       "well": "D5",
       "seq": "AGTTTGGAACAAGAGTCCACTATTAAAGAACGTGG",
       "order_seq": "AGTTTGGAACAAGAGTCCACTATTAAAGAACGTGG",
@@ -875,7 +875,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st036",
+      "name": "cube-st036",
       "well": "E5",
       "seq": "ACTCCAACGTCAAAGGGCGAAAAACCGTCTATCAGG",
       "order_seq": "ACTCCAACGTCAAAGGGCGAAAAACCGTCTATCAGG",
@@ -887,7 +887,7 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st037",
+      "name": "cube-st037",
       "well": "F5",
       "seq": "GCGATGGCCCACTACGTGAACCATCACCCAAATCAAGTTTT",
       "order_seq": "GCGATGGCCCACTACGTGAACCATCACCCAAATCAAGTTTT",
@@ -899,7 +899,7 @@
       "crossovers": 1
     },
     {
-      "name": "octahedron-st038",
+      "name": "cube-st038",
       "well": "G5",
       "seq": "TTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACCC",
       "order_seq": "TTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACCC",
@@ -911,19 +911,19 @@
       "crossovers": 0
     },
     {
-      "name": "octahedron-st039",
+      "name": "cube-st039",
       "well": "H5",
       "seq": "TAAAGGGAGCCCCCGATTTAGAGCTTGACGGGGAAAGCCG",
-      "order_seq": "TAAAGGGAGCCCCCGATTTAGAGCTTGACGGGGAAAGCCG",
-      "handle": "",
-      "guest": "",
+      "order_seq": "TAAAGGGAGCCCCCGATTTAGAGCTTGACGGGGAAAGCCGTTATTTGCTGCTTAGTGGACGC",
+      "handle": "ATTTGCTGCTTAGTGGACGC",
+      "guest": "glucose-oxidase",
       "length": 40,
       "tm_C": 72.4,
       "gc": 0.575,
       "crossovers": 1
     },
     {
-      "name": "octahedron-st040",
+      "name": "cube-st040",
       "well": "A6",
       "seq": "GCGAACGTGGCGAGAAAGGAAGGGAAATTGTG",
       "order_seq": "GCGAACGTGGCGAGAAAGGAAGGGAAATTGTG",

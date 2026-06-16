@@ -11,11 +11,15 @@ from . import scaffold as scaffold_mod
 
 
 def _cmd_compile(a):
+    guests = [g.strip() for g in a.decorate_guests.split(",")] if a.decorate_guests else None
     summary = compile_shape(
         a.shape, outdir=a.out, iterations=a.iterations, min_edge_bp=a.min_edge_bp,
         scaffold_nM=a.scaffold_nM, staple_excess=a.excess, mg_mM=a.mg,
         reaction_uL=a.volume, seed=a.seed, weights_path=a.weights,
         t_hot=a.t_hot, t_cold=a.t_cold, total_min=a.anneal_min,
+        scaffold_search=a.scaffold_search, scaffold_offset=a.scaffold_offset,
+        decorate=a.decorate, decorate_end=a.decorate_end,
+        decorate_spacer=a.decorate_spacer, decorate_guests=guests,
     )
     st = summary["staple_stats"]
     print(f"[molsynth] compiled '{summary['shape']}' -> {summary['outdir']}")
@@ -29,6 +33,8 @@ def _cmd_compile(a):
     print(f"  optimizer: score {summary['optimizer_score_initial']} -> "
           f"{summary['optimizer_score']}")
     print(f"  est. size: ~{summary['approx_nm']} nm (longest edge)")
+    if summary.get("decorations"):
+        print(f"  decorate : {summary['decorations']} handle site(s) -> decoration.md")
     print("  files    :")
     for k, v in summary["files"].items():
         print(f"    - {k}")
@@ -92,6 +98,15 @@ def build_parser():
     c.add_argument("--t-hot", type=float, default=90, dest="t_hot")
     c.add_argument("--t-cold", type=float, default=20, dest="t_cold")
     c.add_argument("--anneal-min", type=float, default=120, dest="anneal_min")
+    c.add_argument("--scaffold-search", type=int, default=1, dest="scaffold_search",
+                   help="search N scaffold start offsets, keep the best-scoring (yield lever)")
+    c.add_argument("--scaffold-offset", type=int, default=0, dest="scaffold_offset")
+    c.add_argument("--decorate", type=int, default=0,
+                   help="rung 2: add N functional handle sites (DNA breadboard) -> decoration.md")
+    c.add_argument("--decorate-end", default="3p", choices=["3p", "5p"], dest="decorate_end")
+    c.add_argument("--decorate-spacer", default="TT", dest="decorate_spacer")
+    c.add_argument("--decorate-guests", default=None, dest="decorate_guests",
+                   help="comma-separated guest labels for the handle sites")
     c.add_argument("--json", action="store_true", help="also print a JSON summary")
     c.set_defaults(func=_cmd_compile)
 

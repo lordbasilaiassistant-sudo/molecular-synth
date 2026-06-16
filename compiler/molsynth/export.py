@@ -37,12 +37,13 @@ def write_fasta(outdir, routing):
 
 def write_staples_csv(outdir, staples):
     path = os.path.join(outdir, "staples.csv")
-    cols = ["name", "well", "sequence", "length", "tm_C", "gc",
-            "max_run", "repeats", "hairpin", "crossovers", "scaffold_start", "scaffold_end"]
+    cols = ["name", "well", "sequence", "order_sequence", "handle", "guest", "length",
+            "tm_C", "gc", "max_run", "repeats", "hairpin", "crossovers",
+            "scaffold_start", "scaffold_end"]
     lines = [",".join(cols)]
     for s in staples:
         lines.append(",".join(str(x) for x in [
-            s.name, s.well, s.seq, s.length, s.tm_C, s.gc,
+            s.name, s.well, s.seq, s.order_seq, s.handle, s.guest, s.length, s.tm_C, s.gc,
             s.max_run, s.repeats, s.hairpin, s.crossovers,
             s.scaffold_start, s.scaffold_end,
         ]))
@@ -55,7 +56,7 @@ def write_idt_plate(outdir, staples):
     path = os.path.join(outdir, "staples_idt_plate.txt")
     lines = ["Well Position\tName\tSequence"]
     for s in staples:
-        lines.append(f"{s.well}\t{s.name}\t{s.seq}")
+        lines.append(f"{s.well}\t{s.name}\t{s.order_seq}")
     _w(path, "\n".join(lines) + "\n")
     return path
 
@@ -67,7 +68,7 @@ def write_opool(outdir, staples, pool_name="molsynth_pool"):
     path = os.path.join(outdir, "staples_opool.txt")
     lines = ["Pool name\tSequence"]
     for s in staples:
-        lines.append(f"{pool_name}\t{s.seq}")
+        lines.append(f"{pool_name}\t{s.order_seq}")
     _w(path, "\n".join(lines) + "\n")
     return path
 
@@ -89,7 +90,8 @@ def write_design_json(outdir, design, routing, staples):
             for s in routing.segments
         ],
         "staples": [
-            {"name": s.name, "well": s.well, "seq": s.seq, "length": s.length,
+            {"name": s.name, "well": s.well, "seq": s.seq, "order_seq": s.order_seq,
+             "handle": s.handle, "guest": s.guest, "length": s.length,
              "tm_C": s.tm_C, "gc": s.gc, "crossovers": s.crossovers}
             for s in staples
         ],

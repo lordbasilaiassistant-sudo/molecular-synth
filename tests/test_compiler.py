@@ -210,6 +210,53 @@ class TestStructure3D(unittest.TestCase):
                 self.assertEqual(len(row.split()), 15)
 
 
+class TestDecorate(unittest.TestCase):
+    """Rung 2: functional handle staples (DNA breadboard)."""
+
+    def setUp(self):
+        from molsynth import decorate as decorate_mod
+        self.decorate_mod = decorate_mod
+        mesh = geometry.load_shape("cube")
+        s, name, synth = sc.load_scaffold()
+        self.routing = sc.route(mesh, s, name, synth)
+        self.staples, _ = build_staples(self.routing, YieldModel(), iterations=600, seed=4)
+
+    def test_handles_orthogonal_and_absent_from_scaffold(self):
+        scaf = self.routing.scaffold_seq
+        handles = self.decorate_mod.generate_handles(scaf, n=12)
+        self.assertGreaterEqual(len(handles), 8)
+        for h in handles:
+            self.assertNotIn(h, scaf)
+            self.assertNotIn(seq.reverse_complement(h), scaf)
+        # pairwise low cross-hybridisation
+        for i in range(len(handles)):
+            for j in range(len(handles)):
+                if i != j:
+                    cross = self.decorate_mod._lcs_len(
+                        seq.reverse_complement(handles[i]), handles[j])
+                    self.assertLess(cross, 7, (i, j))
+
+    def test_decorate_preserves_binding_and_extends_order_seq(self):
+        records = self.decorate_mod.decorate(self.staples, self.routing, 3,
+                                             guests=["E1", "E2", "E3"])
+        self.assertEqual(len(records), 3)
+        route = self.routing.scaffold_seq
+        decorated = [s for s in self.staples if s.handle]
+        self.assertEqual(len(decorated), 3)
+        for s in decorated:
+            # binding region unchanged -> still the exact reverse complement (chem valid)
+            region = route[s.scaffold_start:s.scaffold_end]
+            self.assertEqual(s.seq, seq.reverse_complement(region))
+            # order sequence = binding + spacer + handle (3' end)
+            self.assertEqual(s.order_seq, s.seq + s.spacer + s.handle)
+            self.assertTrue(s.order_seq.endswith(s.handle))
+
+    def test_anti_handle_is_reverse_complement(self):
+        records = self.decorate_mod.decorate(self.staples, self.routing, 2)
+        for r in records:
+            self.assertEqual(r["anti_handle"], seq.reverse_complement(r["handle"]))
+
+
 class TestEndToEnd(unittest.TestCase):
     def test_compile_writes_all_artifacts(self):
         with tempfile.TemporaryDirectory() as d:

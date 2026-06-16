@@ -32,6 +32,22 @@ class Staple:
     crossovers: int       # vertex/loop-closures this staple bridges (Aksel 2024: keep low)
     scaffold_start: int   # scaffold coordinate of the staple's 5' complement region
     scaffold_end: int
+    # rung-2 functionalisation (empty unless --decorate); see decorate.py
+    handle: str = ""      # single-stranded handle appended to one end (positions a guest)
+    handle_end: str = ""  # "3p" or "5p"
+    spacer: str = "TT"    # flexible spacer between binding region and handle
+    guest: str = ""       # label of the guest this site carries
+
+    @property
+    def order_seq(self) -> str:
+        """The full sequence to ORDER (binding region + spacer + handle). Equals the
+        binding region `seq` when undecorated, so the scaffold-complementarity of `seq`
+        is preserved (the handle is a non-binding overhang)."""
+        if not self.handle:
+            return self.seq
+        if self.handle_end == "5p":
+            return self.handle + self.spacer + self.seq
+        return self.seq + self.spacer + self.handle
 
 
 def _well(i: int) -> str:

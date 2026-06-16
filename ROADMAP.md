@@ -14,6 +14,12 @@ cheap materials** allow, and we keep the universal-replicator dream honestly on 
 - Water Synth: "a glass of drinkable water on demand" via atmospheric water generation
   (Peltier condensation + carbon filter + UV-C). The most tractable maker, humanity-useful.
 
+## Climbing the ladder ([docs/the-ladder.md](docs/the-ladder.md))
+- **Rung 0–1** (fold + harden): shipped, on a desk.
+- **Rung 2** (DNA as a breadboard): ✅ `--decorate` emits functional handle staples that
+  position a guest (enzyme/catalyst/nanoparticle) at a chosen site, with the anti-handle
+  map. Next rungs (3 DNA-templated synthesis, 4 robots, 5 assemblers) stay lab-frontier.
+
 ## Next (open issues → fabrication-grade)
 Tracked in [Issues](https://github.com/lordbasilaiassistant-sudo/molecular-synth/issues):
 - **#1** Face-respecting A-trail routing (production-grade scaffold paths).
