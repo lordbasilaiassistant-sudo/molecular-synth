@@ -1,0 +1,814 @@
+{
+  "meta": {
+    "design_name": "cube",
+    "shape": "cube",
+    "approx_nm": 21.4,
+    "scaffold_name": "M13mp18",
+    "scaffold_len_used": 1512,
+    "scaffold_total": 7255,
+    "scaffold_offset": 0,
+    "synthetic_scaffold": false,
+    "n_staples": 41,
+    "total_staple_bases": 1512,
+    "scaffold_nM": 20,
+    "staple_excess": 10,
+    "mg_mM": 12.5,
+    "reaction_uL": 50,
+    "anneal_ramp": [
+      [
+        90,
+        5
+      ],
+      [
+        85.0,
+        8.6
+      ],
+      [
+        80.0,
+        8.6
+      ],
+      [
+        75.0,
+        8.6
+      ],
+      [
+        70.0,
+        8.6
+      ],
+      [
+        65.0,
+        8.6
+      ],
+      [
+        60.0,
+        8.6
+      ],
+      [
+        55.0,
+        8.6
+      ],
+      [
+        50.0,
+        8.6
+      ],
+      [
+        45.0,
+        8.6
+      ],
+      [
+        40.0,
+        8.6
+      ],
+      [
+        35.0,
+        8.6
+      ],
+      [
+        30.0,
+        8.6
+      ],
+      [
+        25.0,
+        8.6
+      ],
+      [
+        20.0,
+        8.6
+      ]
+    ],
+    "mesh": {
+      "name": "cube",
+      "vertices": 8,
+      "edges": 12,
+      "faces": 6,
+      "min_degree": 3,
+      "max_degree": 3,
+      "min_edge_len": 2.0,
+      "max_edge_len": 2.0
+    },
+    "staple_stats": {
+      "n_staples": 41,
+      "n_crossover_staples": 23,
+      "n_overloaded_staples": 0,
+      "len_min": 32,
+      "len_max": 42,
+      "len_mean": 36.9,
+      "tm_min_C": 50.2,
+      "tm_max_C": 77.1,
+      "tm_mean_C": 66.2,
+      "tm_stdev_C": 6.05,
+      "total_bases_ordered": 1512
+    },
+    "optimizer_score": 142.73,
+    "optimizer_score_initial": 169.551,
+    "structure_check": {
+      "max_unit_dev": 0.0,
+      "max_orth_dev": 0.0
+    }
+  },
+  "scaffold": {
+    "name": "M13mp18",
+    "synthetic": false,
+    "len_used": 1512,
+    "sequence": "CACAATTTCCCTTCCTTTCTCGCCACGTTCGCCGGCTTTCCCCGTCAAGCTCTAAATCGGGGGCTCCCTTTAGGGTTCCGATTTAGTGCTTTACGGCACCTCGACCCCAAAAAACTTGATTTGGGTGATGGTTCACGTAGTGGGCCATCGCCCTGATAGACGGTTTTTCGCCCTTTGACGTTGGAGTCCACGTTCTTTAATAGTGGACTCTTGTTCCAAACTGGAACAACACTCAACCCTATCTCGGGCTATTCTTTTGATTTATAAGGGATTTTGCCGATTTCGGAACCACCATCAAACAGGATTTTCGCCTGCTGGGGCAAACCAGCGTGGACCGCTTGCTGCAACTCTCTCAGGGCCAGGCGGTGAAGGGCAATCAGCTGTTGCCCGTCTCACTGGTGAAAAGAAAAACCACCCTGGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGCTGGCACGACAGGTTTCCCGACTGGAAAGCGGGCAGTGAGCGCAACGCAATTAATGTGAGTTAGCTCACTCATTAGGCACCCCAGGCTTTACACTTTATGCTTCCGGCTCGTATGTTGTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGCTATGACCATGATTACGAATTCGAGCTCGGTACCCGGGGATCCTCTAGAGTCGACCTGCAGGCATGCAAGCTTGGCACTGGCCGTCGTTTTACAACGTCGTGACTGGGAAAACCCTGGCGTTACCCAACTTAATCGCCTTGCAGCACATCCCCCTTTCGCCAGCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGCGCTTTGCCTGGTTTCCGGCACCAGAAGCGGTGCCGGAAAGCTGGCTGGAGTGCGATCTTCCTGAGGCCGATACTGTCGTCGTCCCCTCAAACTGGCAGATGCACGGTTACGATGCGCCCATCTACACCAACGTGACCTATCCCATTACGGTCAATCCGCCGTTTGTTCCCACGGAGAATCCGACGGGTTGTTACTCGCTCACATTTAATGTTGATGAAAGCTGGCTACAGGAAGGCCAGACGCGAATTATTTTTGATGGCGTTCCTATTGGTTAAAAAATGAGCTGATTTAACAAAAATTTAATGCGAATTTTAACAAAATATTAACGTTTACAATTTAAATATTTGCTTATACAATCTTCCTGTTTTTGGGGCTTTTCTGATTATCAACCGGGGTACATATGATTGACATGCTAGTTTTACGATTACCGTTCATCGATTCTCTTGTTTGCTCCAGACTCTCAGGCAATGACCTGATAGCCTTTGTAGATCTCTCAAAAATAGCTACCCTCTCCGGCATTAATTTATCAGCTAGAACGGTTGAATATCATATTGATGGTGATTTGACTGTCTCCGGCCTTTCTCACCCTTTTGAATCTTTACCTACACATTACTCAGGCATTGCATTTAAAATATATGAGGGTTCT"
+  },
+  "edges_bp": {
+    "0-1": 63,
+    "0-2": 63,
+    "0-4": 63,
+    "1-3": 63,
+    "1-5": 63,
+    "2-3": 63,
+    "2-6": 63,
+    "3-7": 63,
+    "4-5": 63,
+    "4-6": 63,
+    "5-7": 63,
+    "6-7": 63
+  },
+  "segments": [
+    {
+      "order": 0,
+      "arc": [
+        0,
+        1
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 0
+    },
+    {
+      "order": 1,
+      "arc": [
+        1,
+        0
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 63
+    },
+    {
+      "order": 2,
+      "arc": [
+        0,
+        2
+      ],
+      "edge": [
+        0,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 126
+    },
+    {
+      "order": 3,
+      "arc": [
+        2,
+        0
+      ],
+      "edge": [
+        0,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 189
+    },
+    {
+      "order": 4,
+      "arc": [
+        0,
+        4
+      ],
+      "edge": [
+        0,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 252
+    },
+    {
+      "order": 5,
+      "arc": [
+        4,
+        5
+      ],
+      "edge": [
+        4,
+        5
+      ],
+      "bp": 63,
+      "scaffold_start": 315
+    },
+    {
+      "order": 6,
+      "arc": [
+        5,
+        1
+      ],
+      "edge": [
+        1,
+        5
+      ],
+      "bp": 63,
+      "scaffold_start": 378
+    },
+    {
+      "order": 7,
+      "arc": [
+        1,
+        3
+      ],
+      "edge": [
+        1,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 441
+    },
+    {
+      "order": 8,
+      "arc": [
+        3,
+        1
+      ],
+      "edge": [
+        1,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 504
+    },
+    {
+      "order": 9,
+      "arc": [
+        1,
+        5
+      ],
+      "edge": [
+        1,
+        5
+      ],
+      "bp": 63,
+      "scaffold_start": 567
+    },
+    {
+      "order": 10,
+      "arc": [
+        5,
+        4
+      ],
+      "edge": [
+        4,
+        5
+      ],
+      "bp": 63,
+      "scaffold_start": 630
+    },
+    {
+      "order": 11,
+      "arc": [
+        4,
+        6
+      ],
+      "edge": [
+        4,
+        6
+      ],
+      "bp": 63,
+      "scaffold_start": 693
+    },
+    {
+      "order": 12,
+      "arc": [
+        6,
+        2
+      ],
+      "edge": [
+        2,
+        6
+      ],
+      "bp": 63,
+      "scaffold_start": 756
+    },
+    {
+      "order": 13,
+      "arc": [
+        2,
+        3
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 819
+    },
+    {
+      "order": 14,
+      "arc": [
+        3,
+        2
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 882
+    },
+    {
+      "order": 15,
+      "arc": [
+        2,
+        6
+      ],
+      "edge": [
+        2,
+        6
+      ],
+      "bp": 63,
+      "scaffold_start": 945
+    },
+    {
+      "order": 16,
+      "arc": [
+        6,
+        7
+      ],
+      "edge": [
+        6,
+        7
+      ],
+      "bp": 63,
+      "scaffold_start": 1008
+    },
+    {
+      "order": 17,
+      "arc": [
+        7,
+        3
+      ],
+      "edge": [
+        3,
+        7
+      ],
+      "bp": 63,
+      "scaffold_start": 1071
+    },
+    {
+      "order": 18,
+      "arc": [
+        3,
+        7
+      ],
+      "edge": [
+        3,
+        7
+      ],
+      "bp": 63,
+      "scaffold_start": 1134
+    },
+    {
+      "order": 19,
+      "arc": [
+        7,
+        5
+      ],
+      "edge": [
+        5,
+        7
+      ],
+      "bp": 63,
+      "scaffold_start": 1197
+    },
+    {
+      "order": 20,
+      "arc": [
+        5,
+        7
+      ],
+      "edge": [
+        5,
+        7
+      ],
+      "bp": 63,
+      "scaffold_start": 1260
+    },
+    {
+      "order": 21,
+      "arc": [
+        7,
+        6
+      ],
+      "edge": [
+        6,
+        7
+      ],
+      "bp": 63,
+      "scaffold_start": 1323
+    },
+    {
+      "order": 22,
+      "arc": [
+        6,
+        4
+      ],
+      "edge": [
+        4,
+        6
+      ],
+      "bp": 63,
+      "scaffold_start": 1386
+    },
+    {
+      "order": 23,
+      "arc": [
+        4,
+        0
+      ],
+      "edge": [
+        0,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 1449
+    }
+  ],
+  "staples": [
+    {
+      "name": "cube-st000",
+      "well": "A1",
+      "seq": "AGAACCCTCATATATTTTAAATGCAATGCCTG",
+      "length": 32,
+      "tm_C": 56.07,
+      "gc": 0.344,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st001",
+      "well": "B1",
+      "seq": "AGTAATGTGTAGGTAAAGATTCAAAAGGGTGAGAAAGGCCG",
+      "length": 41,
+      "tm_C": 63.45,
+      "gc": 0.415,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st002",
+      "well": "C1",
+      "seq": "GAGACAGTCAAATCACCATCAATATGATATTCAACCGTTCTA",
+      "length": 42,
+      "tm_C": 60.11,
+      "gc": 0.357,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st003",
+      "well": "D1",
+      "seq": "GCTGATAAATTAATGCCGGAGAGGGTAGCTAT",
+      "length": 32,
+      "tm_C": 60.38,
+      "gc": 0.438,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st004",
+      "well": "E1",
+      "seq": "TTTTGAGAGATCTACAAAGGCTATCAGGTCATTGCC",
+      "length": 36,
+      "tm_C": 61.5,
+      "gc": 0.417,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st005",
+      "well": "F1",
+      "seq": "TGAGAGTCTGGAGCAAACAAGAGAATCGATGAACGGTAA",
+      "length": 39,
+      "tm_C": 64.4,
+      "gc": 0.436,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st006",
+      "well": "G1",
+      "seq": "TCGTAAAACTAGCATGTCAATCATATGTACCCCGGT",
+      "length": 36,
+      "tm_C": 62.16,
+      "gc": 0.417,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st007",
+      "well": "H1",
+      "seq": "TGATAATCAGAAAAGCCCCAAAAACAGGAAGATTGT",
+      "length": 36,
+      "tm_C": 60.07,
+      "gc": 0.361,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st008",
+      "well": "A2",
+      "seq": "ATAAGCAAATATTTAAATTGTAAACGTTAATATTTTGTTAAA",
+      "length": 42,
+      "tm_C": 50.24,
+      "gc": 0.143,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st009",
+      "well": "B2",
+      "seq": "ATTCGCATTAAATTTTTGTTAAATCAGCTCATTT",
+      "length": 34,
+      "tm_C": 53.14,
+      "gc": 0.235,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st010",
+      "well": "C2",
+      "seq": "TTTAACCAATAGGAACGCCATCAAAAATAATTCGCGTCT",
+      "length": 39,
+      "tm_C": 61.22,
+      "gc": 0.359,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st011",
+      "well": "D2",
+      "seq": "GGCCTTCCTGTAGCCAGCTTTCATCAACATTAAATGT",
+      "length": 37,
+      "tm_C": 63.65,
+      "gc": 0.432,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st012",
+      "well": "E2",
+      "seq": "GAGCGAGTAACAACCCGTCGGATTCTCCGTGG",
+      "length": 32,
+      "tm_C": 68.39,
+      "gc": 0.594,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st013",
+      "well": "F2",
+      "seq": "GAACAAACGGCGGATTGACCGTAATGGGATAG",
+      "length": 32,
+      "tm_C": 63.65,
+      "gc": 0.5,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st014",
+      "well": "G2",
+      "seq": "GTCACGTTGGTGTAGATGGGCGCATCGTAACCGTG",
+      "length": 35,
+      "tm_C": 69.3,
+      "gc": 0.571,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st015",
+      "well": "H2",
+      "seq": "CATCTGCCAGTTTGAGGGGACGACGACAGTATC",
+      "length": 33,
+      "tm_C": 66.15,
+      "gc": 0.545,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st016",
+      "well": "A3",
+      "seq": "GGCCTCAGGAAGATCGCACTCCAGCCAGCTTTCCGGCACC",
+      "length": 40,
+      "tm_C": 76.25,
+      "gc": 0.65,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st017",
+      "well": "B3",
+      "seq": "GCTTCTGGTGCCGGAAACCAGGCAAAGCGCCATTCG",
+      "length": 36,
+      "tm_C": 73.27,
+      "gc": 0.611,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st018",
+      "well": "C3",
+      "seq": "CCATTCAGGCTGCGCAACTGTTGGGAAGGGCGATCGGTGCGG",
+      "length": 42,
+      "tm_C": 77.07,
+      "gc": 0.643,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st019",
+      "well": "D3",
+      "seq": "GCCTCTTCGCTATTACGCCAGCTGGCGAAAGGGGGATGTG",
+      "length": 40,
+      "tm_C": 73.24,
+      "gc": 0.6,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st020",
+      "well": "E3",
+      "seq": "CTGCAAGGCGATTAAGTTGGGTAACGCCAGGGTTTTC",
+      "length": 37,
+      "tm_C": 67.59,
+      "gc": 0.514,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st021",
+      "well": "F3",
+      "seq": "CCAGTCACGACGTTGTAAAACGACGGCCAGTGCCAAGCTTG",
+      "length": 41,
+      "tm_C": 71.74,
+      "gc": 0.561,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st022",
+      "well": "G3",
+      "seq": "CATGCCTGCAGGTCGACTCTAGAGGATCCCCGGGTACC",
+      "length": 38,
+      "tm_C": 73.08,
+      "gc": 0.632,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st023",
+      "well": "H3",
+      "seq": "GAGCTCGAATTCGTAATCATGGTCATAGCTGTTTCCTGTG",
+      "length": 40,
+      "tm_C": 64.24,
+      "gc": 0.45,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st024",
+      "well": "A4",
+      "seq": "TGAAATTGTTATCCGCTCACAATTCCACACAACATACGAGC",
+      "length": 41,
+      "tm_C": 64.11,
+      "gc": 0.415,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st025",
+      "well": "B4",
+      "seq": "CGGAAGCATAAAGTGTAAAGCCTGGGGTGCCTAAT",
+      "length": 35,
+      "tm_C": 65.52,
+      "gc": 0.486,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st026",
+      "well": "C4",
+      "seq": "GAGTGAGCTAACTCACATTAATTGCGTTGCGC",
+      "length": 32,
+      "tm_C": 62.52,
+      "gc": 0.469,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st027",
+      "well": "D4",
+      "seq": "TCACTGCCCGCTTTCCAGTCGGGAAACCTGTC",
+      "length": 32,
+      "tm_C": 70.11,
+      "gc": 0.594,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st028",
+      "well": "E4",
+      "seq": "GTGCCAGCTGCATTAATGAATCGGCCAACGCGCGGGGAGAGG",
+      "length": 42,
+      "tm_C": 75.65,
+      "gc": 0.619,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st029",
+      "well": "F4",
+      "seq": "CGGTTTGCGTATTGGGCGCCAGGGTGGTTTTT",
+      "length": 32,
+      "tm_C": 69.66,
+      "gc": 0.562,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st030",
+      "well": "G4",
+      "seq": "CTTTTCACCAGTGAGACGGGCAACAGCTGATTG",
+      "length": 33,
+      "tm_C": 65.53,
+      "gc": 0.515,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st031",
+      "well": "H4",
+      "seq": "CCCTTCACCGCCTGGCCCTGAGAGAGTTGCAGCAAGC",
+      "length": 37,
+      "tm_C": 75.09,
+      "gc": 0.649,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st032",
+      "well": "A5",
+      "seq": "GGTCCACGCTGGTTTGCCCCAGCAGGCGAAAATC",
+      "length": 34,
+      "tm_C": 72.54,
+      "gc": 0.618,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st033",
+      "well": "B5",
+      "seq": "CTGTTTGATGGTGGTTCCGAAATCGGCAAAATCCCTTATAAA",
+      "length": 42,
+      "tm_C": 63.97,
+      "gc": 0.405,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st034",
+      "well": "C5",
+      "seq": "TCAAAAGAATAGCCCGAGATAGGGTTGAGTGTTGTTCC",
+      "length": 38,
+      "tm_C": 64.06,
+      "gc": 0.447,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st035",
+      "well": "D5",
+      "seq": "AGTTTGGAACAAGAGTCCACTATTAAAGAACGTGG",
+      "length": 35,
+      "tm_C": 60.23,
+      "gc": 0.4,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st036",
+      "well": "E5",
+      "seq": "ACTCCAACGTCAAAGGGCGAAAAACCGTCTATCAGG",
+      "length": 36,
+      "tm_C": 66.65,
+      "gc": 0.5,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st037",
+      "well": "F5",
+      "seq": "GCGATGGCCCACTACGTGAACCATCACCCAAATCAAGTTTT",
+      "length": 41,
+      "tm_C": 68.53,
+      "gc": 0.488,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st038",
+      "well": "G5",
+      "seq": "TTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACCC",
+      "length": 38,
+      "tm_C": 70.48,
+      "gc": 0.553,
+      "crossovers": 0
+    },
+    {
+      "name": "cube-st039",
+      "well": "H5",
+      "seq": "TAAAGGGAGCCCCCGATTTAGAGCTTGACGGGGAAAGCCG",
+      "length": 40,
+      "tm_C": 72.4,
+      "gc": 0.575,
+      "crossovers": 1
+    },
+    {
+      "name": "cube-st040",
+      "well": "A6",
+      "seq": "GCGAACGTGGCGAGAAAGGAAGGGAAATTGTG",
+      "length": 32,
+      "tm_C": 66.12,
+      "gc": 0.531,
+      "crossovers": 0
+    }
+  ]
+}

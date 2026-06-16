@@ -1,0 +1,47 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-and-gate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compiler tests (stdlib only)
+        run: python tests/test_compiler.py
+
+      - name: Drink Synth tests (the buildable-today synthesizer instance)
+        run: python synth/tests/test_drinksynth.py
+
+      - name: Validation gate (sourceable AND demonstrated, rig < $1500)
+        run: python validate/validate.py
+
+      - name: Compile end-to-end on test shapes
+        run: |
+          cd compiler
+          python -m molsynth compile tetrahedron --out ../_ci/tetra
+          python -m molsynth compile cube --out ../_ci/cube --iterations 2000
+          python -m molsynth compile ../examples/square_pyramid.json --out ../_ci/pyramid --iterations 2000
+
+      - name: Check expected artifacts exist
+        run: |
+          for f in scaffold.fasta staples.csv staples_idt_plate.txt staples_opool.txt design.json design.top conf.dat structure.pdb protocol.md diagnostics.md; do
+            test -f "_ci/cube/$f" || { echo "missing _ci/cube/$f"; exit 1; }
+          done
+          echo "all artifacts present"
+
+      - name: North-star sim runs and is labelled simulation-only
+        run: python northstar/diamond_sim.py --nm 3 --out _ci/diamond.xyz
+
+      - name: BOM renders and stays in sync
+        run: python bom/render_bom.py

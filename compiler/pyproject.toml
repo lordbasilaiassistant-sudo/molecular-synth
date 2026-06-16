@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "molsynth"
+version = "0.1.0"
+description = "Molecular Synth v0 - compile a shape into a DNA-origami recipe (scaffold + staples + protocol)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+keywords = ["dna-origami", "dna-nanotechnology", "self-assembly", "nanofabrication", "scadnano", "oxdna"]
+# Core pipeline is standard-library only -> no required dependencies.
+dependencies = []
+
+[project.optional-dependencies]
+# Real M13mp18 scaffold + scadnano export, robust STL, Biopython Tm cross-check.
+full = ["scadnano>=0.19.0", "trimesh>=4.0.0", "biopython>=1.81"]
+
+[project.scripts]
+molsynth = "molsynth.cli:main"
+
+[tool.setuptools]
+packages = ["molsynth"]
+
+[tool.setuptools.package-data]
+molsynth = ["data/*.txt"]

@@ -1,0 +1,5 @@
+# Keep the repository line endings LF on every platform (no CRLF churn on Windows).
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.gif binary

@@ -1,0 +1,355 @@
+{
+  "meta": {
+    "design_name": "square",
+    "shape": "square",
+    "approx_nm": 21.4,
+    "scaffold_name": "M13mp18",
+    "scaffold_len_used": 504,
+    "scaffold_total": 7255,
+    "scaffold_offset": 0,
+    "synthetic_scaffold": false,
+    "n_staples": 14,
+    "total_staple_bases": 504,
+    "scaffold_nM": 20,
+    "staple_excess": 10,
+    "mg_mM": 12.5,
+    "reaction_uL": 50,
+    "anneal_ramp": [
+      [
+        90,
+        5
+      ],
+      [
+        85.0,
+        8.6
+      ],
+      [
+        80.0,
+        8.6
+      ],
+      [
+        75.0,
+        8.6
+      ],
+      [
+        70.0,
+        8.6
+      ],
+      [
+        65.0,
+        8.6
+      ],
+      [
+        60.0,
+        8.6
+      ],
+      [
+        55.0,
+        8.6
+      ],
+      [
+        50.0,
+        8.6
+      ],
+      [
+        45.0,
+        8.6
+      ],
+      [
+        40.0,
+        8.6
+      ],
+      [
+        35.0,
+        8.6
+      ],
+      [
+        30.0,
+        8.6
+      ],
+      [
+        25.0,
+        8.6
+      ],
+      [
+        20.0,
+        8.6
+      ]
+    ],
+    "mesh": {
+      "name": "square",
+      "vertices": 4,
+      "edges": 4,
+      "faces": 1,
+      "min_degree": 2,
+      "max_degree": 2,
+      "min_edge_len": 1.0,
+      "max_edge_len": 1.0
+    },
+    "staple_stats": {
+      "n_staples": 14,
+      "n_crossover_staples": 7,
+      "n_overloaded_staples": 0,
+      "len_min": 32,
+      "len_max": 41,
+      "len_mean": 36.0,
+      "tm_min_C": 62.1,
+      "tm_max_C": 74.5,
+      "tm_mean_C": 68.2,
+      "tm_stdev_C": 3.82,
+      "total_bases_ordered": 504
+    },
+    "optimizer_score": 58.254,
+    "optimizer_score_initial": 74.702,
+    "structure_check": {
+      "max_unit_dev": 0.0,
+      "max_orth_dev": 0.0
+    }
+  },
+  "scaffold": {
+    "name": "M13mp18",
+    "synthetic": false,
+    "len_used": 504,
+    "sequence": "CACAATTTCCCTTCCTTTCTCGCCACGTTCGCCGGCTTTCCCCGTCAAGCTCTAAATCGGGGGCTCCCTTTAGGGTTCCGATTTAGTGCTTTACGGCACCTCGACCCCAAAAAACTTGATTTGGGTGATGGTTCACGTAGTGGGCCATCGCCCTGATAGACGGTTTTTCGCCCTTTGACGTTGGAGTCCACGTTCTTTAATAGTGGACTCTTGTTCCAAACTGGAACAACACTCAACCCTATCTCGGGCTATTCTTTTGATTTATAAGGGATTTTGCCGATTTCGGAACCACCATCAAACAGGATTTTCGCCTGCTGGGGCAAACCAGCGTGGACCGCTTGCTGCAACTCTCTCAGGGCCAGGCGGTGAAGGGCAATCAGCTGTTGCCCGTCTCACTGGTGAAAAGAAAAACCACCCTGGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGCTGGCACGACAGGTTTCCCGACTGGAAAGCG"
+  },
+  "edges_bp": {
+    "0-1": 63,
+    "1-2": 63,
+    "2-3": 63,
+    "0-3": 63
+  },
+  "segments": [
+    {
+      "order": 0,
+      "arc": [
+        0,
+        1
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 0
+    },
+    {
+      "order": 1,
+      "arc": [
+        1,
+        0
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 63
+    },
+    {
+      "order": 2,
+      "arc": [
+        0,
+        3
+      ],
+      "edge": [
+        0,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 126
+    },
+    {
+      "order": 3,
+      "arc": [
+        3,
+        2
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 189
+    },
+    {
+      "order": 4,
+      "arc": [
+        2,
+        1
+      ],
+      "edge": [
+        1,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 252
+    },
+    {
+      "order": 5,
+      "arc": [
+        1,
+        2
+      ],
+      "edge": [
+        1,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 315
+    },
+    {
+      "order": 6,
+      "arc": [
+        2,
+        3
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 378
+    },
+    {
+      "order": 7,
+      "arc": [
+        3,
+        0
+      ],
+      "edge": [
+        0,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 441
+    }
+  ],
+  "staples": [
+    {
+      "name": "square-st000",
+      "well": "A1",
+      "seq": "CGCTTTCCAGTCGGGAAACCTGTCGTGCCAGCTG",
+      "length": 34,
+      "tm_C": 71.8,
+      "gc": 0.618,
+      "crossovers": 0
+    },
+    {
+      "name": "square-st001",
+      "well": "B1",
+      "seq": "CATTAATGAATCGGCCAACGCGCGGGGAGAGG",
+      "length": 32,
+      "tm_C": 69.41,
+      "gc": 0.594,
+      "crossovers": 1
+    },
+    {
+      "name": "square-st002",
+      "well": "C1",
+      "seq": "CGGTTTGCGTATTGGGCGCCAGGGTGGTTTTTC",
+      "length": 33,
+      "tm_C": 69.81,
+      "gc": 0.576,
+      "crossovers": 0
+    },
+    {
+      "name": "square-st003",
+      "well": "D1",
+      "seq": "TTTTCACCAGTGAGACGGGCAACAGCTGATTGC",
+      "length": 33,
+      "tm_C": 66.81,
+      "gc": 0.515,
+      "crossovers": 1
+    },
+    {
+      "name": "square-st004",
+      "well": "E1",
+      "seq": "CCTTCACCGCCTGGCCCTGAGAGAGTTGCAGCAAG",
+      "length": 35,
+      "tm_C": 72.79,
+      "gc": 0.629,
+      "crossovers": 0
+    },
+    {
+      "name": "square-st005",
+      "well": "F1",
+      "seq": "CGGTCCACGCTGGTTTGCCCCAGCAGGCGAAAATCCTGTTT",
+      "length": 41,
+      "tm_C": 74.51,
+      "gc": 0.585,
+      "crossovers": 1
+    },
+    {
+      "name": "square-st006",
+      "well": "G1",
+      "seq": "GATGGTGGTTCCGAAATCGGCAAAATCCCTTATAA",
+      "length": 35,
+      "tm_C": 62.34,
+      "gc": 0.429,
+      "crossovers": 0
+    },
+    {
+      "name": "square-st007",
+      "well": "H1",
+      "seq": "ATCAAAAGAATAGCCCGAGATAGGGTTGAGTGTTGTT",
+      "length": 37,
+      "tm_C": 62.28,
+      "gc": 0.405,
+      "crossovers": 1
+    },
+    {
+      "name": "square-st008",
+      "well": "A2",
+      "seq": "CCAGTTTGGAACAAGAGTCCACTATTAAAGAACGTGG",
+      "length": 37,
+      "tm_C": 62.13,
+      "gc": 0.432,
+      "crossovers": 1
+    },
+    {
+      "name": "square-st009",
+      "well": "B2",
+      "seq": "ACTCCAACGTCAAAGGGCGAAAAACCGTCTATCAGGG",
+      "length": 37,
+      "tm_C": 67.85,
+      "gc": 0.514,
+      "crossovers": 0
+    },
+    {
+      "name": "square-st010",
+      "well": "C2",
+      "seq": "CGATGGCCCACTACGTGAACCATCACCCAAATCAAGTTT",
+      "length": 39,
+      "tm_C": 67.51,
+      "gc": 0.487,
+      "crossovers": 1
+    },
+    {
+      "name": "square-st011",
+      "well": "D2",
+      "seq": "TTTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACC",
+      "length": 38,
+      "tm_C": 69.09,
+      "gc": 0.526,
+      "crossovers": 0
+    },
+    {
+      "name": "square-st012",
+      "well": "E2",
+      "seq": "CTAAAGGGAGCCCCCGATTTAGAGCTTGACGG",
+      "length": 32,
+      "tm_C": 66.64,
+      "gc": 0.562,
+      "crossovers": 1
+    },
+    {
+      "name": "square-st013",
+      "well": "F2",
+      "seq": "GGAAAGCCGGCGAACGTGGCGAGAAAGGAAGGGAAATTGTG",
+      "length": 41,
+      "tm_C": 71.93,
+      "gc": 0.561,
+      "crossovers": 0
+    }
+  ]
+}

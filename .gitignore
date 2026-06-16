@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# Generated simulation outputs (regenerable; keep the repo lean)
+northstar/out/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Local secrets (this project ships none; never commit any)
+*.env
+.env
+secrets/
+
+# Tooling index artifacts (e.g. oxDNA-analysis-tools)
+*.pyidx
+
+# NOTE: small example compiler outputs under examples/out_* ARE committed on purpose as
+# browsable reference artifacts (protocol.md, diagnostics.md, staples.csv, sequences...).
+# But the bulky, regenerable 3D-coordinate files are ignored so they don't spam every
+# future diff with ~240 KB of numbers each time examples are regenerated:
+examples/out_*/conf.dat
+examples/out_*/structure.pdb
+# Delete the line below to ignore example outputs entirely.
+# examples/out_*/

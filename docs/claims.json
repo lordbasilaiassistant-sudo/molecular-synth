@@ -1,0 +1,192 @@
+[
+  {
+    "id": "origami-2d",
+    "claim": "A single ~7 kb ssDNA scaffold folded by ~200 short staple oligos self-assembles into arbitrary nanoscale 2D shapes (~100 nm), in one heat/cool pot.",
+    "citation": "Rothemund, P.W.K. Folding DNA to create nanoscale shapes and patterns. Nature 440, 297-302 (2006).",
+    "url": "https://www.nature.com/articles/nature04586",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "~100 nm planar shapes, AFM-verified; not macroscopic."
+  },
+  {
+    "id": "origami-3d-cadnano",
+    "claim": "DNA origami extends to 3D solids on a honeycomb lattice, designed in the caDNAno CAD tool.",
+    "citation": "Douglas, S.M. et al. Self-assembly of DNA into nanoscale three-dimensional shapes. Nature 459, 414-418 (2009); Douglas et al. caDNAno, Nucleic Acids Res. 37, 5001 (2009).",
+    "url": "https://www.nature.com/articles/nature08016",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Tens-to-hundreds of nm 3D objects."
+  },
+  {
+    "id": "dna-bricks",
+    "claim": "Scaffold-free 32-nt DNA bricks act as 3D voxels; toggling a subset of bricks sculpts 100+ distinct 3D shapes (the 'voxel compiler' model).",
+    "citation": "Ke, Y., Ong, L.L., Shih, W.M., Yin, P. Three-Dimensional Structures Self-Assembled from DNA Bricks. Science 338, 1177-1183 (2012).",
+    "url": "https://www.science.org/doi/10.1126/science.1227268",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Sub-100 nm; lower yield than scaffolded origami."
+  },
+  {
+    "id": "mesh-to-dna",
+    "claim": "Arbitrary closed polygonal meshes can be rendered as wireframe DNA nanostructures.",
+    "citation": "Benson, E. et al. DNA rendering of polyhedral meshes at the nanoscale. Nature 523, 441-444 (2015).",
+    "url": "https://www.nature.com/articles/nature14586",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Wireframe (edge) representation; vHelix tool."
+  },
+  {
+    "id": "top-down-routing",
+    "claim": "Fully automatic top-down inverse design: a geometric mesh input yields the complete scaffold route + all staple sequences with no manual editing (the compiler's core algorithm).",
+    "citation": "Veneziano, R. et al. Designer nanoscale DNA assemblies programmed from the top down. Science 352, 1534 (2016) (DAEDALUS).",
+    "url": "https://www.science.org/doi/10.1126/science.aaf4388",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "45 wireframe objects built + cryo-EM/AFM verified; pyDAEDALUS is open source."
+  },
+  {
+    "id": "automated-wireframe-suite",
+    "claim": "Automated wireframe sequence-design toolchains (PERDIX 2D, TALOS/METIS 3D, ATHENA GUI) turn CAD geometry into orderable scaffold+staple sets.",
+    "citation": "Jun, H. et al. Autonomously designed free-form 2D DNA origami. Sci. Adv. 5, eaav0655 (2019); TALOS, ACS Nano 13, 2083 (2019); METIS, Nat. Commun. 10, 5419 (2019).",
+    "url": "https://www.science.org/doi/10.1126/sciadv.aav0655",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "AFM/cryo-EM validated wireframes."
+  },
+  {
+    "id": "oxdna-sim",
+    "claim": "A coarse-grained model (oxDNA) reproduces the experimental structure, mechanics and thermodynamics of DNA nanostructures, enabling in-silico validation of a design before ordering oligos.",
+    "citation": "Ouldridge, T.E., Louis, A.A., Doye, J.P.K. J. Chem. Phys. 134, 085101 (2011); Snodin et al. (oxDNA2) J. Chem. Phys. 142, 234901 (2015).",
+    "url": "https://doi.org/10.1063/1.3552946",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Simulation method, validated against experiment; not a wet-lab fabrication step."
+  },
+  {
+    "id": "isothermal-fold",
+    "claim": "Many origami fold to high yield at a single constant temperature (some within minutes), so a fixed-setpoint heater/sous-vide can fold real structures - no qPCR thermocycler required.",
+    "citation": "Sobczak, J.-P.J., Martin, T.G., Gerling, T., Dietz, H. Rapid folding of DNA into nanoscale shapes at constant temperature. Science 338, 1458-1461 (2012).",
+    "url": "https://www.science.org/doi/10.1126/science.1229919",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Robust designs; dense 3D still prefers an optimized ramp."
+  },
+  {
+    "id": "nn-thermo",
+    "claim": "Duplex stability and melting temperature are predicted from a unified nearest-neighbor thermodynamic model - the basis of the compiler's Tm-balancing.",
+    "citation": "SantaLucia, J. Jr. A unified view of ... DNA nearest-neighbor thermodynamics. PNAS 95, 1460-1465 (1998).",
+    "url": "https://www.pnas.org/doi/abs/10.1073/pnas.95.4.1460",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Canonical oligo-melting model (Biopython DNA_NN3)."
+  },
+  {
+    "id": "loop-closure-yield",
+    "claim": "A thermodynamics-aware staple-break optimizer that BALANCES staple hybridization against scaffold loop-closure entropy (rather than naively maximizing binding length) markedly improves origami folding accuracy/yield, measured by gel + TEM. This is the compiler's AI/yield objective.",
+    "citation": "Aksel, T., Navarro, E.J., Fong, N., Douglas, S.M. Design principles for accurate folding of DNA origami. PNAS 121, e2406769121 (2024).",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11621765/",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Conclusion is a hybridization/loop-closure BALANCE, not crossover-minimization dominance; gains are design-specific (e.g. ~2%->61% on a test block), not a universal 6-30x. Physics + k-shortest-path/simulated-annealing optimization (pyOrigamiBreak), NOT deep learning."
+  },
+  {
+    "id": "silicification",
+    "claim": "DNA origami can be converted into a rigid silica composite that faithfully replicates 1D/2D/3D shapes (~3 nm fidelity, ~10x stiffer) by room-temperature sol-gel chemistry in a tube.",
+    "citation": "Liu, X. et al. Complex silica composite nanomaterials templated with DNA origami. Nature 559, 593-598 (2018); Jing et al. Nat. Protoc. 14, 2416 (2019).",
+    "url": "https://www.nature.com/articles/s41586-018-0332-7",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Output is SiO2 (glass), 10 nm-1 um; DIY-feasible (TEOS+TMAPS/APTES)."
+  },
+  {
+    "id": "silica-shell",
+    "claim": "A protective silica shell of controllable thickness can be grown on DNA origami by sol-gel chemistry, preserving structural integrity.",
+    "citation": "Nguyen, L., Doblinger, M., Liedl, T., Heuer-Jungemann, A. DNA-Origami-Templated Silica Growth by Sol-Gel Chemistry. Angew. Chem. Int. Ed. 58, 912-916 (2019).",
+    "url": "https://onlinelibrary.wiley.com/doi/abs/10.1002/anie.201811323",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "nm-thick conformal shell, thickness tuned by precursor/time."
+  },
+  {
+    "id": "metal-casting",
+    "claim": "A rigid DNA-origami mold with an internal cavity + a gold seed casts user-specified solid metal (Ag/Au) nanostructures at ~3 nm resolution.",
+    "citation": "Sun, W. et al. Casting inorganic structures with DNA molds. Science 346, 1258361 (2014); Helmi et al. Nano Lett. 14, 6693 (2014).",
+    "url": "https://www.science.org/doi/abs/10.1126/science.1258361",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Conductive/plasmonic metal nanostructures; QC needs TEM - a stretch goal, not v0 core."
+  },
+  {
+    "id": "ald-oxide",
+    "claim": "Atomic layer deposition coats DNA nanostructures with conformal sub-nm metal oxides (Al2O3/TiO2/ZnO/IrO2), turning them into hard masks / functional 3D nanoarchitectures.",
+    "citation": "Shen, B., Keller et al. Beilstein J. Nanotechnol. 8, 2503 (2017); ALD on DNA-origami crystals, JACS 147 (2025).",
+    "url": "https://www.beilstein-journals.org/bjnano/articles/8/236",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Requires a vacuum ALD reactor (~$30k+) - route to an external nanofab service, NOT in the desktop BOM."
+  },
+  {
+    "id": "gel-qc",
+    "claim": "Agarose gel electrophoresis confirms folding: a well-folded origami runs as a tight band distinct from excess staples and aggregates (the rig's primary QC).",
+    "citation": "Castro, C.E. et al. A primer to scaffolded DNA origami. Nat. Methods 8, 221-229 (2011), Suppl. Protocol 3.",
+    "url": "https://www.nature.com/articles/nmeth.1570",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Run cold, with Mg2+ in the running buffer, ~60-90 V. Tells folded-vs-not, not nm shape."
+  },
+  {
+    "id": "peg-purification",
+    "claim": "PEG-8000 precipitation prepares pure, dense DNA-origami solutions and removes excess staples with only a microcentrifuge.",
+    "citation": "Stahl, E., Martin, T.G., Praetorius, F., Dietz, H. Angew. Chem. Int. Ed. 53, 12735-12740 (2014).",
+    "url": "https://onlinelibrary.wiley.com/doi/10.1002/anie.201405991",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "15% PEG-8000 / 500 mM NaCl / Mg2+ buffer."
+  },
+  {
+    "id": "hobby-stm-atoms",
+    "claim": "A ~$300 hobby/open-hardware scanning tunneling microscope resolves the atomic lattice of HOPG graphite in air.",
+    "citation": "Ma, W. Open STM: a low-cost STM with a fast approach method. HardwareX 17, e00504 (2023); Berard open STM (Hackaday #4986).",
+    "url": "https://www.hardware-x.com/article/S2468-0672(23)00111-6/fulltext",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Images conductive HOPG atoms ONLY - it does NOT image the soft DNA origami. Atomic-resolution capability demonstrator, decoupled from product QC."
+  },
+  {
+    "id": "staple-cost",
+    "claim": "Staple oligo synthesis dominates origami marginal cost; pooled synthesis (IDT oPools) is markedly cheaper than addressable plates, and reusing excess staples further reduces cost.",
+    "citation": "Isinelli et al. Reusing excess staple oligonucleotides for economical production of DNA origami. Nucleic Acids Research 53(11):gkaf527 (2025).",
+    "url": "https://doi.org/10.1093/nar/gkaf527",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "No specific % asserted; the oPool-vs-plate lever (~$200 vs ~$750) is the compiler's emitted cost choice."
+  },
+  {
+    "id": "hierarchical-micron",
+    "claim": "Hierarchical assembly of origami building blocks reaches micron-scale, gigadalton objects and crystalline lattices.",
+    "citation": "Wagenbauer, K.F. et al. Nature 551, 78 (2017); Tikhomirov, G. et al. Nature 552, 67 (2017).",
+    "url": "https://www.nature.com/articles/nature24651",
+    "demonstrated": true,
+    "track": "buildable",
+    "scope_note": "Micron scale - still nano-to-micro, not macroscopic."
+  },
+
+  {
+    "id": "ns-diamondoid-mechanosynthesis",
+    "claim": "Drexler-style diamondoid mechanosynthesis - building stiff covalent solids atom-by-atom with positionally-controlled tooltips - would manufacture atomically-precise HARD materials.",
+    "citation": "Drexler, K.E. Nanosystems (1992); Freitas, R.A. & Merkle, R.C. A Minimal Toolset for Positional Diamond Mechanosynthesis. J. Comput. Theor. Nanosci. 5, 760 (2008).",
+    "url": "https://www.molecularassembler.com/Papers/MinToolset.pdf",
+    "demonstrated": false,
+    "track": "north-star",
+    "scope_note": "THEORY / DFT / MD ONLY. Never experimentally demonstrated. Simulated in /docs/north-star.md; NOT a buildable claim and NOT what this rig makes."
+  },
+  {
+    "id": "ns-macroscopic-apm",
+    "claim": "Scaling atomically-precise self-assembly up to macroscopic, bulk objects (a 'matter compiler').",
+    "citation": "Hall, J.S. / Drexler, K.E. - atomically precise manufacturing roadmaps (conceptual).",
+    "url": "https://www.molecularassembler.com/Nanofactory/index.htm",
+    "demonstrated": false,
+    "track": "north-star",
+    "scope_note": "Not demonstrated. DNA origami is nano-to-micron only. Honest scope ceiling of this project."
+  }
+]

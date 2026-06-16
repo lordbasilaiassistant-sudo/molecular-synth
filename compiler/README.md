@@ -1,0 +1,82 @@
+# /compiler — shape → DNA origami recipe
+
+Turns a target shape into an orderable DNA-origami recipe: scaffold + optimised
+staple set + the auto-emitted wet-lab protocol, plus oxDNA/scadnano/IDT exports.
+The core path is **pure Python standard library** — it runs with no installs.
+
+## Use
+
+```bash
+cd compiler
+python -m molsynth compile <shape> --out <dir> [options]
+python -m molsynth info <shape>          # print the wireframe summary
+python -m molsynth fetch-scaffold        # cache real M13mp18 (needs scadnano or net)
+python -m molsynth validate              # run the repo's sourceable+demonstrated gate
+```
+
+`<shape>` = a preset (`tetrahedron`, `cube`, `octahedron`, `square`), an `.stl` file,
+or a `.json` wireframe (`{"vertices": [...], "edges": [[i,j],...]}`).
+
+Useful options: `--iterations N` (optimizer budget), `--min-edge-bp`, `--scaffold-nM`,
+`--excess`, `--mg` (MgCl₂ mM), `--t-hot/--t-cold/--anneal-min` (ramp),
+`--weights w.json` (load learned YieldModel weights), `--seed`.
+
+```python
+from molsynth import compile_shape
+summary = compile_shape("cube", outdir="out/cube", iterations=8000)
+```
+
+## How it works
+
+1. **geometry.py** — load the shape; reduce it to a vertex/edge **wireframe** (the
+   PERDIX/DAEDALUS edge model). STL via `trimesh` or a built-in minimal parser.
+2. **scaffold.py** — source the scaffold (real M13mp18 7249 nt, or a deterministic
+   synthetic fallback) and **route** it: assign each edge a bp length snapped to
+   integer helical turns (≈10.5 bp/turn, 4–10-turn window), then thread a single closed
+   scaffold walk that traverses every edge twice via an **Eulerian circuit** of the
+   doubled edge graph (Hierholzer's algorithm) — a simplified, non-face-respecting
+   variant of the A-trail routing of Benson 2015 / Veneziano 2016. Disconnected meshes
+   are rejected (one scaffold can't thread separate components).
+3. **sequences.py** — **SantaLucia (1998) unified nearest-neighbor** thermodynamics:
+   ΔH/ΔS, salt-corrected Tm, plus GC / homopolymer / repeat / hairpin heuristics.
+4. **optimizer.py** — the **AI/yield layer**. Staples = the exact reverse complement of
+   the scaffold route, broken by **simulated annealing** to minimise an objective that
+   (a) clusters every staple's Tm in a window (cooperative annealing), (b) **balances
+   binding vs. loop-closure entropy** — every vertex bridged, no staple over ~2
+   crossovers (Aksel 2024), (c) penalises repeats / poly-runs / hairpins. `YieldModel`
+   weights are swappable via JSON, so a model trained on real yield data drops in.
+5. **staples.py / export.py / protocol.py** — assemble the staple records (wells, Tm,
+   crossovers) and write all artifacts, including the per-design protocol.
+
+## Outputs
+
+`scaffold.fasta`, `staples.csv`, `staples_idt_plate.txt` (addressable plate),
+`staples_opool.txt` (pooled — the cheap order), `design.json`, `protocol.md`,
+`diagnostics.md` (yield report), and the **3D structure**: `design.top` + `conf.dat`
+(a consistent oxDNA topology + configuration — open in [oxView](https://sulcgroup.github.io/oxdna-viewer/),
+relax/simulate in [oxDNA](https://lorenzo-rovigatti.github.io/oxDNA/)) and
+`structure.pdb` (one bead/nucleotide — opens in PyMOL/ChimeraX/Mol*). `design.sc`
+(scadnano) if the package is installed.
+
+**Chemical validity:** every staple is the exact reverse complement of a contiguous
+scaffold stretch, so it really hybridises (asserted by `tests/test_compiler.py`).
+Staples whose span crosses a vertex are crossover staples that hold the wireframe.
+
+## Honest limitations (and the upgrade path)
+
+The router produces a **topologically- and sequence-valid** design (single scaffold
+loop covering all edges; orderable, hybridising staples) **and a 3D oxDNA starting
+configuration** (`conf.dat`) you can relax and simulate. What it does **not** yet do is
+compute production-grade crossover geometry / in-phase helix packing — `conf.dat` is a
+relaxable *starting* structure (vertex junctions clean up under an oxDNA min/relax), not
+a finished caDNAno-precise layout. For fabrication-grade crossover design, also run the
+same shape through **PERDIX/TALOS/DAEDALUS** or **scadnano** (the compiler emits
+scadnano and oxDNA formats to hand off). The value here is the end-to-end,
+dependency-free, one-command pipeline (shape → orderable oligos + protocol + viewable/
+simulatable 3D structure) + the physics-grounded yield optimizer with an ML-ready hook.
+
+## Tests
+
+```bash
+python tests/test_compiler.py        # 13 stdlib tests, ~15 s
+```

@@ -1,0 +1,580 @@
+{
+  "meta": {
+    "design_name": "square_pyramid",
+    "shape": "square_pyramid",
+    "approx_nm": 21.4,
+    "scaffold_name": "M13mp18",
+    "scaffold_len_used": 1008,
+    "scaffold_total": 7255,
+    "scaffold_offset": 0,
+    "synthetic_scaffold": false,
+    "n_staples": 27,
+    "total_staple_bases": 1008,
+    "scaffold_nM": 20,
+    "staple_excess": 10,
+    "mg_mM": 12.5,
+    "reaction_uL": 50,
+    "anneal_ramp": [
+      [
+        90,
+        5
+      ],
+      [
+        85.0,
+        8.6
+      ],
+      [
+        80.0,
+        8.6
+      ],
+      [
+        75.0,
+        8.6
+      ],
+      [
+        70.0,
+        8.6
+      ],
+      [
+        65.0,
+        8.6
+      ],
+      [
+        60.0,
+        8.6
+      ],
+      [
+        55.0,
+        8.6
+      ],
+      [
+        50.0,
+        8.6
+      ],
+      [
+        45.0,
+        8.6
+      ],
+      [
+        40.0,
+        8.6
+      ],
+      [
+        35.0,
+        8.6
+      ],
+      [
+        30.0,
+        8.6
+      ],
+      [
+        25.0,
+        8.6
+      ],
+      [
+        20.0,
+        8.6
+      ]
+    ],
+    "mesh": {
+      "name": "square_pyramid",
+      "vertices": 5,
+      "edges": 8,
+      "faces": 5,
+      "min_degree": 3,
+      "max_degree": 4,
+      "min_edge_len": 1.99,
+      "max_edge_len": 2.0
+    },
+    "staple_stats": {
+      "n_staples": 27,
+      "n_crossover_staples": 15,
+      "n_overloaded_staples": 0,
+      "len_min": 32,
+      "len_max": 42,
+      "len_mean": 37.3,
+      "tm_min_C": 59.6,
+      "tm_max_C": 77.1,
+      "tm_mean_C": 69.4,
+      "tm_stdev_C": 4.99,
+      "total_bases_ordered": 1008
+    },
+    "optimizer_score": 121.248,
+    "optimizer_score_initial": 128.917,
+    "structure_check": {
+      "max_unit_dev": 2.220446049250313e-16,
+      "max_orth_dev": 1.1102230246251565e-16
+    }
+  },
+  "scaffold": {
+    "name": "M13mp18",
+    "synthetic": false,
+    "len_used": 1008,
+    "sequence": "CACAATTTCCCTTCCTTTCTCGCCACGTTCGCCGGCTTTCCCCGTCAAGCTCTAAATCGGGGGCTCCCTTTAGGGTTCCGATTTAGTGCTTTACGGCACCTCGACCCCAAAAAACTTGATTTGGGTGATGGTTCACGTAGTGGGCCATCGCCCTGATAGACGGTTTTTCGCCCTTTGACGTTGGAGTCCACGTTCTTTAATAGTGGACTCTTGTTCCAAACTGGAACAACACTCAACCCTATCTCGGGCTATTCTTTTGATTTATAAGGGATTTTGCCGATTTCGGAACCACCATCAAACAGGATTTTCGCCTGCTGGGGCAAACCAGCGTGGACCGCTTGCTGCAACTCTCTCAGGGCCAGGCGGTGAAGGGCAATCAGCTGTTGCCCGTCTCACTGGTGAAAAGAAAAACCACCCTGGCGCCCAATACGCAAACCGCCTCTCCCCGCGCGTTGGCCGATTCATTAATGCAGCTGGCACGACAGGTTTCCCGACTGGAAAGCGGGCAGTGAGCGCAACGCAATTAATGTGAGTTAGCTCACTCATTAGGCACCCCAGGCTTTACACTTTATGCTTCCGGCTCGTATGTTGTGTGGAATTGTGAGCGGATAACAATTTCACACAGGAAACAGCTATGACCATGATTACGAATTCGAGCTCGGTACCCGGGGATCCTCTAGAGTCGACCTGCAGGCATGCAAGCTTGGCACTGGCCGTCGTTTTACAACGTCGTGACTGGGAAAACCCTGGCGTTACCCAACTTAATCGCCTTGCAGCACATCCCCCTTTCGCCAGCTGGCGTAATAGCGAAGAGGCCCGCACCGATCGCCCTTCCCAACAGTTGCGCAGCCTGAATGGCGAATGGCGCTTTGCCTGGTTTCCGGCACCAGAAGCGGTGCCGGAAAGCTGGCTGGAGTGCGATCTTCCTGAGGCCGATACTGTCGTCGTCCCCTCAAACTGGCAGATGCACGGTTACGATGCGCCCATCTACACCAACGTGACCTATCC"
+  },
+  "edges_bp": {
+    "0-1": 63,
+    "1-2": 63,
+    "2-3": 63,
+    "0-3": 63,
+    "0-4": 63,
+    "1-4": 63,
+    "2-4": 63,
+    "3-4": 63
+  },
+  "segments": [
+    {
+      "order": 0,
+      "arc": [
+        0,
+        1
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 0
+    },
+    {
+      "order": 1,
+      "arc": [
+        1,
+        0
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 63
+    },
+    {
+      "order": 2,
+      "arc": [
+        0,
+        3
+      ],
+      "edge": [
+        0,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 126
+    },
+    {
+      "order": 3,
+      "arc": [
+        3,
+        2
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 189
+    },
+    {
+      "order": 4,
+      "arc": [
+        2,
+        1
+      ],
+      "edge": [
+        1,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 252
+    },
+    {
+      "order": 5,
+      "arc": [
+        1,
+        2
+      ],
+      "edge": [
+        1,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 315
+    },
+    {
+      "order": 6,
+      "arc": [
+        2,
+        3
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 378
+    },
+    {
+      "order": 7,
+      "arc": [
+        3,
+        0
+      ],
+      "edge": [
+        0,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 441
+    },
+    {
+      "order": 8,
+      "arc": [
+        0,
+        4
+      ],
+      "edge": [
+        0,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 504
+    },
+    {
+      "order": 9,
+      "arc": [
+        4,
+        1
+      ],
+      "edge": [
+        1,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 567
+    },
+    {
+      "order": 10,
+      "arc": [
+        1,
+        4
+      ],
+      "edge": [
+        1,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 630
+    },
+    {
+      "order": 11,
+      "arc": [
+        4,
+        2
+      ],
+      "edge": [
+        2,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 693
+    },
+    {
+      "order": 12,
+      "arc": [
+        2,
+        4
+      ],
+      "edge": [
+        2,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 756
+    },
+    {
+      "order": 13,
+      "arc": [
+        4,
+        3
+      ],
+      "edge": [
+        3,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 819
+    },
+    {
+      "order": 14,
+      "arc": [
+        3,
+        4
+      ],
+      "edge": [
+        3,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 882
+    },
+    {
+      "order": 15,
+      "arc": [
+        4,
+        0
+      ],
+      "edge": [
+        0,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 945
+    }
+  ],
+  "staples": [
+    {
+      "name": "square_pyramid-st000",
+      "well": "A1",
+      "seq": "GGATAGGTCACGTTGGTGTAGATGGGCGCATCGTAACCGTG",
+      "length": 41,
+      "tm_C": 70.83,
+      "gc": 0.561,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st001",
+      "well": "B1",
+      "seq": "CATCTGCCAGTTTGAGGGGACGACGACAGTATC",
+      "length": 33,
+      "tm_C": 66.15,
+      "gc": 0.545,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st002",
+      "well": "C1",
+      "seq": "GGCCTCAGGAAGATCGCACTCCAGCCAGCTTTCCGGCACCG",
+      "length": 41,
+      "tm_C": 77.06,
+      "gc": 0.659,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st003",
+      "well": "D1",
+      "seq": "CTTCTGGTGCCGGAAACCAGGCAAAGCGCCATTCG",
+      "length": 35,
+      "tm_C": 71.99,
+      "gc": 0.6,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st004",
+      "well": "E1",
+      "seq": "CCATTCAGGCTGCGCAACTGTTGGGAAGGGCGATCGG",
+      "length": 37,
+      "tm_C": 73.83,
+      "gc": 0.622,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st005",
+      "well": "F1",
+      "seq": "TGCGGGCCTCTTCGCTATTACGCCAGCTGGCGAAAGGGG",
+      "length": 39,
+      "tm_C": 76.24,
+      "gc": 0.641,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st006",
+      "well": "G1",
+      "seq": "GATGTGCTGCAAGGCGATTAAGTTGGGTAACGCCAGGGTTTT",
+      "length": 42,
+      "tm_C": 69.72,
+      "gc": 0.5,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st007",
+      "well": "H1",
+      "seq": "CCCAGTCACGACGTTGTAAAACGACGGCCAGTGC",
+      "length": 34,
+      "tm_C": 70.08,
+      "gc": 0.588,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st008",
+      "well": "A2",
+      "seq": "CAAGCTTGCATGCCTGCAGGTCGACTCTAGAGGATCCCCG",
+      "length": 40,
+      "tm_C": 72.79,
+      "gc": 0.6,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st009",
+      "well": "B2",
+      "seq": "GGTACCGAGCTCGAATTCGTAATCATGGTCATA",
+      "length": 33,
+      "tm_C": 61.7,
+      "gc": 0.455,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st010",
+      "well": "C2",
+      "seq": "GCTGTTTCCTGTGTGAAATTGTTATCCGCTCAC",
+      "length": 33,
+      "tm_C": 62.22,
+      "gc": 0.455,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st011",
+      "well": "D2",
+      "seq": "AATTCCACACAACATACGAGCCGGAAGCATAAAGTG",
+      "length": 36,
+      "tm_C": 63.82,
+      "gc": 0.444,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st012",
+      "well": "E2",
+      "seq": "TAAAGCCTGGGGTGCCTAATGAGTGAGCTAACTCA",
+      "length": 35,
+      "tm_C": 65.69,
+      "gc": 0.486,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st013",
+      "well": "F2",
+      "seq": "CATTAATTGCGTTGCGCTCACTGCCCGCTTTCCAGTCGGGAA",
+      "length": 42,
+      "tm_C": 72.45,
+      "gc": 0.548,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st014",
+      "well": "G2",
+      "seq": "ACCTGTCGTGCCAGCTGCATTAATGAATCGGCCAACGCGCGG",
+      "length": 42,
+      "tm_C": 75.23,
+      "gc": 0.595,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st015",
+      "well": "H2",
+      "seq": "GGAGAGGCGGTTTGCGTATTGGGCGCCAGGGTGGTTTT",
+      "length": 38,
+      "tm_C": 74.41,
+      "gc": 0.605,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st016",
+      "well": "A3",
+      "seq": "TCTTTTCACCAGTGAGACGGGCAACAGCTGATT",
+      "length": 33,
+      "tm_C": 65.56,
+      "gc": 0.485,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st017",
+      "well": "B3",
+      "seq": "GCCCTTCACCGCCTGGCCCTGAGAGAGTTGCAGCA",
+      "length": 35,
+      "tm_C": 75.58,
+      "gc": 0.657,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st018",
+      "well": "C3",
+      "seq": "AGCGGTCCACGCTGGTTTGCCCCAGCAGGCGAAAATCCTGT",
+      "length": 41,
+      "tm_C": 76.63,
+      "gc": 0.61,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st019",
+      "well": "D3",
+      "seq": "TTGATGGTGGTTCCGAAATCGGCAAAATCCCTTATAA",
+      "length": 37,
+      "tm_C": 62.87,
+      "gc": 0.405,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st020",
+      "well": "E3",
+      "seq": "ATCAAAAGAATAGCCCGAGATAGGGTTGAGTGTTGTTCCA",
+      "length": 40,
+      "tm_C": 64.42,
+      "gc": 0.425,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st021",
+      "well": "F3",
+      "seq": "GTTTGGAACAAGAGTCCACTATTAAAGAACGTGG",
+      "length": 34,
+      "tm_C": 59.63,
+      "gc": 0.412,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st022",
+      "well": "G3",
+      "seq": "ACTCCAACGTCAAAGGGCGAAAAACCGTCTATCAGGGCGA",
+      "length": 40,
+      "tm_C": 70.53,
+      "gc": 0.525,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st023",
+      "well": "H3",
+      "seq": "TGGCCCACTACGTGAACCATCACCCAAATCAAGTT",
+      "length": 35,
+      "tm_C": 66.64,
+      "gc": 0.486,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st024",
+      "well": "A4",
+      "seq": "TTTTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACC",
+      "length": 39,
+      "tm_C": 68.82,
+      "gc": 0.513,
+      "crossovers": 0
+    },
+    {
+      "name": "square_pyramid-st025",
+      "well": "B4",
+      "seq": "CTAAAGGGAGCCCCCGATTTAGAGCTTGACGG",
+      "length": 32,
+      "tm_C": 66.64,
+      "gc": 0.562,
+      "crossovers": 1
+    },
+    {
+      "name": "square_pyramid-st026",
+      "well": "C4",
+      "seq": "GGAAAGCCGGCGAACGTGGCGAGAAAGGAAGGGAAATTGTG",
+      "length": 41,
+      "tm_C": 71.93,
+      "gc": 0.561,
+      "crossovers": 0
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+# Molecular Synth v0 compiler.
+# The CORE pipeline (compile a shape -> sequences + protocol) uses the Python
+# standard library ONLY, so `python -m molsynth compile tetrahedron` runs with no
+# installs. The packages below are OPTIONAL and only enable extra exports / inputs.
+
+# Real M13mp18 (p7249) scaffold via `python -m molsynth fetch-scaffold`, and richer
+# scadnano (.sc) export:
+scadnano>=0.19.0
+
+# Robust STL mesh loading (a minimal built-in parser is used if absent):
+trimesh>=4.0.0
+
+# Optional sequence-thermodynamics cross-check against Biopython's Tm_NN(DNA_NN3)
+# (the compiler ships its own SantaLucia implementation; this is only for comparison):
+biopython>=1.81
+
+# Optional secondary-structure energy for the hairpin term (compiler ships a cheap
+# heuristic if absent):
+# seqfold>=0.7.0
