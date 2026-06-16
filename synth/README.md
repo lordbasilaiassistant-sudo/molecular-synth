@@ -1,13 +1,52 @@
-# /synth — Drink Synth (the buildable-today synthesizer)
+# /synth — buildable-today synthesizers (Water + Drink)
 
-"I want hot coffee." / "Iced oat latte, large, extra shot." → a request-compiler turns
-it into a deterministic machine recipe → cheap hardware pours it. Same architecture as
-the molecular compiler (request → compiler → machine recipe), at macroscale, for ~$120
-of orderable parts. See [`../docs/vision.md`](../docs/vision.md) for why this is the
-*real-today* rung of the synthesizer thesis (and what stays north-star).
+"I want a glass of cold water." / "Iced oat latte, large, extra shot." → a
+request-compiler turns it into a deterministic machine recipe → cheap hardware makes it.
+Same architecture as the molecular compiler (request → compiler → machine recipe), at
+macroscale, for ~$120–180 of orderable parts. See [`../docs/vision.md`](../docs/vision.md)
+for why this is the *real-today* rung of the synthesizer thesis (and what stays
+north-star).
 
-> **Honest scope:** this **assembles a drink from stocked ingredients** with peristaltic
-> pumps and a Peltier hot/cold plate. It does **not** synthesise matter from atoms.
+Two makers live here, sharing the pattern:
+- **Water Synth** ([`watersynth/`](watersynth/)) — harvests water from **air** (Peltier
+  condensation / AWG), filters + UV-treats it, dispenses. The most tractable "ask → it
+  appears" of all, and genuinely humanity-useful (clean water from air).
+- **Drink Synth** ([`drinksynth/`](drinksynth/)) — pumps + hot/cold plate assemble a
+  drink from stocked ingredients.
+
+> **Honest scope:** these **harvest/assemble and treat** from air or stocked ingredients.
+> They do **not** synthesise matter from energy. The lived experience ("ask, it appears")
+> is real and cheap today; materialising matter from energy stays north-star.
+
+## Water Synth
+
+```bash
+cd synth
+python -m watersynth make "large glass of cold water"
+python -m watersynth make "hot water"
+python -m watersynth make "water" --reservoir   # dispense from a tank, skip air-harvest
+python -m watersynth make "cold water" --port COM5   # with hardware
+```
+Emits `HARVEST · FILTER · UV · TEMP · DISPENSE · DONE`. Firmware:
+[`firmware/water_synth.ino`](firmware/water_synth.ino).
+
+**Water Synth BOM (~$60–90, reuses the molecular rig's Peltier):**
+
+| Part | Role | ~Price |
+|---|---|---|
+| TEC1-12706 Peltier + heatsinks + fan | condense water from air (cold plate) | ~$25 |
+| Activated-carbon inline filter | taste / VOC | ~$8 |
+| UV-C LED + driver | sterilise collected water | ~$12 |
+| Peristaltic pump + food-grade tubing | dispense | ~$10 |
+| 2nd Peltier + BTS7960 (serving temp) | hot/cold the cup | ~$20 |
+| 100k NTC thermistor + Arduino + 12 V PSU | control (or share the molecular rig's) | ~$15 |
+
+> Condensation rate is humidity-dependent (~tens of mL/hour on a small Peltier; MOF
+> desiccants raise yield in dry air — Kim et al., *Science* 2017). Use a buffer tank so
+> dispense is instant. Sterilise (UV-C) before drinking; UV-C is an eye/skin hazard —
+> fully enclose it.
+
+## Drink Synth
 
 ## Try the compiler (no hardware, pure stdlib)
 

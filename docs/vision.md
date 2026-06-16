@@ -22,12 +22,33 @@ shape→DNA compiler: *request → compiler → machine recipe → physical outp
 
 | You ask for… | Real on a cheap desktop **today**? | What actually makes it | Honest limit |
 |---|---|---|---|
-| **Hot / iced coffee, mixed drinks** | ✅ **Yes** | peristaltic pumps + Peltier hot/cold + Arduino → see [`/synth`](../synth/) (built in this repo) | *assembles* from stocked ingredients; does not synthesise coffee from atoms |
+| **A glass of drinkable water** | ✅ **Yes** | **Water Synth** ([`/synth`](../synth/)) — a Peltier condenses it out of humid air (atmospheric water generation), carbon filter + UV-C → potable | harvested + treated from air, not materialised from energy; "instant" = dispense from a buffer tank |
+| **Hot / iced coffee, mixed drinks** | ✅ **Yes** | **Drink Synth** ([`/synth`](../synth/)) — peristaltic pumps + Peltier hot/cold + Arduino | *assembles* from stocked ingredients; does not synthesise coffee from atoms |
 | A custom object / phone **case** | ✅ Yes | FDM / resin 3D printer | plastic/resin shape only |
 | A meal | 🟡 Partial | food 3D printers / automated cooking | assembles stocked ingredients; not atom-up |
 | A **nanostructure**, atomic precision | ✅ Yes (nano only) | **this repo's DNA nanofab** | ~10 nm–1 µm, not macroscopic |
 | A **working phone** (chips, battery) | ❌ No (today) | needs semiconductor fabs + multi-material assembly | desktop can't make ICs/cells |
 | **Arbitrary macroscopic matter from atoms** (true replicator) | ❌ **North-star** | positional mechanosynthesis (undemonstrated) | [`north-star.md`](north-star.md) |
+
+## The water case — why "a glass of water" is the tractable one
+
+It's worth separating two meanings of "synthesize water," because they have opposite
+verdicts:
+
+1. **Materialise H₂O from energy** (a true replicator conjuring water from nothing).
+   Bounded by E=mc²: a 250 mL glass is ~0.25 kg ≈ **2.2 × 10¹⁶ J** — a multi-megaton
+   energy budget per glass, plus an unsolved way to assemble it. **North-star.**
+2. **"A glass of drinkable water appears on demand"** — the lived experience. This is
+   **real and cheap today**: **atmospheric water generation** condenses water out of the
+   air (a Peltier — the same part as the molecular rig — cooled below the dew point),
+   then carbon-filter + UV-C makes it potable. MOF harvesters even pull water from
+   <20%-humidity desert air (Kim et al., *Science* 356:430, 2017). "Instant" is just
+   dispensing from a buffer tank the harvester keeps filled.
+
+So the intuition "water should be doable" is **correct** — it's the most tractable of
+all the examples, and it's genuinely humanity-useful (clean water from air). We built it
+([`/synth`](../synth/) `watersynth`). What stays north-star is *materialising* it from
+energy, not *having it on demand*.
 
 ## The thesis we *can* build toward, honestly
 

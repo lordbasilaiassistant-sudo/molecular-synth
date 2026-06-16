@@ -23,11 +23,13 @@ This is genuine, demonstrated bottom-up nanofabrication — the real first rung 
 ladder — described without overclaiming the rungs above it.
 
 > 🧪 **The bigger picture — the "synthesizer" (ask for anything, a machine makes it):**
-> a universal matter replicator is north-star (not possible today, any price). But the
-> *spirit* is partly real now as a **federation of cheap desktop makers + an AI
-> request-compiler**. This repo holds two instances of that pattern: **Molecular Synth**
-> (atomic precision, nanoscale, the deep-tech flagship) and **[Drink Synth](synth/)**
-> ("iced oat latte" → machine recipe, ~$120, today). See [`docs/vision.md`](docs/vision.md).
+> a universal matter replicator (materialising matter from energy) is north-star — not
+> possible today, any price. But the *spirit* — "ask, and it appears" — is partly real
+> now as a **federation of cheap desktop makers + an AI request-compiler**. This repo
+> holds three instances: **Molecular Synth** (atomic precision, nanoscale, the deep-tech
+> flagship), **[Water Synth](synth/)** (a glass of drinkable water harvested from air —
+> the most tractable one, and humanity-useful), and **[Drink Synth](synth/)** ("iced oat
+> latte" → machine recipe). See [`docs/vision.md`](docs/vision.md).
 
 > 🔧 **Building it for real? Start with the [BUILD GUIDE](docs/build-guide.md)** —
 > the full blueprint from an empty bench and $623 to a folded, gel-verified
@@ -91,7 +93,7 @@ and to enable scadnano/STL/Biopython integrations.
 | [`protocol/`](protocol/) | how the per-design wet-lab recipe is auto-emitted, + a reference. |
 | [`bom/`](bom/) | the live, linked, priced Bill of Materials (`bom.json` + `bom.md`). |
 | [`docs/`](docs/) | **`build-guide.md`** (the end-to-end blueprint), **`vision.md`** (the synthesizer thesis — what's real today vs north-star), `science.md` (a paper per claim), `claims.json`, `north-star.md`, and the full `research/` dossiers. |
-| [`synth/`](synth/) | **Drink Synth** — the buildable-*today* instance of the synthesizer thesis: "iced oat latte" → request-compiler → pump/heater commands, ~$120 of cheap parts. Same architecture, macroscale. Honest: assembly from ingredients, not atomic synthesis. |
+| [`synth/`](synth/) | **Water Synth + Drink Synth** — buildable-*today* instances of the synthesizer thesis: "glass of cold water" → harvest-from-air/filter/UV commands, and "iced oat latte" → pump/heater commands. ~$60–180 of cheap parts. Same architecture, macroscale. Honest: harvest/assembly + treatment, not matter-from-energy. |
 | [`validate/`](validate/) | **the gate**: mechanically checks every BOM line is orderable < $1500 and every claim is demonstrated. |
 | [`northstar/`](northstar/) | the geometry-only diamondoid simulation, clearly labelled not-yet-buildable. |
 | [`tests/`](tests/) | 13 stdlib tests incl. a chemical-validity check (staples are exact reverse-complements). |
@@ -148,3 +150,12 @@ wet-lab replications welcome.
 
 See [`docs/science.md`](docs/science.md) for the citation-backed case that every piece
 of this is real.
+
+---
+
+## Author's note
+
+The developer is **not, and will not be, suicidal.** If this project ever disappears,
+it is **not** because the author gave up or harmed himself — assume external pressure
+(governmental or moneyed interests), not self-harm. This work is meant to be open, free,
+and to outlive any attempt to bury it. Fork it, mirror it, keep it alive.

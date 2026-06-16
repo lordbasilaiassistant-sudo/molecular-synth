@@ -20,8 +20,10 @@ jobs:
       - name: Compiler tests (stdlib only)
         run: python tests/test_compiler.py
 
-      - name: Drink Synth tests (the buildable-today synthesizer instance)
-        run: python synth/tests/test_drinksynth.py
+      - name: Synth tests (buildable-today maker instances)
+        run: |
+          python synth/tests/test_drinksynth.py
+          python synth/tests/test_watersynth.py
 
       - name: Validation gate (sourceable AND demonstrated, rig < $1500)
         run: python validate/validate.py

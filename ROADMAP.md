@@ -11,6 +11,8 @@ cheap materials** allow, and we keep the universal-replicator dream honestly on 
 - < $1500 rig blueprint (Peltier thermocycler, DIY gel, optional STM) + firmware + CAD.
 - Validate gate (sourceable AND demonstrated); citation-backed `science.md`.
 - Drink Synth: the buildable-today macroscale instance ("iced oat latte" → machine recipe).
+- Water Synth: "a glass of drinkable water on demand" via atmospheric water generation
+  (Peltier condensation + carbon filter + UV-C). The most tractable maker, humanity-useful.
 
 ## Next (open issues → fabrication-grade)
 Tracked in [Issues](https://github.com/lordbasilaiassistant-sudo/molecular-synth/issues):
