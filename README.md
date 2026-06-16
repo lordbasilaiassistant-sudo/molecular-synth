@@ -92,7 +92,7 @@ and to enable scadnano/STL/Biopython integrations.
 | [`hardware/`](hardware/) | parametric CAD (`*.scad`: gel box, thermocycler block, STM mount) + Arduino thermocycler firmware + host ramp streamer. |
 | [`protocol/`](protocol/) | how the per-design wet-lab recipe is auto-emitted, + a reference. |
 | [`bom/`](bom/) | the live, linked, priced Bill of Materials (`bom.json` + `bom.md`). |
-| [`docs/`](docs/) | **`build-guide.md`** (the end-to-end blueprint), **`vision.md`** (the synthesizer thesis — what's real today vs north-star), `science.md` (a paper per claim), `claims.json`, `north-star.md`, and the full `research/` dossiers. |
+| [`docs/`](docs/) | **`build-guide.md`** (the end-to-end blueprint), **`vision.md`** (the synthesizer thesis — what's real today vs north-star), **`the-ladder.md`** (the demonstrated research staircase from DNA toward molecular manufacturing), `science.md` (a paper per claim), `claims.json`, `north-star.md`, and the full `research/` dossiers. |
 | [`synth/`](synth/) | **Water Synth + Drink Synth** — buildable-*today* instances of the synthesizer thesis: "glass of cold water" → harvest-from-air/filter/UV commands, and "iced oat latte" → pump/heater commands. ~$60–180 of cheap parts. Same architecture, macroscale. Honest: harvest/assembly + treatment, not matter-from-energy. |
 | [`validate/`](validate/) | **the gate**: mechanically checks every BOM line is orderable < $1500 and every claim is demonstrated. |
 | [`northstar/`](northstar/) | the geometry-only diamondoid simulation, clearly labelled not-yet-buildable. |

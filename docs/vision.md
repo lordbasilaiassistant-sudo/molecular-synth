@@ -71,6 +71,17 @@ to a deterministic machine recipe by software, executed by cheap hardware. New d
 (3D-print router, automated kitchen, PCB mill) plug into the same request-compiler as
 they become cheap and reliable.
 
+## "If we can figure out DNA, we can figure out this"
+
+Largely true — as a research thesis. DNA is the most programmable matter we have, and the
+field is already extending that programmability to *other* matter: DNA as a breadboard for
+enzymes/catalysts, DNA-templated synthesis, DNA robots, and artificial molecular
+**assemblers** that build defined products by reading a molecular tape. That staircase —
+every rung demonstrated in a real lab, honestly labelled by how far up it is — is mapped
+in **[the-ladder.md](the-ladder.md)**. We stand on the bottom rungs (fold + harden, on a
+desk) and climb one tested step at a time. The top (general molecular manufacturing) stays
+north-star until it is demonstrated.
+
 ## The rule that keeps this real
 
 Every domain we add must pass the project's gate ([`../validate`](../validate)): the
