@@ -202,6 +202,21 @@ class TestStaples(unittest.TestCase):
             self.assertEqual(st.seq, seq.reverse_complement(region),
                              f"{st.name} not RC of its scaffold span")
 
+    def test_staples_partition_the_scaffold_exactly(self):
+        """Physical-coherence invariant: the staple spans must EXACTLY tile the scaffold --
+        every scaffold base covered by exactly one staple base, no gaps (unpaired scaffold)
+        and no overlaps (a base two staples fight over). This is what makes the design
+        actually foldable, proven directly on the compiler output (not via an export)."""
+        S = len(self.routing.scaffold_seq)
+        spans = sorted((st.scaffold_start, st.scaffold_end) for st in self.staples)
+        # contiguous cover of [0, S): each span starts where the previous ended
+        self.assertEqual(spans[0][0], 0, "first staple must start at scaffold base 0")
+        self.assertEqual(spans[-1][1], S, "last staple must end at the scaffold's end")
+        for (a0, b0), (a1, b1) in zip(spans, spans[1:]):
+            self.assertEqual(b0, a1, f"gap/overlap between {b0} and {a1}")
+        # total staple bases == scaffold bases (no base counted twice or missed)
+        self.assertEqual(sum(b - a for a, b in spans), S)
+
     def test_optimizer_improves(self):
         self.assertLessEqual(self.history[-1], self.history[0])
 
