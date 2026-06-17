@@ -159,7 +159,7 @@ class TestScience(unittest.TestCase):
         a = "ACGTACGTAA"
         self.assertEqual(seq.cross_dimer_len(a, seq.reverse_complement(a)), len(a))
         self.assertEqual(seq.cross_dimer_len("AAAAAAAAAA", "AAAAAAAAAA"), 0)  # A vs A: no complement
-        self.assertEqual(seq.lcs_len("ABCDEF", "ZBCDEZ"), 3)                  # BCD
+        self.assertEqual(seq.lcs_len("ABCDEF", "ZBCDEZ"), 4)                  # "BCDE"
 
     def test_repeat_mask_and_longest_run(self):
         rep, mid = "ACGTACGTAC", "TTGGAACCAA"
