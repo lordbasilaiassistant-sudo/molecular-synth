@@ -56,6 +56,8 @@ DEFAULT_WEIGHTS = {
     "w_uncovered": 3.0,  # penalty per vertex boundary NOT bridged by any staple (structural nick)
     "w_offtarget": 0.6,  # penalty per nt of scaffold-repeat beyond offtarget_allow inside a staple
     "offtarget_allow": 14,  # contiguous scaffold-repeat length tolerated within one staple
+    "w_dimer": 0.5,      # penalty per nt of worst staple-staple cross-dimer beyond dimer_allow
+    "dimer_allow": 10,   # staple-staple complementary length tolerated (used in offset ranking)
 }
 
 
@@ -136,6 +138,30 @@ def boundaries_in(start, end, xovers):
     return [c for c in xovers if start < c < end]
 
 
+def max_cross_dimer(seqs, k=8):
+    """Worst staple-staple cross-dimer (complementary stretch) across a set of staple
+    sequences. Same k-mer-indexed shortlist as staples.cross_dimer_screen, but operates
+    on raw strings so the scaffold-offset search can rank windows by dimer load before
+    any Staple objects exist. Returns the longest complementary run found (0 if none)."""
+    index = {}
+    for i, s in enumerate(seqs):
+        for p in range(len(s) - k + 1):
+            index.setdefault(s[p:p + k], set()).add(i)
+    pairs = set()
+    for i, s in enumerate(seqs):
+        rc = sq.reverse_complement(s)
+        for p in range(len(rc) - k + 1):
+            for j in index.get(rc[p:p + k], ()):
+                if j != i:
+                    pairs.add((i, j) if i < j else (j, i))
+    worst = 0
+    for i, j in pairs:
+        d = sq.cross_dimer_len(seqs[i], seqs[j])
+        if d > worst:
+            worst = d
+    return worst
+
+
 def proxy_score(routing, model: YieldModel, offtarget_mask=None, target_len=37):
     """Cheap quality estimate of a routing WITHOUT running SA: the objective of a single
     EVEN partition. The offset's intrinsic quality (its M13 region's Tm distribution and
@@ -169,8 +195,15 @@ def proxy_score(routing, model: YieldModel, offtarget_mask=None, target_len=37):
             loops.append(pts[i] - pts[i - 1])
         if offtarget_mask is not None:
             offt.append(sq.longest_run(offtarget_mask, S - b, S - a))
-    return model.score_set(seqs, counts, loops, n_boundaries, len(covered),
-                           offtarget_runs=offt if offtarget_mask is not None else None)
+    score = model.score_set(seqs, counts, loops, n_boundaries, len(covered),
+                            offtarget_runs=offt if offtarget_mask is not None else None)
+    # Make the offset search dimer-aware: penalise windows whose even-partition staples
+    # are complementary to each other (form cross-dimers that compete with folding).
+    w = model.weights
+    if w.get("w_dimer", 0) and len(seqs) > 1:
+        worst = max_cross_dimer(seqs)
+        score += w["w_dimer"] * max(0, worst - w.get("dimer_allow", 10))
+    return score
 
 
 def anneal(template, crossover_positions_scaffold, model: YieldModel,

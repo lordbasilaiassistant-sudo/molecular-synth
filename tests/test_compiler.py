@@ -86,6 +86,30 @@ class TestRouting(unittest.TestCase):
         self.assertEqual(set(counts.keys()), set(mesh.edges))
         self.assertTrue(all(c == 2 for c in counts.values()), counts)
 
+    def test_single_scaffold_circuit_invariant(self):
+        """The defining physical premise: every preset routes as ONE closed scaffold loop
+        covering each edge twice, once per direction. Machine-checked, not just claimed."""
+        s, name, synth = sc.load_scaffold()
+        for shape in ("tetrahedron", "cube", "octahedron", "icosahedron",
+                      "dodecahedron", "square"):
+            mesh = geometry.load_shape(shape)
+            arcs = sc._eulerian_circuit(mesh)
+            rep = sc.circuit_report(arcs, mesh.edges)
+            self.assertTrue(rep["single_circuit"], (shape, rep))
+            self.assertEqual(rep["n_arcs"], 2 * len(mesh.edges), shape)
+            self.assertTrue(sc.route(mesh, s, name, synth).single_circuit, shape)
+
+    def test_circuit_report_rejects_broken_trails(self):
+        """A trail that is open, incomplete, or discontinuous is NOT a single circuit."""
+        edges = [(0, 1), (1, 2), (2, 0)]
+        good = [(0, 1), (1, 2), (2, 0), (0, 2), (2, 1), (1, 0)]
+        self.assertTrue(sc.circuit_report(good, edges)["single_circuit"])
+        # missing the closing arc -> not closed / not complete
+        self.assertFalse(sc.circuit_report(good[:-1], edges)["single_circuit"])
+        # a discontinuous jump (0->2 without sharing the prior arc's head)
+        bad = [(0, 1), (1, 0), (2, 0), (0, 2), (1, 2), (2, 1)]
+        self.assertFalse(sc.circuit_report(bad, edges)["single_circuit"])
+
     def test_rotation_system_from_faces(self):
         """The face rotation system (the A-trail turn order) is a clean permutation of
         each vertex's neighbours on EVERY closed preset (needs consistently-wound faces)."""

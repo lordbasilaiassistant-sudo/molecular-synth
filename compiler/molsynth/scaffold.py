@@ -60,6 +60,7 @@ class Routing:
     edge_bp: dict             # undirected edge -> bp length
     crossover_positions: list # scaffold indices that are vertex/crossover boundaries
     synthetic: bool
+    single_circuit: bool = True  # passed the one-closed-loop topology invariant
 
 
 # --------------------------------------------------------------------------- #
@@ -220,6 +221,35 @@ def _eulerian_circuit(mesh):
     return list(zip(path, path[1:]))
 
 
+def circuit_report(arcs, edges):
+    """Machine-check the defining physical invariant of a one-pot origami: the scaffold
+    is ONE strand that threads the whole shape and returns to itself. The traversal
+    `arcs` (ordered directed (u,v)) is a valid single scaffold loop iff it is
+
+      * contiguous  -- each arc ends where the next begins (a connected walk),
+      * closed      -- the last arc returns to the first arc's start (a loop, not a path),
+      * complete    -- exactly 2*|E| arcs (every edge traversed twice), and
+      * balanced    -- every undirected edge is traversed once in EACH direction
+                       (so both duplex strands of every edge are laid down).
+
+    Hierholzer guarantees this on the balanced, connected doubled graph, but the entire
+    structure rests on it, so we verify rather than trust. Returns a report dict;
+    `single_circuit` is the AND of all four."""
+    from collections import Counter
+    edgeset = {(min(a, b), max(a, b)) for (a, b) in edges}
+    contiguous = all(arcs[k][1] == arcs[k + 1][0] for k in range(len(arcs) - 1))
+    closed = bool(arcs) and arcs[-1][1] == arcs[0][0]
+    complete = len(arcs) == 2 * len(edgeset)
+    c = Counter(arcs)
+    balanced = all(c.get((a, b), 0) == 1 and c.get((b, a), 0) == 1 for (a, b) in edgeset)
+    return {
+        "single_circuit": bool(arcs) and contiguous and closed and complete and balanced,
+        "contiguous": contiguous, "closed": closed,
+        "complete": complete, "balanced": balanced,
+        "n_arcs": len(arcs), "n_edges": len(edgeset),
+    }
+
+
 def _is_connected(mesh):
     """Are all edge-incident vertices in one connected component?"""
     if not mesh.edges:
@@ -250,6 +280,20 @@ def route(mesh, scaffold_seq, scaffold_name, synthetic, min_edge_bp=42):
     budget = len(scaffold_seq)
     edge_bp = assign_edge_bp(mesh, budget, min_edge_bp=min_edge_bp)
     arcs = _eulerian_circuit(mesh)
+
+    # Topology gate: the routing MUST be one closed scaffold loop covering every edge
+    # twice (once per duplex strand). This is the physical premise of the whole design,
+    # so verify it before laying down sequence -- a broken trail means a teleporting
+    # scaffold, which is unmanufacturable. (Independent of scaffold LENGTH, checked next.)
+    circ = circuit_report(arcs, mesh.edges)
+    if not circ["single_circuit"]:
+        raise ValueError(
+            "routing failed the single-scaffold-circuit invariant "
+            f"(closed={circ['closed']}, complete={circ['complete']}, "
+            f"balanced={circ['balanced']}, n_arcs={circ['n_arcs']}, "
+            f"expected {2 * circ['n_edges']}). The wireframe cannot be threaded by one "
+            "strand as given."
+        )
 
     segments = []
     crossover_positions = []
@@ -292,4 +336,5 @@ def route(mesh, scaffold_seq, scaffold_name, synthetic, min_edge_bp=42):
         edge_bp=edge_bp,
         crossover_positions=crossover_positions,
         synthetic=synthetic,
+        single_circuit=True,
     )

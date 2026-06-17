@@ -57,6 +57,34 @@ def proof_staple_addressing():
     ])
 
 
+def proof_single_scaffold_circuit():
+    """The premise of one-pot origami: every shape the compiler accepts routes as ONE
+    closed scaffold loop that lays down both strands of every edge. Proven across all
+    presets by reconstructing the circuit from the emitted arcs (closed + complete +
+    balanced), and confirmed unforgeable by rejecting a deliberately broken trail."""
+    from molsynth import geometry, scaffold as sc
+    rows, all_ok = [], True
+    for shape in ("tetrahedron", "cube", "octahedron", "icosahedron",
+                  "dodecahedron", "square"):
+        mesh = geometry.load_shape(shape)
+        rep = sc.circuit_report(sc._eulerian_circuit(mesh), mesh.edges)
+        ok = rep["single_circuit"] and rep["n_arcs"] == 2 * len(mesh.edges)
+        all_ok = all_ok and ok
+        rows.append(f"  {shape:13s} arcs={rep['n_arcs']}=2x{rep['n_edges']} "
+                    f"closed={rep['closed']} balanced={rep['balanced']} -> {ok}")
+    # negative control: an open (missing-arc) trail must be rejected
+    tri = [(0, 1), (1, 2), (2, 0)]
+    full = [(0, 1), (1, 2), (2, 0), (0, 2), (2, 1), (1, 0)]
+    neg_ok = (sc.circuit_report(full, tri)["single_circuit"] is True
+              and sc.circuit_report(full[:-1], tri)["single_circuit"] is False)
+    passed = all_ok and neg_ok
+    return ("Single closed scaffold circuit (one-strand routability)", passed, rows + [
+        f"negative control (open trail rejected): {neg_ok}",
+        "=> each accepted shape is threadable by a single scaffold strand that covers "
+        "every edge twice and returns to itself (else compile() raises).",
+    ])
+
+
 def proof_tm_vs_biopython():
     """Our SantaLucia Tm engine agrees with an INDEPENDENT implementation (Biopython
     Tm_NN with the DNA_NN3 unified table) under matched conditions."""
@@ -177,8 +205,9 @@ def proof_fluidics():
     ])
 
 
-PROOFS = [proof_staple_addressing, proof_tm_vs_biopython, proof_structure_oxdna,
-          proof_thermocycler_control, proof_power_budget, proof_fluidics]
+PROOFS = [proof_single_scaffold_circuit, proof_staple_addressing, proof_tm_vs_biopython,
+          proof_structure_oxdna, proof_thermocycler_control, proof_power_budget,
+          proof_fluidics]
 
 
 def main():
