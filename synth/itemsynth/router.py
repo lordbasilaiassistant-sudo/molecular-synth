@@ -138,6 +138,12 @@ def _extract_stl_path(request: str):
 
 
 def _pick_shape(request: str) -> str:
+    """Resolve the molecular target: a named mesh FILE (.stl/.ply/.json) if the request
+    points at one (compile_shape reads those directly), else a named Platonic preset, else
+    the smallest preset as a fast default."""
+    for tok in re.findall(r"\S+\.(?:stl|ply|json)\b", request, flags=re.IGNORECASE):
+        if os.path.exists(tok):
+            return tok
     text = request.lower()
     for s in _SHAPES:
         if s in text:

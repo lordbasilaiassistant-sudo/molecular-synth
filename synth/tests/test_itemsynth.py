@@ -90,6 +90,14 @@ class TestRoute(unittest.TestCase):
         self.assertEqual(r["shape"], "tetrahedron")
         self.assertIsNone(r["recipe"])
 
+    def test_molecular_uses_named_mesh_file(self):
+        mesh = os.path.join(ROOT, "examples", "square_pyramid.json")
+        if not os.path.exists(mesh):
+            self.skipTest("square_pyramid.json not present")
+        r = route(f"DNA origami from {mesh}", compile_molecular=False)
+        self.assertEqual(r["maker"], "molecular")
+        self.assertEqual(r["shape"], mesh)          # the actual mesh, not a default preset
+
     def test_molecular_full_compile_emits_design(self):
         with tempfile.TemporaryDirectory() as d:
             r = route("an octahedron nanostructure", outdir=d)
