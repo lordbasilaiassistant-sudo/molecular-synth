@@ -1,0 +1,39 @@
+{
+  "_meta": "Slang + recipe knowledge for the order brain. 'whiskey on the rocks' -> glass of ice + whiskey. Volumes in mL. Honest scope: assembles from stocked spirits/mixers + machine-made ice; it does not synthesise alcohol.",
+  "spirits": ["whiskey", "whisky", "bourbon", "scotch", "rye", "vodka", "gin", "rum",
+              "tequila", "brandy", "cognac", "mezcal"],
+  "modifiers": {
+    "on the rocks": {"ice": true},
+    "on ice": {"ice": true},
+    "with ice": {"ice": true},
+    "over ice": {"ice": true},
+    "neat": {"ice": false, "mixer": false},
+    "straight": {"ice": false, "mixer": false},
+    "straight up": {"ice": false, "chilled": true},
+    "up": {"ice": false, "chilled": true},
+    "double": {"spirit_mult": 2},
+    "triple": {"spirit_mult": 3},
+    "tall": {"mixer_mult": 1.5},
+    "extra dry": {"mixer_mult": 0.5},
+    "dirty": {"add": {"olive brine": 10}}
+  },
+  "aliases": {
+    "g&t": "gin and tonic", "g and t": "gin and tonic", "gnt": "gin and tonic",
+    "rum coke": "rum and coke", "rum and cola": "rum and coke",
+    "old-fashioned": "old fashioned", "vodka tonic": "vodka soda",
+    "jack and coke": "rum and coke"
+  },
+  "recipes": {
+    "whiskey on the rocks": {"base": "whiskey", "pour": {"whiskey": 60}, "ice": true, "garnish": ""},
+    "gin and tonic": {"pour": {"gin": 50, "tonic water": 150}, "ice": true, "garnish": "lime"},
+    "rum and coke": {"pour": {"rum": 50, "cola": 150}, "ice": true, "garnish": "lime"},
+    "vodka soda": {"pour": {"vodka": 50, "soda water": 150}, "ice": true, "garnish": "lime"},
+    "screwdriver": {"pour": {"vodka": 50, "orange juice": 150}, "ice": true, "garnish": ""},
+    "whiskey sour": {"pour": {"whiskey": 50, "lemon juice": 25, "simple syrup": 15}, "ice": true, "garnish": "cherry"},
+    "margarita": {"pour": {"tequila": 50, "lime juice": 25, "triple sec": 20}, "ice": true, "garnish": "salt rim"},
+    "negroni": {"pour": {"gin": 30, "campari": 30, "sweet vermouth": 30}, "ice": true, "garnish": "orange"},
+    "old fashioned": {"pour": {"whiskey": 60, "simple syrup": 10}, "ice": true, "garnish": "orange"},
+    "moscow mule": {"pour": {"vodka": 50, "ginger beer": 120, "lime juice": 15}, "ice": true, "garnish": "lime"},
+    "martini": {"pour": {"gin": 60, "dry vermouth": 10}, "ice": false, "chilled": true, "garnish": "olive"}
+  }
+}

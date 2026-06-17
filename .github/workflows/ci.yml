@@ -25,6 +25,9 @@ jobs:
           python synth/tests/test_drinksynth.py
           python synth/tests/test_watersynth.py
 
+      - name: Maker Catalog + order brain tests
+        run: python catalog/tests/test_makerlib.py
+
       - name: Validation gate (sourceable AND demonstrated, rig < $1500)
         run: python validate/validate.py
 
