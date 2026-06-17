@@ -1,4 +1,4 @@
-# /synth — buildable-today synthesizers (Water + Drink)
+# /synth — buildable-today synthesizers (Water + Drink + the router)
 
 "I want a glass of cold water." / "Iced oat latte, large, extra shot." → a
 request-compiler turns it into a deterministic machine recipe → cheap hardware makes it.
@@ -6,6 +6,30 @@ Same architecture as the molecular compiler (request → compiler → machine re
 macroscale, for ~$120–180 of orderable parts. See [`../docs/vision.md`](../docs/vision.md)
 for why this is the *real-today* rung of the synthesizer thesis (and what stays
 north-star).
+
+## Item Synth — one front door for the whole federation
+
+[`itemsynth/`](itemsynth/) is the **AI request-compiler** of the thesis: ask for *anything*
+and it routes the request to the maker that fits — Water, Drink, Print, or the molecular
+(DNA) compiler — or, for things no cheap desktop can honestly make today (working
+electronics, arbitrary matter from atoms), it returns the **north-star verdict instead of a
+faked recipe**. The classifier is a transparent keyword scorer (no LLM, no black box), so
+every routing decision explains itself (`route(req)["matched"]`).
+
+```bash
+cd synth
+python -m itemsynth "a large glass of cold water"     # -> water maker
+python -m itemsynth "iced oat latte, large"           # -> drink maker
+python -m itemsynth "a phone case"                    # -> print maker
+python -m itemsynth "an octahedron DNA nanocage"      # -> molecular compiler (emits a design)
+python -m itemsynth "a working smartphone"            # -> honest north-star, not faked
+python -m itemsynth --classify-only "matcha latte"    # show the routing decision only
+```
+```python
+from itemsynth import route
+r = route("a large glass of cold water")
+print(r["maker"], r["recipe"])     # 'water' -> ['HARVEST 400 ...', 'FILTER ...', 'DISPENSE 400 ...']
+```
 
 Two makers live here, sharing the pattern:
 - **Water Synth** ([`watersynth/`](watersynth/)) — harvests water from **air** (Peltier
