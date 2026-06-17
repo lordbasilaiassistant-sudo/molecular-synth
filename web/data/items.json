@@ -1,0 +1,130 @@
+{
+  "_meta": {
+    "about": "The Maker Catalog = the MENU of what THIS CLASS OF MACHINE CAN MAKE. Rule: if the synth cannot make it, it is NOT a catalog item. Things the machine fundamentally cannot make (a working phone, matter from energy) are NOT listed here - the checker still recognises such requests and honestly DECLINES them, routing to docs/north-star.md. Every item decomposes into its real substance (components -> molecules -> atoms; DNA/proteins where biological), gets a feasibility verdict, and routes to a maker. Catalog feasibility: ready (a maker in this repo makes it today) > assemble (a cheap real-world maker - kitchen/3D-print - makes it; integration planned) > frontier (synth-makeable in principle, demonstrated in a lab; on the ladder, docs/the-ladder.md). Extend by adding a makeable item below.",
+    "feasibility_order": ["ready", "assemble", "frontier", "north-star"]
+  },
+  "items": [
+    {
+      "name": "water", "aliases": ["h2o", "glass of water", "drinking water", "cold water", "hot water", "ice water"],
+      "category": "drink",
+      "decomposition": ["a glass of water", "H2O molecules", "H and O atoms", "(no organics, no DNA)"],
+      "styles": [
+        {"style": "harvest from air", "maker": "watersynth", "feasibility": "ready",
+         "how": "Peltier condenses water from humid air (AWG); carbon filter + UV-C makes it potable; set temperature; dispense",
+         "needs": ["Peltier", "fan", "carbon filter", "UV-C LED", "pump"],
+         "citation": "Kim et al., Science 356:430 (2017)"},
+        {"style": "from reservoir", "maker": "watersynth", "feasibility": "ready",
+         "how": "treat + temperature + dispense from a pre-filled tank (instant)",
+         "needs": ["reservoir", "filter", "pump"], "citation": ""}
+      ],
+      "notes": "Two styles, one system - the literal 'same machine, different methods' case."
+    },
+    {
+      "name": "ice", "aliases": ["ice cubes"], "category": "drink",
+      "decomposition": ["ice", "frozen H2O", "H2O molecules"],
+      "styles": [{"style": "freeze water", "maker": "watersynth", "feasibility": "ready",
+        "how": "harvest/treat water then chill the plate below 0 C", "needs": ["Peltier"], "citation": ""}],
+      "notes": ""
+    },
+    {
+      "name": "coffee", "aliases": ["hot coffee", "iced coffee", "americano", "cold brew"],
+      "category": "drink",
+      "decomposition": ["a cup of coffee", "water + coffee solubles (caffeine, chlorogenic acids, melanoidins)", "small organic molecules", "atoms"],
+      "styles": [{"style": "brew/assemble", "maker": "drinksynth", "feasibility": "ready",
+        "how": "pump water + coffee concentrate in ratio; set hot/iced", "needs": ["pumps", "Peltier"], "citation": ""}],
+      "notes": "Assembled from stocked concentrate, not synthesised from atoms."
+    },
+    {
+      "name": "latte", "aliases": ["oat latte", "iced latte", "cappuccino"], "category": "drink",
+      "decomposition": ["a latte", "espresso + milk (water, fats, proteins, lactose)", "lipids/proteins/sugars", "atoms"],
+      "styles": [{"style": "assemble", "maker": "drinksynth", "feasibility": "ready",
+        "how": "pump espresso + (oat/dairy) milk; hot/iced", "needs": ["pumps", "Peltier"], "citation": ""}],
+      "notes": ""
+    },
+    {
+      "name": "dna nanostructure", "aliases": ["dna tetrahedron", "dna origami", "nanoshape", "nanostructure"],
+      "category": "material",
+      "decomposition": ["a ~10-100 nm shape", "a folded DNA scaffold + ~200 staples", "nucleotides (DNA)", "atoms"],
+      "styles": [{"style": "fold (DNA origami)", "maker": "molsynth", "feasibility": "ready",
+        "how": "compile shape -> scaffold + staples + protocol -> fold + gel-verify on the rig",
+        "needs": ["M13 scaffold", "staple oligos", "thermocycler", "gel"],
+        "citation": "Rothemund, Nature 440:297 (2006); Veneziano, Science 352:1534 (2016)"}],
+      "notes": "Atomic precision, nanoscale only."
+    },
+    {
+      "name": "silica nanostructure", "aliases": ["glass nanoshape", "hard nanostructure", "silica replica"],
+      "category": "material",
+      "decomposition": ["a rigid ~nm silica shape", "DNA template + SiO2 shell", "silica (SiO2) + nucleotides", "atoms"],
+      "styles": [{"style": "fold then silicify", "maker": "molsynth", "feasibility": "ready",
+        "how": "fold a DNA origami, then sol-gel silicify (TEOS + aminosilane) into rigid SiO2",
+        "needs": ["origami", "TEOS", "aminosilane", "fume hood"],
+        "citation": "Liu et al., Nature 559:593 (2018)"}],
+      "notes": "Rigid, dryable, imageable. Nanoscale."
+    },
+    {
+      "name": "functionalized nanostructure", "aliases": ["enzyme cascade chip", "nanoparticle assembly", "decorated origami"],
+      "category": "material",
+      "decomposition": ["a nm shape carrying guests at chosen sites", "DNA origami + handle staples + guests (enzymes/nanoparticles)", "DNA + protein/metal", "atoms"],
+      "styles": [{"style": "decorate (handles)", "maker": "molsynth", "feasibility": "ready",
+        "how": "compile with --decorate/--cascade to place guests at nm sites via handle/anti-handle",
+        "needs": ["origami", "anti-handle-conjugated guests"],
+        "citation": "Fu et al., JACS 134:5516 (2012); Kuzyk et al., Nature 483:311 (2012)"}],
+      "notes": "Rung 2: a shape that does chemistry. Positions a guest you supply."
+    },
+    {
+      "name": "gold nanostructure", "aliases": ["gold nanoparticle shape", "cast metal nanostructure"],
+      "category": "material",
+      "decomposition": ["a solid metal nm shape", "DNA mold + grown Au/Ag", "metal atoms"],
+      "styles": [{"style": "DNA mold casting", "maker": "molsynth", "feasibility": "frontier",
+        "how": "design a DNA-origami cavity mold + gold seed, grow metal to cast the shape",
+        "needs": ["origami mold", "HAuCl4/AgNO3", "TEM for QC"],
+        "citation": "Sun et al., Science 346:1258361 (2014); Helmi et al., Nano Lett. 14:6693 (2014)"}],
+      "notes": "Demonstrated in labs; QC needs TEM - a stretch, not desktop-turnkey yet."
+    },
+    {
+      "name": "cookie", "aliases": ["biscuit"], "category": "food",
+      "decomposition": ["a cookie", "flour + sugar + butter + egg + leavening", "starch (polysaccharide), sucrose, lipids, proteins, water", "C/H/O/N atoms", "(wheat/egg DNA present in ingredients but NOT what makes a cookie a cookie)"],
+      "styles": [{"style": "assemble + bake", "maker": "kitchen (planned)", "feasibility": "assemble",
+        "how": "dose stocked ingredients, mix, deposit, bake - automatable (food 3D printers + a heater)",
+        "needs": ["ingredient dosers", "mixer", "heater/oven", "deposition head"],
+        "citation": "food 3D-printing (e.g., extrusion + IR/laser bake) is demonstrated commercially"}],
+      "notes": "His point exactly: a cookie is ingredients -> molecules -> atoms. We assemble + bake from stock; we do not synthesise flour from atoms."
+    },
+    {
+      "name": "bread", "aliases": ["loaf"], "category": "food",
+      "decomposition": ["bread", "flour + water + yeast + salt", "starch/gluten proteins/CO2", "atoms"],
+      "styles": [{"style": "assemble + proof + bake", "maker": "kitchen (planned)", "feasibility": "assemble",
+        "how": "dose, mix, proof (warm hold), bake", "needs": ["dosers", "mixer", "heater"], "citation": ""}],
+      "notes": "Time + temperature program over stocked ingredients."
+    },
+    {
+      "name": "printed object", "aliases": ["bracket", "phone case", "widget", "part", "tool"],
+      "category": "object",
+      "decomposition": ["a solid plastic object", "a 3D mesh of thermoplastic", "polymer (PLA/PETG)", "C/H/O atoms"],
+      "styles": [{"style": "3D print", "maker": "3dprint (planned, issue #8)", "feasibility": "assemble",
+        "how": "slice an STL -> gcode -> FDM/resin printer", "needs": ["3D printer", "filament/resin"],
+        "citation": "FDM/SLA additive manufacturing (standard)"}],
+      "notes": "Form only, single material class. Not functional electronics."
+    },
+    {
+      "name": "enzyme", "aliases": ["protein", "antibody", "catalyst protein"],
+      "category": "component",
+      "decomposition": ["a functional protein", "amino-acid chain folded", "amino acids", "encoded by DNA/mRNA", "atoms"],
+      "styles": [{"style": "express from DNA (cell-free)", "maker": "biofab (frontier)", "feasibility": "frontier",
+        "how": "cell-free transcription/translation (PURE/TXTL) of a DNA template, or order the protein",
+        "needs": ["DNA template", "cell-free kit / supplier"],
+        "citation": "Shimizu et al., Nat. Biotechnol. 19:751 (2001) (PURE system)"}],
+      "notes": "Demonstrated; not a $1500 desktop yet. The DNA->protein step is real but lab-grade."
+    },
+    {
+      "name": "small molecule", "aliases": ["drug", "compound", "medicine", "fine chemical"],
+      "category": "component",
+      "decomposition": ["a defined small molecule", "a sequence of bond-forming reactions", "atoms + bonds"],
+      "styles": [{"style": "DNA-templated / programmed synthesis", "maker": "chemfab (frontier)", "feasibility": "frontier",
+        "how": "DNA-templated synthesis or an artificial molecular assembler directs the reactions",
+        "needs": ["reactants", "templates / molecular machine"],
+        "citation": "Gartner & Liu, JACS 123:6961 (2001); Lewandowski/Leigh, Science 339:189 (2013)"}],
+      "notes": "Programmable molecular synthesis is demonstrated for specific cases; general/scalable is rung 5+."
+    }
+  ]
+}

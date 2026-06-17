@@ -88,6 +88,7 @@
 
 <nav class="tabs" id="tabs">
   <button data-tab="overview" class="on">Overview</button>
+  <button data-tab="synth">🎙 Synthesizer</button>
   <button data-tab="makes">What it makes</button>
   <button data-tab="blueprint">Blueprint &amp; parts</button>
   <button data-tab="vision">The vision</button>
@@ -113,6 +114,21 @@
     <h3>How a request becomes matter</h3>
     <p class="mono mut">shape → A-trail scaffold routing → staple-break yield optimizer (Tm balance · loop-closure ·
        off-target · cross-dimer) → order oligos → fold (90→20 °C in Mg²⁺) → gel-verify → optional silica hardening</p>
+  </section>
+
+  <!-- SYNTHESIZER CONSOLE -->
+  <section class="panel" id="synth">
+    <h2>The synthesizer — just ask</h2>
+    <p>Type a request like the Orville synthesizer. The brain (a JS port of the repo's
+       <span class="mono">makerlib</span>) decomposes it, gives an <b>honest feasibility verdict</b>,
+       routes it to a maker, and shows the machine plan — and <b>declines</b> what the synth can't make.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;">
+      <input id="ask" placeholder='e.g. "whiskey on the rocks", "a DNA tetrahedron", "carbon to oxygen"'
+        style="flex:1;min-width:240px;background:#0c131c;border:1px solid #244a6b;border-radius:9px;color:#fff;font:inherit;font-size:14px;padding:10px 12px;" />
+      <button id="askbtn" class="btn p" style="cursor:pointer;">Synthesize ▶</button>
+    </div>
+    <div id="chips" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;"></div>
+    <div id="result"></div>
   </section>
 
   <!-- WHAT IT MAKES -->
@@ -184,6 +200,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="synth.js"></script>
 <script>
 // ---------- tabs ----------
 const tabs=document.getElementById('tabs');
@@ -191,7 +208,48 @@ function show(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===id));
   tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));
   if(id==='blueprint') loadBOM();
+  if(id==='synth') initSynth();
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ---------- synthesizer console ----------
+let synthInit=false;
+const EXAMPLES=['whiskey on the rocks','iced oat latte, large, extra shot','g&t','a DNA tetrahedron',
+  'a glass of cold water','a cookie','an enzyme','ethanol from air','a working phone','carbon to oxygen'];
+function initSynth(){
+  if(synthInit) return; synthInit=true;
+  const chips=document.getElementById('chips');
+  chips.innerHTML=EXAMPLES.map(e=>`<button class="pill" data-ex="${e.replace(/"/g,'&quot;')}" style="cursor:pointer;background:#0c131c;">${e}</button>`).join('');
+  chips.addEventListener('click',e=>{ if(e.target.dataset.ex){ document.getElementById('ask').value=e.target.dataset.ex; run(); }});
+  document.getElementById('askbtn').onclick=run;
+  document.getElementById('ask').addEventListener('keydown',e=>{ if(e.key==='Enter') run(); });
+  document.getElementById('ask').value='whiskey on the rocks'; run();
+}
+async function run(){
+  const q=document.getElementById('ask').value.trim(); if(!q) return;
+  const out=document.getElementById('result'); out.innerHTML='<p class="mut">synthesizing…</p>';
+  const p=await window.Synth.order(q);
+  const verdict=window.Synth.LABEL[p.best]||p.best;
+  let h=`<div class="card"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">`+
+        `<h4 style="margin:0;">“${q}” → ${p.name}</h4><span class="pill">${verdict}</span></div>`;
+  if(p.kind==='drink'){
+    h+=`<p style="margin:8px 0 4px;color:#fff;">build:</p><ul style="margin:0 0 8px;padding-left:18px;color:#a9c4dd;">`;
+    for(const [k,v] of Object.entries(p.pour)) h+=`<li>${k}: ${v} mL</li>`;
+    if(p.ice) h+='<li>ice (~80 g, machine-made)</li>';
+    if(p.garnish) h+=`<li>garnish: ${p.garnish}</li>`;
+    h+='</ul>';
+    if(p.modifiers&&p.modifiers.length) h+=`<p class="mut" style="margin:2px 0;">modifiers: ${p.modifiers.join(', ')}</p>`;
+    h+=`<p style="margin:8px 0 2px;color:#fff;">plan (cross-maker):</p><div class="mono" style="font-size:12.5px;color:#9fd8ff;">`;
+    h+=p.steps.map(s=>`[${s[0]}] ${s[1]}`).join('<br>');
+    h+=`</div><p class="mono mut" style="margin-top:8px;">${p.cmds.join(' | ')}</p>`;
+    h+=`<p class="mut" style="margin-top:8px;">makers: ${p.makers.join(', ')} · assembles from stocked ingredients + machine ice — not matter synthesis.</p>`;
+  } else {
+    h+=`<p class="mono" style="margin:8px 0;color:#9fd8ff;font-size:13px;">${p.decomposition.join('  →  ')}</p>`;
+    h+=`<p class="mut" style="margin:4px 0;">route: ${(p.makers||[]).join(', ')||'—'}${p.cataloged?'':' · (estimate — not yet cataloged)'}</p>`;
+    if(p.best==='north-star') h+=`<p class="warn" style="margin:4px 0;">Not synth-makeable — recognised &amp; honestly declined. See <a href="https://github.com/lordbasilaiassistant-sudo/molecular-synth/blob/main/docs/north-star.md">north-star.md</a> / <a href="https://github.com/lordbasilaiassistant-sudo/molecular-synth/blob/main/docs/molecule-vs-element.md">molecule-vs-element.md</a>.</p>`;
+    if(p.notes) h+=`<p class="mut" style="margin:4px 0;">${p.notes}</p>`;
+  }
+  h+='</div>'; out.innerHTML=h;
 }
 tabs.addEventListener('click',e=>{ if(e.target.dataset.tab) show(e.target.dataset.tab); });
 document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show(a.dataset.go);}));
