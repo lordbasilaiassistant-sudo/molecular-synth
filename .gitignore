@@ -28,6 +28,10 @@ secrets/
 # Tooling index artifacts (e.g. oxDNA-analysis-tools)
 *.pyidx
 
+# Regenerable compile scratch (local CI smoke runs, compiler output)
+_ci/
+compiler/out/
+
 # NOTE: small example compiler outputs under examples/out_* ARE committed on purpose as
 # browsable reference artifacts (protocol.md, diagnostics.md, staples.csv, sequences...).
 # But the bulky, regenerable 3D-coordinate files are ignored so they don't spam every
