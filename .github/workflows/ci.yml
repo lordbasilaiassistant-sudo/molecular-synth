@@ -28,6 +28,11 @@ jobs:
       - name: Maker Catalog + order brain tests
         run: python catalog/tests/test_makerlib.py
 
+      - name: Proofs (would it work IRL, given the parts?)
+        run: |
+          pip install biopython
+          python proofs/run_proofs.py
+
       - name: Validation gate (sourceable AND demonstrated, rig < $1500)
         run: python validate/validate.py
 

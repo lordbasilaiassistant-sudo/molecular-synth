@@ -96,6 +96,7 @@ and to enable scadnano/STL/Biopython integrations.
 | [`docs/`](docs/) | **`build-guide.md`** (the end-to-end blueprint), **`integration.md`** (how every cog fits into one real machine), **`vision.md`** (the synthesizer thesis), **`the-ladder.md`** (the demonstrated research staircase from DNA toward molecular manufacturing), `science.md` (a paper per claim), `claims.json`, `north-star.md`, and the `research/` dossiers. |
 | [`synth/`](synth/) | **Water Synth + Drink Synth** — buildable-*today* instances of the synthesizer thesis: "glass of cold water" → harvest-from-air/filter/UV commands, and "iced oat latte" → pump/heater commands. ~$60–180 of cheap parts. Same architecture, macroscale. Honest: harvest/assembly + treatment, not matter-from-energy. |
 | [`validate/`](validate/) | **the gate**: mechanically checks every BOM line is orderable < $1500 and every claim is demonstrated. |
+| [`proofs/`](proofs/) | **would it work IRL, given the parts?** — runnable proofs with evidence: staples tile + hybridise, Tm matches Biopython (independent tool), the 3D structure is valid oxDNA, a simulated PID tracks the fold ramp, power/fluidics close. |
 | [`northstar/`](northstar/) | the geometry-only diamondoid simulation, clearly labelled not-yet-buildable. |
 | [`tests/`](tests/) | 13 stdlib tests incl. a chemical-validity check (staples are exact reverse-complements). |
 | [`examples/`](examples/) | sample shapes + committed sample outputs. |
