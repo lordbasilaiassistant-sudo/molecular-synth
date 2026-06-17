@@ -85,6 +85,44 @@ def proof_single_scaffold_circuit():
     ])
 
 
+def proof_cadnano_roundtrip():
+    """The emitted caDNAno v2 JSON (-> CanDo / oxDNA) is a FAITHFUL encoding of the design,
+    proven by an independent decoder that walks the pointer arrays back into strands: the
+    scaffold reconstructs as exactly one closed loop of the right length, the staples as
+    the right count with matching lengths that partition the complementary bases exactly,
+    and every 5'/3' pointer is reciprocal. Topology is verified here (caDNAno stores
+    connectivity, not sequence); it is not GUI-tested in caDNAno itself."""
+    import json
+    from molsynth import geometry, scaffold as sc, export
+    from molsynth.staples import build_staples
+    from molsynth.optimizer import YieldModel
+    rows, all_ok = [], True
+    for shape in ("tetrahedron", "cube", "octahedron", "dodecahedron"):
+        mesh = geometry.load_shape(shape)
+        s, name, synth = sc.load_scaffold()
+        routing = sc.route(mesh, s, name, synth)
+        staples, _ = build_staples(routing, YieldModel(), iterations=600, seed=1)
+        with tempfile.TemporaryDirectory() as d:
+            path = export.write_cadnano(d, routing, staples)
+            rep = export.cadnano_decode(json.load(open(path)))
+        exp_lens = sorted(len(st.seq) for st in staples)
+        ok = (rep["scaffold_closed_loop"]
+              and rep["scaffold_len"] == routing.scaffold_len_used
+              and rep["n_staples"] == len(staples)
+              and rep["staple_lens"] == exp_lens
+              and rep["staples_partition_complement"]
+              and rep["pointers_reciprocal"])
+        all_ok = all_ok and ok
+        rows.append(f"  {shape:13s} scaffold loop={rep['scaffold_len']} "
+                    f"(=={routing.scaffold_len_used}), staples={rep['n_staples']} "
+                    f"(=={len(staples)}), partition+reciprocal="
+                    f"{rep['staples_partition_complement'] and rep['pointers_reciprocal']} -> {ok}")
+    return ("caDNAno export round-trips (independent decoder)", all_ok, rows + [
+        "=> the caDNAno JSON encodes exactly the compiled scaffold loop + staple set "
+        "(faithful topology); apply sequences + run CanDo/oxDNA for geometry.",
+    ])
+
+
 def proof_tm_vs_biopython():
     """Our SantaLucia Tm engine agrees with an INDEPENDENT implementation (Biopython
     Tm_NN with the DNA_NN3 unified table) under matched conditions."""
@@ -205,9 +243,9 @@ def proof_fluidics():
     ])
 
 
-PROOFS = [proof_single_scaffold_circuit, proof_staple_addressing, proof_tm_vs_biopython,
-          proof_structure_oxdna, proof_thermocycler_control, proof_power_budget,
-          proof_fluidics]
+PROOFS = [proof_single_scaffold_circuit, proof_staple_addressing, proof_cadnano_roundtrip,
+          proof_tm_vs_biopython, proof_structure_oxdna, proof_thermocycler_control,
+          proof_power_budget, proof_fluidics]
 
 
 def main():

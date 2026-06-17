@@ -373,7 +373,8 @@ class TestEndToEnd(unittest.TestCase):
             for f in ("scaffold.fasta", "staples.csv", "staples_idt_plate.txt",
                       "staples_opool.txt", "design.json", "design.top", "conf.dat",
                       "structure.pdb", "oxdna_min.input", "oxdna_relax.input",
-                      "shape.ply", "protocol.md", "diagnostics.md", "screen.md"):
+                      "shape.ply", "design_cadnano.json", "protocol.md",
+                      "diagnostics.md", "screen.md"):
                 self.assertTrue(os.path.exists(os.path.join(d, f)), f)
             self.assertGreater(summary["n_staples"], 0)
             self.assertGreater(summary["approx_nm"], 0)
@@ -396,6 +397,26 @@ class TestEndToEnd(unittest.TestCase):
             back = geometry.load_shape(path)
             self.assertEqual(len(back.vertices), len(mesh.vertices))
             self.assertEqual(len(back.edges), len(mesh.edges))
+
+    def test_cadnano_export_roundtrips(self):
+        """The caDNAno v2 JSON decodes back (independent reader) to exactly one closed
+        scaffold loop of the right length + the right staples, with reciprocal pointers
+        and a complete base-pairing partition -- a verified, faithful encoding."""
+        import json
+        from molsynth import export
+        mesh = geometry.load_shape("cube")
+        s, name, synth = sc.load_scaffold()
+        routing = sc.route(mesh, s, name, synth)
+        staples, _ = build_staples(routing, YieldModel(), iterations=800, seed=3)
+        with tempfile.TemporaryDirectory() as d:
+            path = export.write_cadnano(d, routing, staples)
+            rep = export.cadnano_decode(json.load(open(path)))
+        self.assertTrue(rep["scaffold_closed_loop"])
+        self.assertEqual(rep["scaffold_len"], routing.scaffold_len_used)
+        self.assertEqual(rep["n_staples"], len(staples))
+        self.assertEqual(rep["staple_lens"], sorted(len(st.seq) for st in staples))
+        self.assertTrue(rep["staples_partition_complement"])
+        self.assertTrue(rep["pointers_reciprocal"])
 
     def test_oxdna_topology_header(self):
         mesh = geometry.load_shape("tetrahedron")

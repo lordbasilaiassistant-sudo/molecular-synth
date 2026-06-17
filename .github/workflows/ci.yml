@@ -46,7 +46,7 @@ jobs:
 
       - name: Check expected artifacts exist
         run: |
-          for f in scaffold.fasta staples.csv staples_idt_plate.txt staples_opool.txt design.json design.top conf.dat structure.pdb protocol.md diagnostics.md; do
+          for f in scaffold.fasta staples.csv staples_idt_plate.txt staples_opool.txt design.json design.top conf.dat structure.pdb design_cadnano.json protocol.md diagnostics.md; do
             test -f "_ci/cube/$f" || { echo "missing _ci/cube/$f"; exit 1; }
           done
           echo "all artifacts present"
