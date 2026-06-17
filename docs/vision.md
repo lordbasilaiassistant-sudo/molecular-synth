@@ -82,6 +82,15 @@ in **[the-ladder.md](the-ladder.md)**. We stand on the bottom rungs (fold + hard
 desk) and climb one tested step at a time. The top (general molecular manufacturing) stays
 north-star until it is demonstrated.
 
+## "Why not CRISPR for molecules — carbon to oxygen?"
+
+Because there's a bright line between **changing the nucleus** (carbon→oxygen is *nuclear*
+transmutation — a hard physics wall, north-star) and **changing the bonds** (CO₂→ethanol is
+*chemistry* — real, frontier). And the programmable tool isn't a "molecule CRISPR" (general
+molecules have no uniform programmable backbone) — it's engineered **enzymes + molecular
+assemblers**, which is exactly [the ladder](the-ladder.md) this repo climbs. Full honest
+breakdown: **[molecule-vs-element.md](molecule-vs-element.md)**.
+
 ## The rule that keeps this real
 
 Every domain we add must pass the project's gate ([`../validate`](../validate)): the
