@@ -102,6 +102,12 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
         "single_scaffold_circuit": routing.single_circuit,
         "routing_vertex_crossings": routing.vertex_crossings,
         "routing_face_follow_fraction": routing.face_follow_fraction,
+        # crossover phase: how far (bp) the worst edge is from an integer number of helical
+        # turns (10.5 bp). 0 => crossovers perfectly in-phase (DAEDALUS rule); the compiler
+        # snaps edges to integer turns, so this is ~0 on regular meshes.
+        "crossover_phase_max_bp": (
+            round(max(abs(bp - round(bp / 10.5) * 10.5) for bp in routing.edge_bp.values()), 2)
+            if routing.edge_bp else None),
         "n_staples": stats.get("n_staples", 0),
         "total_staple_bases": stats.get("total_bases_ordered", 0),
         "decorations": len(decoration_records),

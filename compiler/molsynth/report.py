@@ -56,10 +56,19 @@ def yield_report(design: dict, staples, history) -> str:
     # routing topology / A-trail quality (measured, not claimed)
     ff = design.get("routing_face_follow_fraction")
     vx = design.get("routing_vertex_crossings")
+    phase = design.get("crossover_phase_max_bp")
+    phase_line = ""
+    if phase is not None:
+        verdict = ("in-phase (DAEDALUS rule: edges are integer helical turns)"
+                   if phase <= 0.75 else
+                   "some edges off integer turns -> crossover phase slip; oxDNA relax advised")
+        phase_line = (f"\n- crossover phase (measured): worst edge {phase:.2f} bp from an "
+                      f"integer 10.5-bp turn -> {verdict}")
     if ff is None:
         routing_block = ("- single closed scaffold circuit: "
-                         f"{design.get('single_scaffold_circuit')} (every edge twice)\n"
-                         "- A-trail metric: n/a (mesh has no faces; arbitrary single circuit)")
+                         f"{design.get('single_scaffold_circuit')} (every edge twice)"
+                         + phase_line +
+                         "\n- A-trail metric: n/a (mesh has no faces; arbitrary single circuit)")
     else:
         routing_block = (
             f"- single closed scaffold circuit: {design.get('single_scaffold_circuit')} "
@@ -69,7 +78,8 @@ def yield_report(design: dict, staples, history) -> str:
             "  (the router searches for the fewest crossings -- on the Platonic presets it "
             "reaches 1-2;\n"
             "   for a formally GUARANTEED non-crossing A-trail, route the PLY wireframe "
-            "through PERDIX/DAEDALUS)")
+            "through PERDIX/DAEDALUS)"
+            + phase_line)
 
     return f"""# Yield diagnostic - {design.get('design_name','design')}
 
