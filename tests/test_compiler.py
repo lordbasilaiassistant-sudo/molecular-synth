@@ -191,6 +191,52 @@ class TestStaples(unittest.TestCase):
         wells = [st.well for st in self.staples]
         self.assertEqual(len(wells), len(set(wells)))
 
+    def test_equalize_tm_tightens_and_preserves_guarantees(self):
+        """The Tm-equalisation pass (issue #6) must lower (or hold) the staple Tm spread
+        while preserving every hard guarantee: lengths in [lo,hi], no reduced crossover
+        coverage, no new loop-closure overload."""
+        import math
+        from molsynth import sequences as sq2
+        from molsynth.optimizer import YieldModel, equalize_tm, boundaries_in
+        model = YieldModel()
+        w = model.weights
+        lo, hi = w["len_lo"], w["len_hi"]
+        template = sq2.reverse_complement(self.routing.scaffold_seq)
+        S = len(template)
+        xovers_t = sorted(S - p for p in self.routing.crossover_positions if 0 < p < S)
+        # a valid even partition as the (pre-equalisation) starting cuts
+        n = max(2, round(S / 37))
+        cuts0 = sorted(set(round(S * k / n) for k in range(1, n)))
+
+        def spans(cs):
+            out, prev = [], 0
+            for c in list(cs) + [S]:
+                out.append((prev, c))
+                prev = c
+            return out
+
+        def stdev(cs):
+            ts = [sq2.tm(template[a:b]) for a, b in spans(cs)]
+            ts = [t for t in ts if not math.isnan(t)]
+            mu = sum(ts) / len(ts)
+            return math.sqrt(sum((t - mu) ** 2 for t in ts) / len(ts))
+
+        def coverage(cs):
+            cov = set()
+            for a, b in spans(cs):
+                cov.update(boundaries_in(a, b, xovers_t))
+            return len(cov)
+
+        def overload(cs):
+            return sum(max(0, len(boundaries_in(a, b, xovers_t)) - w["xmax"])
+                       for a, b in spans(cs))
+
+        cuts1 = equalize_tm(template, cuts0, xovers_t, model)
+        self.assertLessEqual(stdev(cuts1), stdev(cuts0) + 1e-9)       # tighter or held
+        self.assertTrue(all(lo <= (b - a) <= hi for a, b in spans(cuts1)))  # length bounds
+        self.assertGreaterEqual(coverage(cuts1), coverage(cuts0))     # coverage not reduced
+        self.assertLessEqual(overload(cuts1), overload(cuts0))        # loop-balance held
+
 
 class TestScience(unittest.TestCase):
     """Anchor the numerics to the literature, not just to ourselves."""
