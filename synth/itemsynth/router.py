@@ -128,6 +128,15 @@ _SHAPES = ("tetrahedron", "cube", "octahedron", "icosahedron", "dodecahedron",
            "square", "dodec")
 
 
+def _extract_stl_path(request: str):
+    """If the request names an existing .stl/.obj file, return its path (for exact print
+    metrics); else None (fall back to a nominal estimate)."""
+    for tok in re.findall(r"\S+\.(?:stl|obj)\b", request, flags=re.IGNORECASE):
+        if os.path.exists(tok):
+            return tok
+    return None
+
+
 def _pick_shape(request: str) -> str:
     text = request.lower()
     for s in _SHAPES:
@@ -172,12 +181,18 @@ def route(request: str, outdir: str = None, compile_molecular: bool = True) -> d
                 "ticket": out["protocol"], "honest_note": "assembled from stocked ingredients"}
     if dom == "print":
         from printsynth import compile_print
-        # no STL in a text request -> estimate from a nominal small part so the user gets a
-        # real material/time/cost ballpark; hand a real STL to printsynth for exact numbers.
-        job = compile_print(volume_cm3=10.0, bbox_mm=(40, 40, 25), name=request[:40])
+        stl = _extract_stl_path(request)
+        if stl:
+            # real geometry -> exact material/time/cost from the mesh
+            job = compile_print(stl=stl)
+            note = f"measured from {os.path.basename(stl)}"
+        else:
+            # no STL in a text request -> estimate from a nominal small part so the user
+            # still gets a real material/time/cost ballpark.
+            job = compile_print(volume_cm3=10.0, bbox_mm=(40, 40, 25), name=request[:40])
+            note = "estimate from a nominal 10 cm^3 part; supply an .stl for exact numbers"
         return {**base, "maker": "print", "recipe": job["commands"],
-                "ticket": job["protocol"],
-                "honest_note": "estimate from a nominal 10 cm^3 part; supply an .stl for exact numbers"}
+                "ticket": job["protocol"], "honest_note": note}
     if dom == "molecular":
         shape = _pick_shape(request)
         if not compile_molecular:

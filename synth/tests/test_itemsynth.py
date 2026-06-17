@@ -65,6 +65,14 @@ class TestRoute(unittest.TestCase):
         self.assertEqual(r["maker"], "print")
         self.assertTrue(any("MATERIAL" in c for c in r["recipe"]))
 
+    def test_print_uses_real_stl_when_named(self):
+        stl = os.path.join(ROOT, "examples", "octahedron.stl")
+        if not os.path.exists(stl):
+            self.skipTest("octahedron.stl not present")
+        r = route(f"3d print {stl}")
+        self.assertEqual(r["maker"], "print")
+        self.assertIn("measured from", r["honest_note"])     # exact metrics, not the estimate
+
     def test_north_star_is_not_faked(self):
         r = route("a working smartphone")
         self.assertIsNone(r["maker"])
