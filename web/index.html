@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Molecular Synth — Water module · clean glass in seconds (3D sim)</title>
+<style>
+  :root { --bg:#0a0e14; --fg:#cfe8ff; --accent:#39d0ff; --ok:#46e08a; --uv:#b06bff; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg);
+              font-family:ui-monospace,Menlo,Consolas,monospace; overflow:hidden; }
+  #c { position:fixed; inset:0; display:block; }
+  .panel { position:fixed; background:rgba(8,14,22,.78); border:1px solid #18324a;
+           border-radius:10px; padding:12px 14px; backdrop-filter:blur(4px); }
+  #title { top:14px; left:14px; max-width:min(560px,72vw); }
+  #title h1 { margin:0 0 4px; font-size:16px; color:#fff; letter-spacing:.3px; }
+  #title p { margin:0; font-size:11.5px; line-height:1.45; color:#8fb6d6; }
+  #hud { top:14px; right:14px; width:268px; font-size:12.5px; }
+  .row { display:flex; justify-content:space-between; padding:3px 0; }
+  .row b { color:#fff; font-variant-numeric:tabular-nums; }
+  .bar { height:7px; background:#10243a; border-radius:5px; overflow:hidden; margin:2px 0 6px; }
+  .bar > i { display:block; height:100%; width:0; background:var(--accent); transition:width .1s linear; }
+  .ok { color:var(--ok); } .uv { color:var(--uv); }
+  #status { margin-top:8px; font-size:11.5px; color:var(--accent); min-height:16px; }
+  #verdict { margin-top:8px; font-size:13px; color:var(--ok); font-weight:700; min-height:18px; }
+  #ctrl { bottom:14px; left:50%; transform:translateX(-50%); display:flex; gap:10px; align-items:center; }
+  button { background:#0e2236; color:var(--fg); border:1px solid #2a557d; border-radius:8px;
+           padding:9px 16px; font:inherit; font-size:13px; cursor:pointer; }
+  button:hover { background:#143150; border-color:var(--accent); }
+  #foot { bottom:14px; right:14px; max-width:min(520px,70vw); font-size:10.5px; color:#6f93b2; line-height:1.5; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="title" class="panel">
+  <h1>Water module — a clean glass of water in seconds</h1>
+  <p>3D sim of the Molecular Synth water maker. On demand it valve-dispenses from a
+  <b>treated, pre-chilled buffer</b> (carbon-filtered + UV-C dosed), filling a 250&nbsp;mL
+  glass in seconds. The buffer is kept filled from a <b>tap/reservoir</b> (instant) or,
+  off-grid, harvested slowly from air by the Peltier AWG — so we never depend on
+  humidity: <b>dispense = seconds either way</b>.</p>
+</div>
+
+<div id="hud" class="panel">
+  <div class="row"><span>elapsed</span><b id="t">0.0 s</b></div>
+  <div class="row"><span>volume</span><b id="v">0 / 250 mL</b></div>
+  <div class="bar"><i id="vbar"></i></div>
+  <div class="row"><span class="uv">UV-C dose</span><b id="uv">0 mJ/cm²</b></div>
+  <div class="bar"><i id="uvbar" style="background:var(--uv)"></i></div>
+  <div class="row"><span>temperature</span><b id="temp">22.0 °C</b></div>
+  <div class="row"><span>buffer</span><b id="buf">2.00 L</b></div>
+  <div id="status">idle — buffer ready</div>
+  <div id="verdict"></div>
+</div>
+
+<div id="ctrl" class="panel">
+  <button id="pour">▶ Pour a glass</button>
+  <button id="auto">auto-loop: ON</button>
+</div>
+
+<div id="foot" class="panel">
+  Honest sim. Dispense is valve-fed (~42 mL/s, water-cooler rate) from a treated buffer
+  filled by tap/reservoir (instant) or, off-grid, by the AWG. Air-harvest is slow — a
+  small Peltier yields ~0.1–0.3 L/hr — so we don't rely on it. Clean = carbon filter + UV-C ≥ 40 mJ/cm²
+  (4-log bacteria; drinking-water standard; resistant viruses need more). Not matter
+  synthesis — harvest + treat + dispense. See <a href="https://github.com/lordbasilaiassistant-sudo/molecular-synth/tree/main/synth">/synth</a>.
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ---- honest machine constants (a sim to design/test the real machine) ----
+const GLASS_ML = 250, VALVE_RATE = 42;        // mL, mL/s  -> ~6.0 s fill
+const UV_TARGET = 40, UV_PEAK = 46;           // mJ/cm^2 (4-log bacteria standard)
+const TEMP_AMBIENT = 22, TEMP_TARGET = 6;     // C (buffer pre-chilled)
+const BUFFER_L0 = 2.0, AWG_LPH = 0.2;         // L, L/hr refill
+const FILL_TIME = GLASS_ML / VALVE_RATE;      // s
+
+// ---------------- three.js scene ----------------
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0e14);
+scene.fog = new THREE.Fog(0x0a0e14, 14, 30);
+const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+
+scene.add(new THREE.AmbientLight(0x88aacc, 0.5));
+const key = new THREE.DirectionalLight(0xffffff, 1.0); key.position.set(6, 10, 6); scene.add(key);
+const rim = new THREE.DirectionalLight(0x39d0ff, 0.6); rim.position.set(-6, 4, -4); scene.add(rim);
+
+// grid floor
+const grid = new THREE.GridHelper(40, 40, 0x14324a, 0x0f2336); grid.position.y = -2.01; scene.add(grid);
+
+function mat(color, opts={}) { return new THREE.MeshStandardMaterial(Object.assign({ color, metalness:.2, roughness:.6 }, opts)); }
+function glassMat(color) { return new THREE.MeshStandardMaterial({ color, transparent:true, opacity:.22, metalness:0, roughness:.1 }); }
+
+const machine = new THREE.Group(); scene.add(machine);
+
+// chassis
+const chassis = new THREE.Mesh(new THREE.BoxGeometry(5.4, 4, 2.6), mat(0x12202e, {roughness:.8}));
+chassis.position.y = 0; machine.add(chassis);
+const faceplate = new THREE.Mesh(new THREE.BoxGeometry(5.0, 3.6, .05), mat(0x0e1b27));
+faceplate.position.set(0, 0, 1.31); machine.add(faceplate);
+
+// condenser block + fan (AWG, top-left)
+const cond = new THREE.Mesh(new THREE.BoxGeometry(1.4, .9, 1.4), mat(0x2a3a4a, {metalness:.6, roughness:.4}));
+cond.position.set(-1.7, 2.6, 0); machine.add(cond);
+const fan = new THREE.Group(); fan.position.set(-1.7, 3.15, 0); machine.add(fan);
+for (let i=0;i<4;i++){ const b=new THREE.Mesh(new THREE.BoxGeometry(.7,.06,.16), mat(0x4a5a6a)); b.rotation.y=i*Math.PI/2; fan.add(b);}
+
+// buffer tank (transparent) + water level, top-right
+const tank = new THREE.Mesh(new THREE.CylinderGeometry(.85,.85,2.1,28), glassMat(0x9fd8ff));
+tank.position.set(1.7, 2.4, 0); machine.add(tank);
+const bufWater = new THREE.Mesh(new THREE.CylinderGeometry(.8,.8,2.0,28), mat(0x2aa6ff,{transparent:true,opacity:.8,emissive:0x0a3b66,emissiveIntensity:.4}));
+bufWater.position.set(1.7, 2.4, 0); machine.add(bufWater);
+const tankLabel = makeLabel('TREATED BUFFER'); tankLabel.position.set(1.7,3.7,0); machine.add(tankLabel);
+
+// UV-C chamber (glowing tube) in the dispense path
+const uvTube = new THREE.Mesh(new THREE.CylinderGeometry(.22,.22,1.3,20), new THREE.MeshStandardMaterial({color:0x281b3a, emissive:0x6a2bd0, emissiveIntensity:0}));
+uvTube.position.set(.2, .3, 1.0); machine.add(uvTube);
+const uvLabel = makeLabel('UV-C', 0xb06bff); uvLabel.position.set(.2,1.05,1.0); machine.add(uvLabel);
+
+// carbon filter cartridge
+const filt = new THREE.Mesh(new THREE.CylinderGeometry(.26,.26,.9,18), mat(0x3a3022,{roughness:.9}));
+filt.position.set(-.9, .3, 1.0); machine.add(filt);
+const carbonLabel = makeLabel('CARBON', 0xc9a15a); carbonLabel.position.set(-.9,.95,1.0); machine.add(carbonLabel);
+
+// nozzle
+const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(.06,.1,.4,12), mat(0x9fb0c0,{metalness:.7}));
+nozzle.position.set(.2, -.85, 1.5); machine.add(nozzle);
+
+// glass on temperature plate (in front of machine)
+const plate = new THREE.Mesh(new THREE.CylinderGeometry(.6,.6,.12,28), mat(0x1c3550,{emissive:0x0a3b66,emissiveIntensity:.2}));
+plate.position.set(.2, -1.9, 3.0); scene.add(plate);
+const glass = new THREE.Mesh(new THREE.CylinderGeometry(.42,.34,1.2,28,1,true), glassMat(0xdfeeff));
+glass.position.set(.2, -1.25, 3.0); scene.add(glass);
+const glassWater = new THREE.Mesh(new THREE.CylinderGeometry(.40,.33,1.1,28), mat(0x2aa6ff,{transparent:true,opacity:.85,emissive:0x0a3b66,emissiveIntensity:.5}));
+glassWater.position.set(.2,-1.8,3.0); glassWater.scale.y=0.001; scene.add(glassWater);
+
+// water stream nozzle->glass
+const stream = new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,1.0,10), mat(0x4ab8ff,{transparent:true,opacity:.7,emissive:0x1f78c8,emissiveIntensity:.6}));
+stream.position.set(.2,-1.3,2.7); stream.visible=false; scene.add(stream);
+
+// drip from condenser to buffer (background harvest)
+const drip = new THREE.Mesh(new THREE.SphereGeometry(.05,8,8), mat(0x6ec8ff,{emissive:0x1f78c8,emissiveIntensity:.5}));
+drip.position.set(-1.7,2.0,0); scene.add(drip);
+
+function makeLabel(text, color=0x8fb6d6) {
+  const cv=document.createElement('canvas'); cv.width=256; cv.height=64; const x=cv.getContext('2d');
+  x.fillStyle='rgba(0,0,0,0)'; x.fillRect(0,0,256,64);
+  x.font='bold 30px monospace'; x.fillStyle='#'+color.toString(16).padStart(6,'0'); x.textAlign='center'; x.fillText(text,128,42);
+  const tx=new THREE.CanvasTexture(cv); const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tx,transparent:true}));
+  sp.scale.set(1.3,.33,1); return sp;
+}
+
+// ---------------- state machine ----------------
+let state='idle', clock=0, t=0, vol=0, uv=0, temp=TEMP_AMBIENT, bufferL=BUFFER_L0, auto=true;
+const $ = id => document.getElementById(id);
+function setBars(){ $('vbar').style.width=(vol/GLASS_ML*100)+'%'; $('uvbar').style.width=Math.min(100,uv/UV_TARGET*100)+'%'; }
+function start(){ if(state!=='idle')return; state='dispense'; t=0; vol=0; uv=0; temp=TEMP_AMBIENT;
+  glassWater.scale.y=0.001; stream.visible=true; $('verdict').textContent=''; }
+
+let last=performance.now();
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000); last=now; clock+=dt;
+  fan.rotation.y += dt*8;
+  // background AWG drip + slow buffer refill
+  drip.position.y = 2.0 - ((clock*0.6)%0.9); drip.visible = bufferL < BUFFER_L0-0.001;
+  if(bufferL<BUFFER_L0) bufferL=Math.min(BUFFER_L0, bufferL + (AWG_LPH/3600)*dt);
+  bufWater.scale.y = Math.max(.02, bufferL/BUFFER_L0);
+
+  if(state==='dispense'){
+    t+=dt; const rate=VALVE_RATE; vol=Math.min(GLASS_ML, vol+rate*dt);
+    uv=Math.min(UV_PEAK, uv + (UV_PEAK/FILL_TIME)*dt);
+    temp=TEMP_AMBIENT+(TEMP_TARGET-TEMP_AMBIENT)*(vol/GLASS_ML);
+    bufferL=Math.max(0, bufferL - (rate/1000)*dt);
+    glassWater.scale.y=Math.max(.001, vol/GLASS_ML);
+    glassWater.position.y=-1.8 + (vol/GLASS_ML)*0.55;
+    uvTube.material.emissiveIntensity = .6+.4*Math.sin(clock*12);
+    plate.material.emissiveIntensity = .2 + .5*(vol/GLASS_ML);
+    $('status').textContent = `VALVE OPEN | FILTER | UV ${uv.toFixed(0)} mJ | TEMP ${temp.toFixed(1)}°C`;
+    if(vol>=GLASS_ML){ state='done'; t=t; stream.visible=false; uvTube.material.emissiveIntensity=0;
+      const clean = uv>=UV_TARGET;
+      $('verdict').innerHTML = clean ? `✓ CLEAN GLASS DELIVERED in ${t.toFixed(1)} s` : `glass filled (UV short)`;
+      $('status').textContent='DONE — ready'; doneAt=clock; }
+  } else if(state==='done'){
+    if(clock-doneAt>3){ state='idle'; if(auto){ glassWater.scale.y=0.001; setTimeout(start,400);} }
+  } else { uvTube.material.emissiveIntensity=0; }
+
+  $('t').textContent=t.toFixed(1)+' s';
+  $('v').textContent=Math.round(vol)+' / 250 mL';
+  $('uv').textContent=uv.toFixed(0)+' mJ/cm²';
+  $('uv').className = uv>=UV_TARGET?'ok':'uv';
+  $('temp').textContent=temp.toFixed(1)+' °C';
+  $('buf').textContent=bufferL.toFixed(2)+' L';
+  setBars();
+
+  // gentle auto-orbit
+  const a=clock*0.18; camera.position.set(Math.cos(a)*10, 3.4, Math.sin(a)*10);
+  camera.lookAt(0,0.4,1.2);
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame);
+}
+let doneAt=0;
+function resize(){ const w=innerWidth,h=innerHeight; renderer.setSize(w,h); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+addEventListener('resize',resize); resize();
+$('pour').onclick=()=>{ if(state==='idle') start(); };
+$('auto').onclick=e=>{ auto=!auto; e.target.textContent='auto-loop: '+(auto?'ON':'OFF'); if(auto&&state==='idle')start(); };
+requestAnimationFrame(frame);
+setTimeout(start, 800);
+</script>
+</body>
+</html>

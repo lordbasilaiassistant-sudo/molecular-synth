@@ -31,6 +31,10 @@ ladder — described without overclaiming the rungs above it.
 > the most tractable one, and humanity-useful), and **[Drink Synth](synth/)** ("iced oat
 > latte" → machine recipe). See [`docs/vision.md`](docs/vision.md).
 
+> 🖥️ **Live 3D sim:** [**a clean glass of water in seconds**](https://lordbasilaiassistant-sudo.github.io/molecular-synth/)
+> — the water module, simulated in the browser (valve-dispenses a UV-C-treated, filtered
+> glass from a buffer; honest about the slow air-harvest). Source: [`web/`](web/).
+
 > 🔧 **Building it for real? Start with the [BUILD GUIDE](docs/build-guide.md)** —
 > the full blueprint from an empty bench and $623 to a folded, gel-verified
 > nanostructure, including the critical step of validating your rig on a *known
