@@ -105,6 +105,32 @@ def build_staples(routing, model: YieldModel | None = None,
     return staples, history
 
 
+def cross_dimer_screen(staples, k=8):
+    """Flag staples that are complementary to EACH OTHER (form dimers, lowering yield).
+    Index forward k-mers, then for each staple look up its reverse-complement k-mers
+    (efficient); compute the exact longest complement for flagged pairs. Returns the
+    worst dimer length, the offending pair, and the count of dimer-prone pairs (>=k)."""
+    index = {}
+    for i, st in enumerate(staples):
+        s = st.seq
+        for p in range(len(s) - k + 1):
+            index.setdefault(s[p:p + k], set()).add(i)
+    pairs = set()
+    for i, st in enumerate(staples):
+        rc = sq.reverse_complement(st.seq)
+        for p in range(len(rc) - k + 1):
+            for j in index.get(rc[p:p + k], ()):
+                if j != i:
+                    pairs.add((min(i, j), max(i, j)))
+    worst, worst_pair = 0, None
+    for i, j in pairs:
+        d = sq.cross_dimer_len(staples[i].seq, staples[j].seq)
+        if d > worst:
+            worst, worst_pair = d, (staples[i].name, staples[j].name)
+    return {"max_cross_dimer": worst, "n_dimer_pairs": len(pairs),
+            "worst_pair": list(worst_pair) if worst_pair else None}
+
+
 def staple_stats(staples):
     if not staples:
         return {}
@@ -126,4 +152,5 @@ def staple_stats(staples):
         "total_bases_ordered": sum(lens),
         "offtarget_max": max((s.offtarget for s in staples), default=0),
         "n_offtarget_risk": sum(1 for s in staples if s.offtarget > 14),
+        **{f"dimer_{kk}": vv for kk, vv in cross_dimer_screen(staples).items()},
     }

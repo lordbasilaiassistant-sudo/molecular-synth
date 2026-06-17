@@ -100,7 +100,13 @@
       "tm_stdev_C": 3.64,
       "total_bases_ordered": 1512,
       "offtarget_max": 12,
-      "n_offtarget_risk": 0
+      "n_offtarget_risk": 0,
+      "dimer_max_cross_dimer": 11,
+      "dimer_n_dimer_pairs": 19,
+      "dimer_worst_pair": [
+        "cube-st003",
+        "cube-st006"
+      ]
     },
     "optimizer_score": 64.32,
     "optimizer_score_initial": 78.973,

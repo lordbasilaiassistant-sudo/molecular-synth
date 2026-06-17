@@ -100,7 +100,13 @@
       "tm_stdev_C": 3.03,
       "total_bases_ordered": 1008,
       "offtarget_max": 11,
-      "n_offtarget_risk": 0
+      "n_offtarget_risk": 0,
+      "dimer_max_cross_dimer": 11,
+      "dimer_n_dimer_pairs": 8,
+      "dimer_worst_pair": [
+        "square_pyramid-st014",
+        "square_pyramid-st017"
+      ]
     },
     "optimizer_score": 44.529,
     "optimizer_score_initial": 53.052,

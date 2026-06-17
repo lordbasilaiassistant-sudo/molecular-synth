@@ -100,7 +100,13 @@
       "tm_stdev_C": 2.69,
       "total_bases_ordered": 756,
       "offtarget_max": 12,
-      "n_offtarget_risk": 0
+      "n_offtarget_risk": 0,
+      "dimer_max_cross_dimer": 8,
+      "dimer_n_dimer_pairs": 1,
+      "dimer_worst_pair": [
+        "tetrahedron-st006",
+        "tetrahedron-st016"
+      ]
     },
     "optimizer_score": 35.979,
     "optimizer_score_initial": 50.731,

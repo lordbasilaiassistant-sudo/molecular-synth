@@ -155,6 +155,12 @@ class TestScience(unittest.TestCase):
         t = seq.tm(s)
         self.assertTrue(40 < t < 85, t)
 
+    def test_cross_dimer_detection(self):
+        a = "ACGTACGTAA"
+        self.assertEqual(seq.cross_dimer_len(a, seq.reverse_complement(a)), len(a))
+        self.assertEqual(seq.cross_dimer_len("AAAAAAAAAA", "AAAAAAAAAA"), 0)  # A vs A: no complement
+        self.assertEqual(seq.lcs_len("ABCDEF", "ZBCDEZ"), 3)                  # BCD
+
     def test_repeat_mask_and_longest_run(self):
         rep, mid = "ACGTACGTAC", "TTGGAACCAA"
         s = rep + mid + rep            # the rep stretch is duplicated; mid is unique

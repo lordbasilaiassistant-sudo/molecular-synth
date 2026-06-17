@@ -175,6 +175,32 @@ def repeat_mask(seq: str, k: int = 10) -> list:
     return mask
 
 
+def lcs_len(a: str, b: str) -> int:
+    """Longest common substring length of a and b (DP)."""
+    if not a or not b:
+        return 0
+    nb = len(b)
+    prev = [0] * (nb + 1)
+    best = 0
+    for i in range(1, len(a) + 1):
+        cur = [0] * (nb + 1)
+        ai = a[i - 1]
+        row = b
+        for j in range(1, nb + 1):
+            if ai == row[j - 1]:
+                cur[j] = prev[j - 1] + 1
+                if cur[j] > best:
+                    best = cur[j]
+        prev = cur
+    return best
+
+
+def cross_dimer_len(a: str, b: str) -> int:
+    """Longest stretch over which staple a is complementary to staple b (they would
+    hybridise to EACH OTHER = a dimer, instead of binding the scaffold)."""
+    return lcs_len(reverse_complement(a), b)
+
+
 def longest_run(mask: list, a: int, b: int) -> int:
     """Longest run of True in mask[a:b] (the off-target stretch length of a staple)."""
     best = run = 0

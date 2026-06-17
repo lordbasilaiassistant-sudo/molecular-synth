@@ -10,6 +10,8 @@ screen, and absolute Tm depends on the assumed salt/concentration._
   overloaded >2 crossovers: 0)
 - off-target screen: longest scaffold-repeat inside a staple = 11 nt;
   staples with >14 nt repeat (off-target risk) = 0
+- staple cross-dimer screen: worst staple-staple complement = 9 nt
+  in 1 flagged pair(s) (>=8 nt); <=~10 nt is benign
 
 ## Per-staple melting-temperature histogram (deg C)
 mean 60.2  stdev 3.31  range 52.2-65.5

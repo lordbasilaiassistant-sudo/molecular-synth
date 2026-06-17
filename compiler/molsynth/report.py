@@ -65,6 +65,8 @@ screen, and absolute Tm depends on the assumed salt/concentration._
   overloaded >2 crossovers: {st.get('n_overloaded_staples', 0)})
 - off-target screen: longest scaffold-repeat inside a staple = {st.get('offtarget_max', 0)} nt;
   staples with >14 nt repeat (off-target risk) = {st.get('n_offtarget_risk', 0)}
+- staple cross-dimer screen: worst staple-staple complement = {st.get('dimer_max_cross_dimer', 0)} nt
+  in {st.get('dimer_n_dimer_pairs', 0)} flagged pair(s) (>=8 nt); <=~10 nt is benign
 
 ## Per-staple melting-temperature histogram (deg C)
 mean {st.get('tm_mean_C')}  stdev {spread}  range {st.get('tm_min_C')}-{st.get('tm_max_C')}
