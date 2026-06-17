@@ -32,6 +32,7 @@ class Staple:
     crossovers: int       # vertex/loop-closures this staple bridges (Aksel 2024: keep low)
     scaffold_start: int   # scaffold coordinate of the staple's 5' complement region
     scaffold_end: int
+    offtarget: int = 0    # longest scaffold-repeat stretch inside this staple (off-target risk)
     # rung-2 functionalisation (empty unless --decorate); see decorate.py
     handle: str = ""      # single-stranded handle appended to one end (positions a guest)
     handle_end: str = ""  # "3p" or "5p"
@@ -61,7 +62,8 @@ def _well(i: int) -> str:
 
 
 def build_staples(routing, model: YieldModel | None = None,
-                  iterations=4000, seed=12345, design_name="design"):
+                  iterations=4000, seed=12345, design_name="design",
+                  offtarget_mask=None):
     """Return (list[Staple], optimizer_history)."""
     model = model or YieldModel()
     template = sq.reverse_complement(routing.scaffold_seq)
@@ -69,7 +71,7 @@ def build_staples(routing, model: YieldModel | None = None,
 
     cuts, seqs, counts, history = anneal(
         template, routing.crossover_positions, model,
-        iterations=iterations, seed=seed,
+        iterations=iterations, seed=seed, offtarget_mask=offtarget_mask,
     )
 
     staples = []
@@ -97,6 +99,8 @@ def build_staples(routing, model: YieldModel | None = None,
             crossovers=int(cross),
             scaffold_start=sc_start,
             scaffold_end=sc_end,
+            offtarget=(sq.longest_run(offtarget_mask, sc_start, sc_end)
+                       if offtarget_mask is not None else 0),
         ))
     return staples, history
 
@@ -120,4 +124,6 @@ def staple_stats(staples):
         "tm_mean_C": round(mean, 1),
         "tm_stdev_C": round(var ** 0.5, 2),
         "total_bases_ordered": sum(lens),
+        "offtarget_max": max((s.offtarget for s in staples), default=0),
+        "n_offtarget_risk": sum(1 for s in staples if s.offtarget > 14),
     }

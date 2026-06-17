@@ -54,6 +54,8 @@ DEFAULT_WEIGHTS = {
     "w_loop": 1.5,       # penalty per crossover beyond xmax (loop-closure entropy) -- weight high
     "w_loop_entropy": 0.2,  # penalty per ln(bases) enclosed in each loop (Jacobson-Stockmayer proxy)
     "w_uncovered": 3.0,  # penalty per vertex boundary NOT bridged by any staple (structural nick)
+    "w_offtarget": 0.6,  # penalty per nt of scaffold-repeat beyond offtarget_allow inside a staple
+    "offtarget_allow": 14,  # contiguous scaffold-repeat length tolerated within one staple
 }
 
 
@@ -91,24 +93,28 @@ class YieldModel:
         pen += w["w_hairpin"] * sq.hairpin_score(seq)
         return pen
 
-    def score_set(self, staple_seqs, cross_counts, loop_sizes, n_boundaries, n_covered):
+    def score_set(self, staple_seqs, cross_counts, loop_sizes, n_boundaries, n_covered,
+                  offtarget_runs=None):
         """Total objective for a full staple set (lower is better).
 
-        staple_seqs   : list of staple sequences
-        cross_counts  : crossovers (vertex boundaries) each staple bridges
-        loop_sizes    : flat list of enclosed-loop sizes (bases) across all staples
-        n_boundaries  : total vertex/crossover boundaries in the design
-        n_covered     : how many of those boundaries are bridged by >=1 staple
+        staple_seqs    : list of staple sequences
+        cross_counts   : crossovers (vertex boundaries) each staple bridges
+        loop_sizes     : flat list of enclosed-loop sizes (bases) across all staples
+        n_boundaries   : total vertex/crossover boundaries in the design
+        n_covered      : how many of those boundaries are bridged by >=1 staple
+        offtarget_runs : per-staple longest scaffold-repeat stretch (off-target risk)
         """
         if not staple_seqs:
             return 1e9
         w = self.weights
         total = 0.0
         tms = []
-        for seq, c in zip(staple_seqs, cross_counts):
+        for idx, (seq, c) in enumerate(zip(staple_seqs, cross_counts)):
             total += self.staple_seq_penalty(seq)
             if c > w["xmax"]:                       # too many loop closures (Aksel 2024)
                 total += w["w_loop"] * (c - w["xmax"])
+            if offtarget_runs is not None and idx < len(offtarget_runs):
+                total += w["w_offtarget"] * max(0, offtarget_runs[idx] - w["offtarget_allow"])
             t = sq.tm(seq, **self.tm_kwargs)
             if not math.isnan(t):
                 tms.append(t)
@@ -131,11 +137,14 @@ def boundaries_in(start, end, xovers):
 
 
 def anneal(template, crossover_positions_scaffold, model: YieldModel,
-           iterations=4000, seed=12345, target_len=37):
+           iterations=4000, seed=12345, target_len=37, offtarget_mask=None):
     """Simulated annealing over the cut positions of the staple template.
 
     template : reverse complement of the scaffold route (the staple strand, 5'->3').
     crossover_positions_scaffold : vertex boundaries in SCAFFOLD coordinates.
+    offtarget_mask : per-SCAFFOLD-position flag (route coords) for being inside a
+                     scaffold repeat; staples spanning a long run are penalised so the
+                     optimiser splits repeats across break points (reduces off-target).
     Returns (cuts, staple_seqs, cross_counts, score_history).
     """
     rng = random.Random(seed)
@@ -167,18 +176,21 @@ def anneal(template, crossover_positions_scaffold, model: YieldModel,
 
     def evaluate(cs):
         spans = staple_spans(cs)
-        seqs, counts, loops = [], [], []
+        seqs, counts, loops, offt = [], [], [], []
         covered = set()
         for a, b in spans:
             seqs.append(template[a:b])
             bnds = boundaries_in(a, b, xovers_t)
             counts.append(len(bnds))
             covered.update(bnds)
-            # enclosed-loop sizes = gaps between consecutive bridged boundaries
             pts = [a] + bnds + [b]
             for i in range(1, len(pts)):
                 loops.append(pts[i] - pts[i - 1])
-        score = model.score_set(seqs, counts, loops, n_boundaries, len(covered))
+            if offtarget_mask is not None:
+                # template span [a,b) <-> scaffold-route span [S-b, S-a)
+                offt.append(sq.longest_run(offtarget_mask, S - b, S - a))
+        score = model.score_set(seqs, counts, loops, n_boundaries, len(covered),
+                                offtarget_runs=offt if offtarget_mask is not None else None)
         return score, seqs, counts
 
     def length_valid(cs):

@@ -63,6 +63,8 @@ screen, and absolute Tm depends on the assumed salt/concentration._
 - objective: {s0} -> {s1}{improve}
 - staples: {st.get('n_staples')}  (crossover-bridging {st.get('n_crossover_staples')},
   overloaded >2 crossovers: {st.get('n_overloaded_staples', 0)})
+- off-target screen: longest scaffold-repeat inside a staple = {st.get('offtarget_max', 0)} nt;
+  staples with >14 nt repeat (off-target risk) = {st.get('n_offtarget_risk', 0)}
 
 ## Per-staple melting-temperature histogram (deg C)
 mean {st.get('tm_mean_C')}  stdev {spread}  range {st.get('tm_min_C')}-{st.get('tm_max_C')}

@@ -149,6 +149,22 @@ class TestScience(unittest.TestCase):
         t = seq.tm(s)
         self.assertTrue(40 < t < 85, t)
 
+    def test_repeat_mask_and_longest_run(self):
+        rep, mid = "ACGTACGTAC", "TTGGAACCAA"
+        s = rep + mid + rep            # the rep stretch is duplicated; mid is unique
+        m = seq.repeat_mask(s, k=8)
+        self.assertTrue(m[5])          # inside a duplicated stretch -> flagged
+        self.assertFalse(m[14])        # unique middle -> not flagged
+        self.assertGreaterEqual(seq.longest_run(m, 0, 10), 8)
+
+    def test_offtarget_screen_controls_repeats(self):
+        """The compiler keeps long scaffold-repeats from concentrating in one staple."""
+        with tempfile.TemporaryDirectory() as d:
+            summary = molsynth.compile_shape("cube", outdir=d, iterations=4000)
+            st = summary["staple_stats"]
+            self.assertIn("offtarget_max", st)
+            self.assertLessEqual(st["offtarget_max"], 22)   # no runaway off-target staple
+
     def test_stl_roundtrip(self):
         stl = os.path.join(ROOT, "examples", "octahedron.stl")
         if not os.path.exists(stl):

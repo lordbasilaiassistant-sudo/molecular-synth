@@ -13,8 +13,8 @@ staples.csv.
 | Site | Guest | Staple (well) | Location | End | Handle (on origami, 5'->3') | Anti-handle (on guest, 5'->3') | Spacing to prev (nm) |
 |------|-------|---------------|----------|-----|------------------------------|--------------------------------|----------------------|
 | A | glucose-oxidase | cube-st001 (B1) | edge (0, 1) | 3p | `ATTTGCTGCTTAGTGGACGC` | `GCGTCCACTAAGCAGCAAAT` | 0.0 |
-| B | HRP | cube-st018 (C3) | edge (1, 5) | 3p | `GAGGATCTATGGCAGCCGTA` | `TACGGCTGCCATAGATCCTC` | 7.1 |
-| C | catalase | cube-st017 (B3) | edge (1, 5) | 3p | `TGCGAGGTAACCTTTCGATC` | `GATCGAAAGGTTACCTCGCA` | 12.6 |
+| B | HRP | cube-st018 (C3) | edge (1, 5) | 3p | `GAGGATCTATGGCAGCCGTA` | `TACGGCTGCCATAGATCCTC` | 6.2 |
+| C | catalase | cube-st017 (B3) | edge (1, 5) | 3p | `TGCGAGGTAACCTTTCGATC` | `GATCGAAAGGTTACCTCGCA` | 13.3 |
 
 **How to attach a guest:**
 1. Conjugate the **anti-handle** oligo to your guest (NHS-ester/thiol/click for proteins;

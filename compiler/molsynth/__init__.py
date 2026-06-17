@@ -17,6 +17,7 @@ import os
 
 from . import geometry, scaffold as scaffold_mod, export, protocol as protocol_mod, report as report_mod
 from . import decorate as decorate_mod
+from . import sequences as sequences_mod
 from .staples import build_staples, staple_stats
 from .optimizer import YieldModel
 
@@ -65,10 +66,15 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
                 best = (sc, off)
         chosen_offset = best[1]
 
-    routing = scaffold_mod.route(mesh, _rotate(seq, chosen_offset), sc_name, synthetic,
+    full_rot = _rotate(seq, chosen_offset)
+    routing = scaffold_mod.route(mesh, full_rot, sc_name, synthetic,
                                  min_edge_bp=min_edge_bp)
+    # off-target screen: mark route positions inside a scaffold repeat (M13 has many),
+    # so the optimizer splits long repeats across staple break points.
+    offt_mask = sequences_mod.repeat_mask(full_rot)[:len(routing.scaffold_seq)]
     staples, history = build_staples(
         routing, model, iterations=iterations, seed=seed, design_name=design_name,
+        offtarget_mask=offt_mask,
     )
     decoration_records = []
     if cascade:

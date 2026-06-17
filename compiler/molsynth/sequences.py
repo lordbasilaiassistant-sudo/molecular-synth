@@ -152,6 +152,39 @@ def hairpin_score(seq: str, stem: int = 5, min_loop: int = 3) -> int:
     return hits
 
 
+def repeat_mask(seq: str, k: int = 10) -> list:
+    """Mark every position covered by a k-mer that occurs MORE THAN ONCE in `seq`.
+
+    The M13mp18 scaffold contains >100 repeats >=8 nt (Nguyen et al.); a staple whose
+    binding region overlaps a long duplicated stretch can bind that stretch's OTHER
+    copy (off-target), lowering yield. This mask lets the compiler measure and the
+    optimizer avoid putting a long scaffold-repeat inside a single staple."""
+    seq = seq.upper()
+    n = len(seq)
+    mask = [False] * n
+    if n < k:
+        return mask
+    counts = {}
+    for i in range(n - k + 1):
+        kmer = seq[i:i + k]
+        counts[kmer] = counts.get(kmer, 0) + 1
+    for i in range(n - k + 1):
+        if counts[seq[i:i + k]] > 1:
+            for j in range(i, i + k):
+                mask[j] = True
+    return mask
+
+
+def longest_run(mask: list, a: int, b: int) -> int:
+    """Longest run of True in mask[a:b] (the off-target stretch length of a staple)."""
+    best = run = 0
+    for i in range(max(0, a), min(b, len(mask))):
+        run = run + 1 if mask[i] else 0
+        if run > best:
+            best = run
+    return best
+
+
 def describe(seq: str, **tm_kwargs) -> dict:
     """Full per-staple quality readout."""
     return {

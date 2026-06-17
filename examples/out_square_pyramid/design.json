@@ -98,9 +98,11 @@
       "tm_max_C": 77.1,
       "tm_mean_C": 69.4,
       "tm_stdev_C": 4.99,
-      "total_bases_ordered": 1008
+      "total_bases_ordered": 1008,
+      "offtarget_max": 14,
+      "n_offtarget_risk": 0
     },
-    "optimizer_score": 121.248,
+    "optimizer_score": 120.72,
     "optimizer_score_initial": 128.917,
     "structure_check": {
       "max_unit_dev": 2.220446049250313e-16,

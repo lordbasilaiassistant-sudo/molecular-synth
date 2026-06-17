@@ -38,13 +38,13 @@ def write_fasta(outdir, routing):
 def write_staples_csv(outdir, staples):
     path = os.path.join(outdir, "staples.csv")
     cols = ["name", "well", "sequence", "order_sequence", "handle", "guest", "length",
-            "tm_C", "gc", "max_run", "repeats", "hairpin", "crossovers",
+            "tm_C", "gc", "max_run", "repeats", "hairpin", "crossovers", "offtarget",
             "scaffold_start", "scaffold_end"]
     lines = [",".join(cols)]
     for s in staples:
         lines.append(",".join(str(x) for x in [
             s.name, s.well, s.seq, s.order_seq, s.handle, s.guest, s.length, s.tm_C, s.gc,
-            s.max_run, s.repeats, s.hairpin, s.crossovers,
+            s.max_run, s.repeats, s.hairpin, s.crossovers, s.offtarget,
             s.scaffold_start, s.scaffold_end,
         ]))
     _w(path, "\n".join(lines) + "\n")
