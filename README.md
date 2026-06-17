@@ -26,10 +26,20 @@ ladder — described without overclaiming the rungs above it.
 > a universal matter replicator (materialising matter from energy) is north-star — not
 > possible today, any price. But the *spirit* — "ask, and it appears" — is partly real
 > now as a **federation of cheap desktop makers + an AI request-compiler**. This repo
-> holds three instances: **Molecular Synth** (atomic precision, nanoscale, the deep-tech
-> flagship), **[Water Synth](synth/)** (a glass of drinkable water harvested from air —
-> the most tractable one, and humanity-useful), and **[Drink Synth](synth/)** ("iced oat
-> latte" → machine recipe). See [`docs/vision.md`](docs/vision.md).
+> holds four maker instances: **Molecular Synth** (atomic precision, nanoscale, the
+> deep-tech flagship), **[Water Synth](synth/)** (a glass of drinkable water harvested
+> from air — the most tractable one, and humanity-useful), **[Drink Synth](synth/)**
+> ("iced oat latte" → machine recipe), and **[Print Synth](synth/printsynth/)** (STL →
+> 3D-print job) — all behind one front door, **[Item Synth](synth/itemsynth/)**, the
+> request-router that takes *one* natural ask and dispatches it to the maker that fits
+> (or returns the honest north-star verdict when no desktop maker can do it).
+> See [`docs/vision.md`](docs/vision.md).
+>
+> ```bash
+> cd synth && python -m itemsynth "a large glass of cold water"   # -> water maker recipe
+> python -m itemsynth "an octahedron DNA nanocage"                # -> molecular compiler
+> python -m itemsynth "a working smartphone"                      # -> honest north-star
+> ```
 
 > 🖥️ **Live 3D sim:** [**a clean glass of water in seconds**](https://lordbasilaiassistant-sudo.github.io/molecular-synth/)
 > — the water module, simulated in the browser (valve-dispenses a UV-C-treated, filtered
@@ -98,7 +108,7 @@ and to enable scadnano/STL/Biopython integrations.
 | [`bom/`](bom/) | the live, linked, priced Bill of Materials (`bom.json` + `bom.md`). |
 | [`catalog/`](catalog/) | **The Maker Catalog + order brain** — the *menu of what the synth can make* (decompose → feasibility → route), plus a natural-language order brain: `"whiskey on the rocks"` → ICE (watersynth) + POUR whiskey (drinksynth). Rule-based with an LLM/voice hook. |
 | [`docs/`](docs/) | **`build-guide.md`** (the end-to-end blueprint), **`integration.md`** (how every cog fits into one real machine), **`vision.md`** (the synthesizer thesis), **`the-ladder.md`** (the demonstrated research staircase from DNA toward molecular manufacturing), `science.md` (a paper per claim), `claims.json`, `north-star.md`, and the `research/` dossiers. |
-| [`synth/`](synth/) | **Water Synth + Drink Synth** — buildable-*today* instances of the synthesizer thesis: "glass of cold water" → harvest-from-air/filter/UV commands, and "iced oat latte" → pump/heater commands. ~$60–180 of cheap parts. Same architecture, macroscale. Honest: harvest/assembly + treatment, not matter-from-energy. |
+| [`synth/`](synth/) | **Item Synth + Water/Drink/Print makers** — buildable-*today* instances of the synthesizer thesis. [`itemsynth/`](synth/itemsynth/) is the request-router front door ("ask for X" → the right maker, or an honest north-star verdict); the makers turn "glass of cold water" → harvest/filter/UV commands, "iced oat latte" → pump/heater commands, and an STL → a 3D-print job. ~$60–180 of cheap parts. Same architecture, macroscale. Honest: harvest/assembly + treatment, not matter-from-energy. |
 | [`validate/`](validate/) | **the gate**: mechanically checks every BOM line is orderable < $1500 and every claim is demonstrated. |
 | [`proofs/`](proofs/) | **would it work IRL, given the parts?** — runnable proofs with evidence: staples tile + hybridise, Tm matches Biopython (independent tool), the 3D structure is valid oxDNA, a simulated PID tracks the fold ramp, power/fluidics close. |
 | [`northstar/`](northstar/) | the geometry-only diamondoid simulation, clearly labelled not-yet-buildable. |
