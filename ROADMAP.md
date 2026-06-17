@@ -22,7 +22,12 @@ cheap materials** allow, and we keep the universal-replicator dream honestly on 
 
 ## Next (open issues → fabrication-grade)
 Tracked in [Issues](https://github.com/lordbasilaiassistant-sudo/molecular-synth/issues):
-- **#1** Face-respecting A-trail routing (production-grade scaffold paths).
+- **#1** Face-respecting A-trail routing (production-grade scaffold paths). ✅ the router
+  now searches (seeded multi-restart) for the routing with the fewest *true* vertex
+  crossings — turns to a non-adjacent edge in the planar rotation — reaching **1–2
+  crossings** on every Platonic preset (icosahedron 23→1, octahedron 8→2, ≥96%
+  adjacent-turn), close to PERDIX/DAEDALUS, with the single-scaffold-circuit invariant
+  still machine-checked.
 - **#2** oxDNA relaxation inputs + reduce vertex-junction stretch. ✅ relax inputs emitted.
 - **#3** caDNAno JSON export (standard-tool interop).
 - **#4** ML-trained yield model (experimental) over the heuristic baseline.

@@ -79,7 +79,7 @@ and to enable scadnano/STL/Biopython integrations.
  shape (preset / STL / JSON)
         │   /compiler  (this repo, pure-Python)
         ▼
- mesh → scaffold routing (face-aware A-trail-style Eulerian circuit, Benson 2015 / Veneziano 2016)
+ mesh → scaffold routing (searched A-trail: min vertex crossings, Benson 2015 / Veneziano 2016)
         → staple breaking → AI yield optimizer (Tm balance + loop-closure economy, Aksel 2024)
         ▼
  scaffold.fasta + staples.csv  ──order──▶  M13mp18 scaffold + staple oligos (IDT/NEB)

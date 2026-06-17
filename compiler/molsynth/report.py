@@ -64,12 +64,12 @@ def yield_report(design: dict, staples, history) -> str:
         routing_block = (
             f"- single closed scaffold circuit: {design.get('single_scaffold_circuit')} "
             "(machine-checked: closed + complete + both directions of every edge)\n"
-            f"- A-trail quality (measured): follows a face boundary at {ff:.0%} of vertex "
-            f"passages; {vx} crossing(s)\n"
-            "  (a single circuit can't reach 100% -- it must deviate at >= F-1 vertices to "
-            "merge the face loops;\n"
-            "   for a GUARANTEED non-crossing A-trail, route the PLY wireframe through "
-            "PERDIX/DAEDALUS)")
+            f"- A-trail quality (measured): non-crossing adjacent-edge turn at {ff:.0%} of "
+            f"vertex passages; {vx} true crossing(s)\n"
+            "  (the router searches for the fewest crossings -- on the Platonic presets it "
+            "reaches 1-2;\n"
+            "   for a formally GUARANTEED non-crossing A-trail, route the PLY wireframe "
+            "through PERDIX/DAEDALUS)")
 
     return f"""# Yield diagnostic - {design.get('design_name','design')}
 

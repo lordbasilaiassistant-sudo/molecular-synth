@@ -111,22 +111,46 @@ class TestRouting(unittest.TestCase):
         self.assertFalse(sc.circuit_report(bad, edges)["single_circuit"])
 
     def test_vertex_crossing_metric_is_measured_and_honest(self):
-        """A-trail quality is measured, not claimed: every closed preset reports a
-        face-follow fraction in (0,1), and the crossing count is at least F-1 (a single
-        Eulerian circuit must deviate that many times to merge F face loops into one
-        strand) and at most one per vertex passage."""
+        """A-trail quality is measured, not claimed. The metric counts a vertex passage as
+        non-crossing iff it turns to an edge ADJACENT in the planar rotation (next or prev
+        neighbour) -- the physically correct A-trail condition (Benson 2015). The production
+        router (_atrail_circuit) searches for the fewest true crossings, so every closed
+        preset must come out near-perfect: counts are consistent, and crossings are few."""
         s, name, synth = sc.load_scaffold()
         for shape in ("tetrahedron", "cube", "octahedron", "icosahedron", "dodecahedron"):
             mesh = geometry.load_shape(shape)
-            arcs = sc._eulerian_circuit(mesh)
+            arcs = sc._atrail_circuit(mesh)
             rep = sc.vertex_crossings(mesh, arcs)
-            n_faces = len(mesh.faces)
             self.assertEqual(rep["passages"], 2 * len(mesh.edges), shape)
             self.assertEqual(rep["crossings"] + rep["face_following"], rep["passages"], shape)
-            self.assertGreaterEqual(rep["crossings"], n_faces - 1, (shape, rep))
-            self.assertTrue(0.0 < rep["face_follow_fraction"] < 1.0, (shape, rep))
+            # consistency + range; no F-1 floor (that was the stricter successor-only metric)
+            self.assertGreaterEqual(rep["crossings"], 0, (shape, rep))
+            self.assertTrue(0.0 < rep["face_follow_fraction"] <= 1.0, (shape, rep))
             routing = sc.route(mesh, s, name, synth)
             self.assertEqual(routing.vertex_crossings, rep["crossings"], shape)
+
+    def test_atrail_router_beats_plain_eulerian_on_crossings(self):
+        """Issue #1: the searched A-trail router yields a near-perfect, production-grade
+        routing -- a handful of true vertex crossings at most, far fewer than the plain
+        rotation-successor Eulerian walk -- while staying a single closed scaffold circuit.
+        Ceilings are the measured count of the deterministic (seeded) router; allow a small
+        margin so the test is stable across platforms without being vacuous."""
+        ceilings = {"tetrahedron": 2, "cube": 2, "octahedron": 3,
+                    "icosahedron": 3, "dodecahedron": 3}
+        sum_atrail = sum_plain = 0
+        for shape, ceil in ceilings.items():
+            mesh = geometry.load_shape(shape)
+            a_atrail = sc._atrail_circuit(mesh)
+            a_plain = sc._eulerian_circuit(mesh)
+            self.assertTrue(sc.circuit_report(a_atrail, mesh.edges)["single_circuit"], shape)
+            c_atrail = sc.vertex_crossings(mesh, a_atrail)["crossings"]
+            c_plain = sc.vertex_crossings(mesh, a_plain)["crossings"]
+            self.assertLessEqual(c_atrail, ceil, (shape, c_atrail))      # near-perfect
+            self.assertLessEqual(c_atrail, c_plain, (shape, c_atrail, c_plain))  # never worse
+            sum_atrail += c_atrail
+            sum_plain += c_plain
+        # aggregate: the search more than halves the total crossings across the presets
+        self.assertLess(sum_atrail * 2, sum_plain, (sum_atrail, sum_plain))
 
     def test_rotation_system_from_faces(self):
         """The face rotation system (the A-trail turn order) is a clean permutation of
