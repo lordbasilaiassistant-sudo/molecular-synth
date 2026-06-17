@@ -44,6 +44,20 @@ class TestGeometry(unittest.TestCase):
         self.assertEqual(len(geometry.load_shape("cube").edges), 12)
         self.assertEqual(len(geometry.load_shape("octahedron").edges), 12)
 
+    def test_orient_faces_repairs_winding(self):
+        """A mesh with one flipped face is re-oriented so the rotation system is a clean
+        permutation again (the STL/PLY robustness fix)."""
+        base = geometry.load_shape("tetrahedron")
+        faces = [list(f) for f in base.faces]
+        faces[0] = faces[0][::-1]                        # corrupt one face's winding
+        fixed = geometry.orient_faces(faces)
+        m = geometry.Mesh("t", base.vertices, base.edges, fixed)
+        rot = sc._rotation_system(m)
+        adj = m.adjacency()
+        for v in range(len(m.vertices)):
+            self.assertEqual(set(rot[v].keys()), set(adj[v]), v)
+            self.assertEqual(set(rot[v].values()), set(adj[v]), v)
+
     def test_json_spec_roundtrip(self):
         spec = '{"name":"tri","vertices":[[0,0,0],[1,0,0],[0,1,0]],"edges":[[0,1],[1,2],[2,0]]}'
         with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as fh:

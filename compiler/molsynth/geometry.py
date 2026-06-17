@@ -59,6 +59,42 @@ class Mesh:
         }
 
 
+def orient_faces(faces):
+    """Make all faces consistently wound (same handedness) by propagating orientation
+    across the face-adjacency graph: on a correctly-oriented manifold, two faces sharing
+    an edge traverse it in OPPOSITE directions; if they traverse it the same way, flip
+    one. Consistent winding is what makes the A-trail rotation system a clean permutation
+    at every vertex (real-world STL/PLY meshes are often inconsistently wound)."""
+    from collections import deque, defaultdict
+    if not faces:
+        return faces
+    faces = [list(f) for f in faces]
+    edge_faces = defaultdict(list)
+    for fi, f in enumerate(faces):
+        for a, b in zip(f, f[1:] + f[:1]):
+            edge_faces[frozenset((a, b))].append(fi)
+    seen = [False] * len(faces)
+    for start in range(len(faces)):
+        if seen[start]:
+            continue
+        seen[start] = True
+        dq = deque([start])
+        while dq:
+            fi = dq.popleft()
+            f = faces[fi]
+            dedges = set(zip(f, f[1:] + f[:1]))
+            for a, b in dedges:
+                for fj in edge_faces[frozenset((a, b))]:
+                    if fj == fi or seen[fj]:
+                        continue
+                    g = faces[fj]
+                    if (a, b) in set(zip(g, g[1:] + g[:1])):  # same direction -> flip
+                        faces[fj] = g[::-1]
+                    seen[fj] = True
+                    dq.append(fj)
+    return [tuple(f) for f in faces]
+
+
 def _dedup_edges(raw_edges):
     seen = set()
     out = []
@@ -198,7 +234,7 @@ def load_stl(path) -> Mesh:
         for a, b in zip(f, f[1:] + f[:1]):
             raw_edges.append((a, b))
     name = path.replace("\\", "/").split("/")[-1]
-    return Mesh(name, verts, _dedup_edges(raw_edges), faces)
+    return Mesh(name, verts, _dedup_edges(raw_edges), orient_faces(faces))
 
 
 def load_ply(path) -> Mesh:
@@ -234,7 +270,7 @@ def load_ply(path) -> Mesh:
             raw_edges.append((a, b))
         i += 1
     name = path.replace("\\", "/").split("/")[-1]
-    return Mesh(name, verts, _dedup_edges(raw_edges), faces)
+    return Mesh(name, verts, _dedup_edges(raw_edges), orient_faces(faces))
 
 
 def load_json_spec(path) -> Mesh:
@@ -243,7 +279,7 @@ def load_json_spec(path) -> Mesh:
     verts = [tuple(map(float, v)) for v in spec["vertices"]]
     edges = _dedup_edges([tuple(e) for e in spec["edges"]])
     faces = [tuple(f) for f in spec.get("faces", [])]
-    return Mesh(spec.get("name", path), verts, edges, faces)
+    return Mesh(spec.get("name", path), verts, edges, orient_faces(faces))
 
 
 def load_shape(spec: str) -> Mesh:
