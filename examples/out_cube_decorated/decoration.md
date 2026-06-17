@@ -10,7 +10,7 @@ staples.csv.
 
 | Site | Guest | Staple (well) | Location | End | Handle (on origami, 5'->3') | Anti-handle (on guest, 5'->3') |
 |------|-------|---------------|----------|-----|------------------------------|--------------------------------|
-| A | glucose-oxidase | cube-st039 (H5) | edge (0, 4) | 3p | `ATTTGCTGCTTAGTGGACGC` | `GCGTCCACTAAGCAGCAAAT` |
+| A | glucose-oxidase | cube-st039 (H5) | edge (4, 6) | 3p | `ATTTGCTGCTTAGTGGACGC` | `GCGTCCACTAAGCAGCAAAT` |
 | B | HRP | cube-st027 (D4) | edge (5, 7) | 3p | `GAGGATCTATGGCAGCCGTA` | `TACGGCTGCCATAGATCCTC` |
 | C | fluorophore | cube-st013 (F2) | edge (0, 2) | 3p | `TGCGAGGTAACCTTTCGATC` | `GATCGAAAGGTTACCTCGCA` |
 

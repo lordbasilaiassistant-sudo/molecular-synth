@@ -5,32 +5,32 @@ cooperativity from sequence thermodynamics; it does not replace a wet-lab Mg2+ x
 screen, and absolute Tm depends on the assumed salt/concentration._
 
 ## Optimizer
-- objective: 128.917 -> 120.72  (6% lower objective)
+- objective: 53.052 -> 44.529  (16% lower objective)
 - staples: 27  (crossover-bridging 15,
   overloaded >2 crossovers: 0)
-- off-target screen: longest scaffold-repeat inside a staple = 14 nt;
+- off-target screen: longest scaffold-repeat inside a staple = 11 nt;
   staples with >14 nt repeat (off-target risk) = 0
 
 ## Per-staple melting-temperature histogram (deg C)
-mean 69.4  stdev 4.99  range 59.6-77.1
-    59.6 | ############# 1
-    60.7 | ############# 1
-    61.8 | ########################## 2
-    62.9 | ############# 1
-    64.0 | ############# 1
-    65.1 | ######################################## 3
-    66.2 | ########################## 2
-    67.3 |  0
-    68.3 | ############# 1
-    69.4 | ########################## 2
-    70.5 | ########################## 2
-    71.6 | ######################################## 3
-    72.7 | ############# 1
-    73.8 | ########################## 2
-    74.9 | ########################## 2
-    76.0 | ######################################## 3
+mean 56.9  stdev 3.03  range 52.1-62.2
+    52.1 | ######################################## 4
+    52.7 | ########## 1
+    53.4 |  0
+    54.0 | ############################## 3
+    54.6 | ########## 1
+    55.3 | #################### 2
+    55.9 | ############################## 3
+    56.5 | ########## 1
+    57.2 | ########## 1
+    57.8 | ############################## 3
+    58.4 | #################### 2
+    59.1 | ########## 1
+    59.7 |  0
+    60.3 | #################### 2
+    61.0 | ########## 1
+    61.6 | #################### 2
 
--> broad Tm distribution -> screen Mg2+/ramp; some staples are outliers
+-> tight Tm distribution -> cooperative anneal expected (good)
 
 ## Crossover / loop-closure distribution per staple (Aksel 2024: keep <= 2)
   0 crossover(s): ############ 12

@@ -33,7 +33,7 @@ def _rotate(s, off):
 def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
                   scaffold_nM=20, staple_excess=10, mg_mM=12.5, reaction_uL=50,
                   seed=12345, weights_path=None, t_hot=90, t_cold=20, total_min=120,
-                  scaffold_offset=0, scaffold_search=1,
+                  scaffold_offset=0, scaffold_search=4,
                   decorate=0, decorate_end="3p", decorate_spacer="TT", decorate_guests=None,
                   cascade=None, cascade_spacing_nm=10.0):
     """Run the full compile pipeline and write all artifacts to `outdir`.
@@ -59,7 +59,7 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
         for off in offsets:
             r = scaffold_mod.route(mesh, _rotate(seq, off), sc_name, synthetic,
                                    min_edge_bp=min_edge_bp)
-            _, hist = build_staples(r, model, iterations=max(500, iterations // 4),
+            _, hist = build_staples(r, model, iterations=max(400, iterations // 6),
                                     seed=seed, design_name=design_name)
             sc = hist[-1] if hist else float("inf")
             if best is None or sc < best[0]:

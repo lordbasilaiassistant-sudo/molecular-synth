@@ -5,30 +5,30 @@ cooperativity from sequence thermodynamics; it does not replace a wet-lab Mg2+ x
 screen, and absolute Tm depends on the assumed salt/concentration._
 
 ## Optimizer
-- objective: 170.151 -> 149.778  (12% lower objective)
+- objective: 84.531 -> 71.064  (16% lower objective)
 - staples: 41  (crossover-bridging 23,
   overloaded >2 crossovers: 0)
-- off-target screen: longest scaffold-repeat inside a staple = 14 nt;
+- off-target screen: longest scaffold-repeat inside a staple = 11 nt;
   staples with >14 nt repeat (off-target risk) = 0
 
 ## Per-staple melting-temperature histogram (deg C)
-mean 66.2  stdev 6.13  range 49.8-78.3
-    49.8 | #### 1
-    51.6 |  0
-    53.4 | #### 1
-    55.2 | #### 1
-    57.0 |  0
-    58.7 | ############# 3
-    60.5 | ########################## 6
-    62.3 | ################# 4
-    64.1 | ############# 3
-    65.9 | ############# 3
-    67.7 | ############# 3
-    69.4 | ######################################## 9
-    71.2 | ######## 2
-    73.0 | ######## 2
-    74.8 | #### 1
-    76.6 | ######## 2
+mean 58.8  stdev 4.16  range 48.9-69.9
+    48.9 | ##### 1
+    50.2 |  0
+    51.5 | ##### 1
+    52.8 | ################# 3
+    54.1 | ########### 2
+    55.4 | ######################################## 7
+    56.7 | ############################ 5
+    58.1 | ################# 3
+    59.4 | ###################### 4
+    60.7 | ######################################## 7
+    62.0 | ##### 1
+    63.3 | ############################ 5
+    64.6 | ##### 1
+    65.9 |  0
+    67.3 |  0
+    68.6 | ##### 1
 
 -> broad Tm distribution -> screen Mg2+/ramp; some staples are outliers
 

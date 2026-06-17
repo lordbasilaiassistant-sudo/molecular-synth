@@ -14,56 +14,56 @@
   "strands": [
     {
       "color": "#f74308",
-      "sequence": "CACAATTTCCCTTCCTTTCTCGCCACGTTCGCCGGCTTTCCCCGTCAAGCTCTAAATCGGGGG",
+      "sequence": "TTATATGGAATGAAACTTCCAGACACCGTACTTTAGTTGCATATTTAAAACATGTTGAGCTAC",
       "domains": [
         {"helix": 0, "forward": true, "start": 0, "end": 63}
       ]
     },
     {
       "color": "#57bb00",
-      "sequence": "CTCCCTTTAGGGTTCCGATTTAGTGCTTTACGGCACCTCGACCCCAAAAAACTTGATTTGGGT",
+      "sequence": "AGCATTATATTCAGCAATTAAGCTCTAAGCCATCCGCAAAAATGACCTCTTATCAAAAGGAGC",
       "domains": [
         {"helix": 1, "forward": true, "start": 0, "end": 63}
       ]
     },
     {
       "color": "#888888",
-      "sequence": "GATGGTTCACGTAGTGGGCCATCGCCCTGATAGACGGTTTTTCGCCCTTTGACGTTGGAGTCC",
+      "sequence": "AATTAAAGGTACTCTCTAATCCTGACCTGTTGGAGTTTGCTTCCGGTCTGGTTCGCTTTGAAG",
       "domains": [
         {"helix": 2, "forward": true, "start": 0, "end": 63}
       ]
     },
     {
       "color": "#32b86c",
-      "sequence": "ACGTTCTTTAATAGTGGACTCTTGTTCCAAACTGGAACAACACTCAACCCTATCTCGGGCTAT",
+      "sequence": "CTCGAATTAAAACGCGATATTTGAAGTCTTTCGGGCTTCCTCTTAATCTTTTTGATGCAATCC",
       "domains": [
         {"helix": 3, "forward": true, "start": 0, "end": 63}
       ]
     },
     {
       "color": "#333333",
-      "sequence": "TCTTTTGATTTATAAGGGATTTTGCCGATTTCGGAACCACCATCAAACAGGATTTTCGCCTGC",
+      "sequence": "GCTTTGCTTCTGACTATAATAGTCAGGGTAAAGACCTGATTTTTGATTTATGGTCATTCTCGT",
       "domains": [
         {"helix": 4, "forward": true, "start": 0, "end": 63}
       ]
     },
     {
       "color": "#320096",
-      "sequence": "TGGGGCAAACCAGCGTGGACCGCTTGCTGCAACTCTCTCAGGGCCAGGCGGTGAAGGGCAATC",
+      "sequence": "TTTCTGAACTGTTTAAAGCATTTGAGGGGGATTCAATGAATATTTATGACGATTCCGCAGTAT",
       "domains": [
         {"helix": 5, "forward": true, "start": 0, "end": 63}
       ]
     },
     {
       "color": "#03b6a2",
-      "sequence": "AGCTGTTGCCCGTCTCACTGGTGAAAAGAAAAACCACCCTGGCGCCCAATACGCAAACCGCCT",
+      "sequence": "TGGACGCTATCCAGTCTAAACATTTTACTATTACCCCCTCTGGCAAAACTTCTTTTGCAAAAG",
       "domains": [
         {"helix": 6, "forward": true, "start": 0, "end": 63}
       ]
     },
     {
       "color": "#7300de",
-      "sequence": "CTCCCCGCGCGTTGGCCGATTCATTAATGCAGCTGGCACGACAGGTTTCCCGACTGGAAAGCG",
+      "sequence": "CCTCTCGCTATTTTGGTTTTTATCGTCGTCTGGTAAACGAGGGTTATGATAGTGTTGCTCTTA",
       "domains": [
         {"helix": 7, "forward": true, "start": 0, "end": 63}
       ]
