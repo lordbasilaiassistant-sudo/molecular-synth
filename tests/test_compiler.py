@@ -110,6 +110,24 @@ class TestRouting(unittest.TestCase):
         bad = [(0, 1), (1, 0), (2, 0), (0, 2), (1, 2), (2, 1)]
         self.assertFalse(sc.circuit_report(bad, edges)["single_circuit"])
 
+    def test_vertex_crossing_metric_is_measured_and_honest(self):
+        """A-trail quality is measured, not claimed: every closed preset reports a
+        face-follow fraction in (0,1), and the crossing count is at least F-1 (a single
+        Eulerian circuit must deviate that many times to merge F face loops into one
+        strand) and at most one per vertex passage."""
+        s, name, synth = sc.load_scaffold()
+        for shape in ("tetrahedron", "cube", "octahedron", "icosahedron", "dodecahedron"):
+            mesh = geometry.load_shape(shape)
+            arcs = sc._eulerian_circuit(mesh)
+            rep = sc.vertex_crossings(mesh, arcs)
+            n_faces = len(mesh.faces)
+            self.assertEqual(rep["passages"], 2 * len(mesh.edges), shape)
+            self.assertEqual(rep["crossings"] + rep["face_following"], rep["passages"], shape)
+            self.assertGreaterEqual(rep["crossings"], n_faces - 1, (shape, rep))
+            self.assertTrue(0.0 < rep["face_follow_fraction"] < 1.0, (shape, rep))
+            routing = sc.route(mesh, s, name, synth)
+            self.assertEqual(routing.vertex_crossings, rep["crossings"], shape)
+
     def test_rotation_system_from_faces(self):
         """The face rotation system (the A-trail turn order) is a clean permutation of
         each vertex's neighbours on EVERY closed preset (needs consistently-wound faces)."""

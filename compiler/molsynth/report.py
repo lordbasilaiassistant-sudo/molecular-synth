@@ -53,11 +53,32 @@ def yield_report(design: dict, staples, history) -> str:
                if spread <= 4 else
                "broad Tm distribution -> screen Mg2+/ramp; some staples are outliers")
 
+    # routing topology / A-trail quality (measured, not claimed)
+    ff = design.get("routing_face_follow_fraction")
+    vx = design.get("routing_vertex_crossings")
+    if ff is None:
+        routing_block = ("- single closed scaffold circuit: "
+                         f"{design.get('single_scaffold_circuit')} (every edge twice)\n"
+                         "- A-trail metric: n/a (mesh has no faces; arbitrary single circuit)")
+    else:
+        routing_block = (
+            f"- single closed scaffold circuit: {design.get('single_scaffold_circuit')} "
+            "(machine-checked: closed + complete + both directions of every edge)\n"
+            f"- A-trail quality (measured): follows a face boundary at {ff:.0%} of vertex "
+            f"passages; {vx} crossing(s)\n"
+            "  (a single circuit can't reach 100% -- it must deviate at >= F-1 vertices to "
+            "merge the face loops;\n"
+            "   for a GUARANTEED non-crossing A-trail, route the PLY wireframe through "
+            "PERDIX/DAEDALUS)")
+
     return f"""# Yield diagnostic - {design.get('design_name','design')}
 
 _Pre-order design check. See docs/research/06-ai-staple-optimizer.md. This predicts
 cooperativity from sequence thermodynamics; it does not replace a wet-lab Mg2+ x ramp
 screen, and absolute Tm depends on the assumed salt/concentration._
+
+## Routing topology
+{routing_block}
 
 ## Optimizer
 - objective: {s0} -> {s1}{improve}

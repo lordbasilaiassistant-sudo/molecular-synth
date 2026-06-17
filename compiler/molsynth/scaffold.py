@@ -13,11 +13,16 @@ Scaffold sourcing + routing.
    of the doubled directed edge multigraph (Hierholzer's algorithm). Every vertex of
    that multigraph is in/out balanced, so a circuit always exists for any CONNECTED
    mesh. The traversal is BIASED by the face rotation system (the A-trail "turn to the
-   next edge" rule) so the scaffold traces faces and avoids vertex crossings, while
-   Hierholzer still guarantees a single closed scaffold - i.e. face-aware A-trail-style
-   routing (Benson et al., Nature 523:441, 2015; Veneziano et al., Science 352:1534,
-   2016). The rotation bias is a preference, not a hard guarantee of a perfect A-trail;
-   meshes without faces fall back to an arbitrary single Eulerian circuit.
+   next edge" rule) so the scaffold tends to trace faces and reduce vertex crossings,
+   while Hierholzer still guarantees a single closed scaffold (Benson et al., Nature
+   523:441, 2015; Veneziano et al., Science 352:1534, 2016). The rotation bias is a
+   PREFERENCE, not a guaranteed non-crossing A-trail: on the Platonic presets it follows
+   a face boundary at ~58-65% of vertex passages (measured -- see vertex_crossings()),
+   and a single circuit can never reach 100% because it must deviate at >= F-1 vertices to
+   merge the F face loops into one strand. route() reports the real crossing count so this
+   quality is transparent. For a GUARANTEED non-crossing A-trail, hand the PLY wireframe
+   to PERDIX/DAEDALUS (export.write_ply). Meshes without faces fall back to an arbitrary
+   single Eulerian circuit (no face metric).
 
    HONEST SCOPE: this produces a *topologically valid, sequence-valid* routing
    (single scaffold loop covering all edges exactly twice; staples are exact reverse
@@ -61,6 +66,8 @@ class Routing:
     crossover_positions: list # scaffold indices that are vertex/crossover boundaries
     synthetic: bool
     single_circuit: bool = True  # passed the one-closed-loop topology invariant
+    vertex_crossings: int = 0     # vertex passages that don't follow a face boundary
+    face_follow_fraction: float = None  # measured A-trail quality in [0,1] (None if no faces)
 
 
 # --------------------------------------------------------------------------- #
@@ -250,6 +257,31 @@ def circuit_report(arcs, edges):
     }
 
 
+def vertex_crossings(mesh, arcs):
+    """A-trail quality, measured (not claimed). At every vertex the scaffold passage
+    either continues along a face boundary (turns to the rotation-system neighbour) or
+    "crosses" the vertex. A perfect non-crossing A-trail (Benson, Nature 523:441, 2015)
+    minimises crossings; but a SINGLE Eulerian circuit must deviate at >= F-1 vertices to
+    merge the F face loops into one strand, so some crossings are unavoidable -- a
+    zero-crossing route would be F separate loops, not one scaffold. This reports the
+    real number so the routing's A-trail quality is transparent rather than asserted.
+    Lower is closer to fabrication-grade; for a GUARANTEED non-crossing A-trail, hand the
+    PLY wireframe (export.write_ply) to PERDIX/DAEDALUS. Empty if the mesh has no faces."""
+    rot = _rotation_system(mesh)
+    if not rot or not arcs:
+        return {"passages": 0, "face_following": 0, "crossings": 0,
+                "face_follow_fraction": None}
+    n = len(arcs)
+    ff = 0
+    for k in range(n):
+        u, v = arcs[k]
+        w = arcs[(k + 1) % n][1]            # cyclic: last passage transitions into the first
+        if rot.get(v, {}).get(u) == w:
+            ff += 1
+    return {"passages": n, "face_following": ff, "crossings": n - ff,
+            "face_follow_fraction": round(ff / n, 3)}
+
+
 def _is_connected(mesh):
     """Are all edge-incident vertices in one connected component?"""
     if not mesh.edges:
@@ -324,6 +356,7 @@ def route(mesh, scaffold_seq, scaffold_name, synthetic, min_edge_bp=42):
             "or raise --min-edge-bp tolerance."
         )
 
+    atrail = vertex_crossings(mesh, arcs)   # measured A-trail quality (face-following %)
     full = "".join(s.seq for s in segments)
     # crossover_positions[-1] == len(full); the optimizer filters boundaries to
     # 0 < p < S, so the closing boundary is harmless to keep (and dropping it blindly
@@ -337,4 +370,6 @@ def route(mesh, scaffold_seq, scaffold_name, synthetic, min_edge_bp=42):
         crossover_positions=crossover_positions,
         synthetic=synthetic,
         single_circuit=True,
+        vertex_crossings=atrail["crossings"],
+        face_follow_fraction=atrail["face_follow_fraction"],
     )
