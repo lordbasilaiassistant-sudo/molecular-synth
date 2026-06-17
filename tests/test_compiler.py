@@ -488,6 +488,31 @@ class TestEndToEnd(unittest.TestCase):
         self.assertTrue(rep["staples_partition_complement"])
         self.assertTrue(rep["pointers_reciprocal"])
 
+    def test_scadnano_export_loads_as_valid_origami(self):
+        """If scadnano is installed, the emitted design.sc must load back through the REAL
+        scadnano library (not our own reader) as exactly ONE is_scaffold strand of the
+        right length plus K base-paired staples -- i.e. a valid, editable origami, not a
+        pile of disconnected fragments. Skipped cleanly when scadnano isn't installed."""
+        try:
+            import scadnano as scn  # noqa: F401
+        except Exception:
+            self.skipTest("scadnano not installed")
+        from molsynth import export
+        mesh = geometry.load_shape("octahedron")
+        s, name, synth = sc.load_scaffold()
+        routing = sc.route(mesh, s, name, synth)
+        staples, _ = build_staples(routing, YieldModel(), iterations=600, seed=5)
+        with tempfile.TemporaryDirectory() as d:
+            path = export.write_scadnano(d, routing, staples)
+            self.assertIsNotNone(path, "scadnano export returned None despite being installed")
+            design = scn.Design.from_scadnano_file(path)
+            scaf = [x for x in design.strands if x.is_scaffold]
+            stap = [x for x in design.strands if not x.is_scaffold]
+            self.assertEqual(len(scaf), 1, "must be exactly one scaffold strand")
+            self.assertEqual(len(stap), len(staples), "every staple present as its own strand")
+            scaf_len = sum(dom.dna_length() for dom in scaf[0].domains)
+            self.assertEqual(scaf_len, routing.scaffold_len_used)
+
     def test_oxdna_topology_header(self):
         mesh = geometry.load_shape("tetrahedron")
         s, name, synth = sc.load_scaffold()

@@ -9,7 +9,7 @@ Always emitted:
   design.top            oxDNA topology (run oxDNA after adding coordinates)
   design_cadnano.json   caDNAno v2 legacy design (-> CanDo / oxDNA; topology verified)
 Optional (only if the package is importable):
-  design.sc             scadnano design (best-effort wireframe layout)
+  design.sc             scadnano design (scaffold + base-paired staples; strand topology)
 """
 
 from __future__ import annotations
@@ -387,23 +387,42 @@ def cadnano_decode(obj):
 
 
 def write_scadnano(outdir, routing, staples):
-    """Best-effort scadnano export (one helix per edge). Returns path or None.
-    Never raises - the core pipeline does not depend on scadnano being installed."""
+    """scadnano export. Returns path or None (never raises -- the core pipeline does not
+    depend on scadnano being installed).
+
+    Faithful STRAND TOPOLOGY, not 3D wireframe geometry. The scaffold is laid as ONE
+    strand (flagged is_scaffold) running 5'->3' on the forward strand of a single helix;
+    every staple is its own strand on the ANTIPARALLEL reverse strand over the exact
+    scaffold range it reverse-complements. So `scadnano.Design.from_scadnano_file()` reads
+    back exactly one scaffold + K base-paired staples with the right sequences -- a valid,
+    editable origami you can open at scadnano.org. (The earlier version drew each scaffold
+    segment as a SEPARATE forward strand with no scaffold flag and no staples, so scadnano
+    saw N disconnected fragments and zero scaffold -- not a foldable design.)
+
+    HONEST SCOPE: this is the hybridization topology on a linearized helix, NOT the folded
+    3D shape or production crossover geometry -- the scaffold's closing loop (circular M13)
+    is shown cut, and the wireframe edges are not spatially placed. For shape use the oxDNA
+    (design.top/conf.dat) or PDB outputs, or caDNAno (design_cadnano.json); relax in oxDNA.
+    """
     try:
         import scadnano as sc  # type: ignore
     except Exception:
         return None
     try:
-        # one helix per edge-traversal segment; lay each scaffold domain as a forward
-        # strand (best-effort schematic for viewing in scadnano.org, not production
-        # crossover geometry -- relax in oxDNA for that).
-        segs = routing.segments
-        n_helices = max(1, len(segs))
-        helix_len = max((s.bp for s in segs), default=64) + 8
-        design = sc.Design(helices=[sc.Helix(max_offset=helix_len) for _ in range(n_helices)],
-                           grid=sc.square)
-        for h, seg in enumerate(segs):
-            design.draw_strand(h, 0).move(max(1, seg.bp)).with_sequence(seg.seq)
+        seq = routing.scaffold_seq
+        S = len(seq)
+        if S < 2:
+            return None
+        design = sc.Design(helices=[sc.Helix(max_offset=S + 1)], grid=sc.square)
+        # scaffold: one forward strand spanning the whole route, flagged is_scaffold
+        design.draw_strand(0, 0).move(S).as_scaffold().with_sequence(seq)
+        # staples: each on the antiparallel reverse strand over its scaffold range, so it
+        # base-pairs the scaffold exactly (staple.seq == revcomp(seq[start:end]))
+        for st in staples:
+            a, b = st.scaffold_start, st.scaffold_end
+            if b - a < 1:
+                continue
+            design.draw_strand(0, b).move(-(b - a)).with_sequence(st.seq)
         design.write_scadnano_file(directory=outdir, filename="design.sc")
         return os.path.join(outdir, "design.sc")
     except Exception:
