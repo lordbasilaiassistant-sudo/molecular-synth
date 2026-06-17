@@ -132,11 +132,11 @@
       "order": 0,
       "arc": [
         0,
-        1
+        4
       ],
       "edge": [
         0,
-        1
+        4
       ],
       "bp": 63,
       "scaffold_start": 0
@@ -144,12 +144,12 @@
     {
       "order": 1,
       "arc": [
-        1,
-        0
+        4,
+        6
       ],
       "edge": [
-        0,
-        1
+        4,
+        6
       ],
       "bp": 63,
       "scaffold_start": 63
@@ -157,12 +157,12 @@
     {
       "order": 2,
       "arc": [
-        0,
-        2
+        6,
+        7
       ],
       "edge": [
-        0,
-        2
+        6,
+        7
       ],
       "bp": 63,
       "scaffold_start": 126
@@ -170,12 +170,12 @@
     {
       "order": 3,
       "arc": [
-        2,
-        0
+        7,
+        6
       ],
       "edge": [
-        0,
-        2
+        6,
+        7
       ],
       "bp": 63,
       "scaffold_start": 189
@@ -183,12 +183,12 @@
     {
       "order": 4,
       "arc": [
-        0,
-        4
+        6,
+        2
       ],
       "edge": [
-        0,
-        4
+        2,
+        6
       ],
       "bp": 63,
       "scaffold_start": 252
@@ -196,12 +196,12 @@
     {
       "order": 5,
       "arc": [
-        4,
-        5
+        2,
+        3
       ],
       "edge": [
-        4,
-        5
+        2,
+        3
       ],
       "bp": 63,
       "scaffold_start": 315
@@ -209,12 +209,12 @@
     {
       "order": 6,
       "arc": [
-        5,
-        1
+        3,
+        7
       ],
       "edge": [
-        1,
-        5
+        3,
+        7
       ],
       "bp": 63,
       "scaffold_start": 378
@@ -222,12 +222,12 @@
     {
       "order": 7,
       "arc": [
-        1,
-        3
+        7,
+        5
       ],
       "edge": [
-        1,
-        3
+        5,
+        7
       ],
       "bp": 63,
       "scaffold_start": 441
@@ -235,12 +235,12 @@
     {
       "order": 8,
       "arc": [
-        3,
+        5,
         1
       ],
       "edge": [
         1,
-        3
+        5
       ],
       "bp": 63,
       "scaffold_start": 504
@@ -249,6 +249,58 @@
       "order": 9,
       "arc": [
         1,
+        3
+      ],
+      "edge": [
+        1,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 567
+    },
+    {
+      "order": 10,
+      "arc": [
+        3,
+        2
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 630
+    },
+    {
+      "order": 11,
+      "arc": [
+        2,
+        0
+      ],
+      "edge": [
+        0,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 693
+    },
+    {
+      "order": 12,
+      "arc": [
+        0,
+        1
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 756
+    },
+    {
+      "order": 13,
+      "arc": [
+        1,
         5
       ],
       "edge": [
@@ -256,10 +308,10 @@
         5
       ],
       "bp": 63,
-      "scaffold_start": 567
+      "scaffold_start": 819
     },
     {
-      "order": 10,
+      "order": 14,
       "arc": [
         5,
         4
@@ -269,69 +321,17 @@
         5
       ],
       "bp": 63,
-      "scaffold_start": 630
-    },
-    {
-      "order": 11,
-      "arc": [
-        4,
-        6
-      ],
-      "edge": [
-        4,
-        6
-      ],
-      "bp": 63,
-      "scaffold_start": 693
-    },
-    {
-      "order": 12,
-      "arc": [
-        6,
-        2
-      ],
-      "edge": [
-        2,
-        6
-      ],
-      "bp": 63,
-      "scaffold_start": 756
-    },
-    {
-      "order": 13,
-      "arc": [
-        2,
-        3
-      ],
-      "edge": [
-        2,
-        3
-      ],
-      "bp": 63,
-      "scaffold_start": 819
-    },
-    {
-      "order": 14,
-      "arc": [
-        3,
-        2
-      ],
-      "edge": [
-        2,
-        3
-      ],
-      "bp": 63,
       "scaffold_start": 882
     },
     {
       "order": 15,
       "arc": [
-        2,
-        6
+        4,
+        0
       ],
       "edge": [
-        2,
-        6
+        0,
+        4
       ],
       "bp": 63,
       "scaffold_start": 945
@@ -339,12 +339,12 @@
     {
       "order": 16,
       "arc": [
-        6,
-        7
+        0,
+        2
       ],
       "edge": [
-        6,
-        7
+        0,
+        2
       ],
       "bp": 63,
       "scaffold_start": 1008
@@ -352,12 +352,12 @@
     {
       "order": 17,
       "arc": [
-        7,
-        3
+        2,
+        6
       ],
       "edge": [
-        3,
-        7
+        2,
+        6
       ],
       "bp": 63,
       "scaffold_start": 1071
@@ -365,12 +365,12 @@
     {
       "order": 18,
       "arc": [
-        3,
-        7
+        6,
+        4
       ],
       "edge": [
-        3,
-        7
+        4,
+        6
       ],
       "bp": 63,
       "scaffold_start": 1134
@@ -378,12 +378,12 @@
     {
       "order": 19,
       "arc": [
-        7,
+        4,
         5
       ],
       "edge": [
-        5,
-        7
+        4,
+        5
       ],
       "bp": 63,
       "scaffold_start": 1197
@@ -405,10 +405,10 @@
       "order": 21,
       "arc": [
         7,
-        6
+        3
       ],
       "edge": [
-        6,
+        3,
         7
       ],
       "bp": 63,
@@ -417,12 +417,12 @@
     {
       "order": 22,
       "arc": [
-        6,
-        4
+        3,
+        1
       ],
       "edge": [
-        4,
-        6
+        1,
+        3
       ],
       "bp": 63,
       "scaffold_start": 1386
@@ -430,12 +430,12 @@
     {
       "order": 23,
       "arc": [
-        4,
+        1,
         0
       ],
       "edge": [
         0,
-        4
+        1
       ],
       "bp": 63,
       "scaffold_start": 1449

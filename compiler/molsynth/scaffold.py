@@ -12,10 +12,12 @@ Scaffold sourcing + routing.
    traverses every edge exactly twice (once in each direction) -- an Eulerian circuit
    of the doubled directed edge multigraph (Hierholzer's algorithm). Every vertex of
    that multigraph is in/out balanced, so a circuit always exists for any CONNECTED
-   mesh. This is a SIMPLIFIED, non-face-respecting variant of the "A-trail" routing
-   used for wireframe DNA origami (Benson et al., Nature 523:441, 2015; Veneziano et
-   al., Science 352:1534, 2016): a true A-trail additionally turns to the next edge in
-   a planar rotation system at each vertex; we do not enforce that ordering.
+   mesh. The traversal is BIASED by the face rotation system (the A-trail "turn to the
+   next edge" rule) so the scaffold traces faces and avoids vertex crossings, while
+   Hierholzer still guarantees a single closed scaffold - i.e. face-aware A-trail-style
+   routing (Benson et al., Nature 523:441, 2015; Veneziano et al., Science 352:1534,
+   2016). The rotation bias is a preference, not a hard guarantee of a perfect A-trail;
+   meshes without faces fall back to an arbitrary single Eulerian circuit.
 
    HONEST SCOPE: this produces a *topologically valid, sequence-valid* routing
    (single scaffold loop covering all edges exactly twice; staples are exact reverse
@@ -164,36 +166,58 @@ def assign_edge_bp(mesh, scaffold_budget, min_edge_bp=42, max_edge_bp=105,
     return edge_bp
 
 
+def _rotation_system(mesh):
+    """Cyclic order of neighbours around each vertex, derived from the (oriented) mesh
+    faces: for a face corner (a, v, b), the neighbour after `a` around `v` is `b`. This
+    is the rotation system an A-trail follows to route the scaffold WITHOUT crossing at
+    vertices (Benson et al., Nature 523:441, 2015). Empty if the mesh has no faces."""
+    if not mesh.faces:
+        return {}
+    succ = {v: {} for v in range(len(mesh.vertices))}
+    for f in mesh.faces:
+        k = len(f)
+        for idx in range(k):
+            a, v, b = f[(idx - 1) % k], f[idx], f[(idx + 1) % k]
+            succ[v][a] = b
+    return succ
+
+
 def _eulerian_circuit(mesh):
-    """Hierholzer's algorithm on the doubled directed multigraph (each undirected
-    edge -> two opposite arcs). Returns an ordered list of arcs (u, v)."""
-    # adjacency as a stack of outgoing arcs per vertex
-    out_arcs = {v: [] for v in range(len(mesh.vertices))}
-    for i, j in mesh.edges:
-        out_arcs[i].append(j)
-        out_arcs[j].append(i)
+    """Hierholzer's algorithm on the doubled directed multigraph (each undirected edge
+    -> two opposite arcs), BIASED by the face rotation system: on leaving a vertex the
+    walk prefers the next edge in the rotation (the A-trail "turn" rule), which traces
+    faces and avoids crossings. Hierholzer still guarantees a SINGLE closed circuit
+    covering every arc, so this is a face-aware routing with no loss of the
+    single-scaffold guarantee. Falls back to arbitrary order when faces are absent.
+    Returns an ordered list of arcs (u, v)."""
     if not mesh.edges:
         return []
+    rot = _rotation_system(mesh)
+    remaining = {v: [] for v in range(len(mesh.vertices))}
+    for i, j in mesh.edges:
+        remaining[i].append(j)
+        remaining[j].append(i)
+
     start = mesh.edges[0][0]
     stack = [start]
-    circuit = []
-    # track consumption per vertex via an index pointer
-    ptr = {v: 0 for v in out_arcs}
-    used = set()  # arcs consumed, keyed by an instance id
-
-    # Because multigraph may repeat neighbors, consume by popping.
-    out_stack = {v: list(reversed(arcs)) for v, arcs in out_arcs.items()}
     path = []
     while stack:
         v = stack[-1]
-        if out_stack[v]:
-            w = out_stack[v].pop()
-            stack.append(w)
+        nbrs = remaining[v]
+        if nbrs:
+            nxt = None
+            if rot and len(stack) >= 2:                 # A-trail turn: next in rotation
+                cand = rot.get(v, {}).get(stack[-2])
+                if cand in nbrs:
+                    nxt = cand
+            if nxt is None:
+                nxt = nbrs[-1]
+            nbrs.remove(nxt)
+            stack.append(nxt)
         else:
             path.append(stack.pop())
     path.reverse()
-    arcs = list(zip(path, path[1:]))
-    return arcs
+    return list(zip(path, path[1:]))
 
 
 def _is_connected(mesh):

@@ -53,11 +53,11 @@ The hard part is design, and it is **solved and automated**:
   model, Ouldridge et al. *J. Chem. Phys.* 134:085101 (2011); oxDNA2, Snodin et al.
   (2015). `[oxdna-sim]`
 
-`/compiler` implements the core of this pipeline from scratch (mesh → Eulerian-circuit
-scaffold routing — a simplified, non-face-respecting variant of A-trail routing →
-staple breaking → orderable sequences + protocol), and exports to the standard
-ecosystem formats (oxDNA topology, scadnano, IDT plate / oPool). It is dependency-light
-by design so it runs end-to-end offline.
+`/compiler` implements the core of this pipeline from scratch (mesh → face-aware
+A-trail-style scaffold routing — a single Eulerian circuit biased by the face rotation
+system to trace faces and avoid vertex crossings → staple breaking → orderable sequences
++ protocol), and exports to the standard ecosystem formats (oxDNA topology, scadnano,
+IDT plate / oPool). It is dependency-light by design so it runs end-to-end offline.
 
 ## 3. The "AI / yield" layer is honest physics, and it's the moat
 

@@ -56,9 +56,9 @@ summary = compile_shape("cube", outdir="out/cube", iterations=8000)
    synthetic fallback) and **route** it: assign each edge a bp length snapped to
    integer helical turns (≈10.5 bp/turn, 4–10-turn window), then thread a single closed
    scaffold walk that traverses every edge twice via an **Eulerian circuit** of the
-   doubled edge graph (Hierholzer's algorithm) — a simplified, non-face-respecting
-   variant of the A-trail routing of Benson 2015 / Veneziano 2016. Disconnected meshes
-   are rejected (one scaffold can't thread separate components).
+   doubled edge graph (Hierholzer's algorithm), **biased by the face rotation system**
+   so the scaffold traces faces and avoids vertex crossings — face-aware A-trail-style
+   routing (Benson 2015 / Veneziano 2016). Disconnected meshes are rejected.
 3. **sequences.py** — **SantaLucia (1998) unified nearest-neighbor** thermodynamics:
    ΔH/ΔS, salt-corrected Tm, plus GC / homopolymer / repeat / hairpin heuristics.
 4. **optimizer.py** — the **AI/yield layer**. Staples = the exact reverse complement of

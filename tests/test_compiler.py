@@ -68,6 +68,16 @@ class TestRouting(unittest.TestCase):
         self.assertEqual(set(counts.keys()), set(mesh.edges))
         self.assertTrue(all(c == 2 for c in counts.values()), counts)
 
+    def test_rotation_system_from_faces(self):
+        """The face rotation system (the A-trail turn order) is a permutation of each
+        vertex's neighbours on a closed mesh."""
+        mesh = geometry.load_shape("octahedron")
+        rot = sc._rotation_system(mesh)
+        adj = mesh.adjacency()
+        for v in range(len(mesh.vertices)):
+            self.assertEqual(set(rot[v].keys()), set(adj[v]), v)
+            self.assertEqual(set(rot[v].values()), set(adj[v]), v)
+
     def test_disconnected_mesh_rejected(self):
         """A single scaffold cannot route separate components -> must raise, not
         silently drop edges."""
