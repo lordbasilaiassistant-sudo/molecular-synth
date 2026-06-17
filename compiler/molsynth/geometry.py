@@ -91,8 +91,10 @@ def _cube() -> Mesh:
             diff = sum(1 for k in range(3) if v[a][k] != v[b][k])
             if diff == 1:
                 edges.append((a, b))
-    faces = [(0, 1, 3, 2), (4, 5, 7, 6), (0, 1, 5, 4),
-             (2, 3, 7, 6), (0, 2, 6, 4), (1, 3, 7, 5)]
+    # consistently outward-wound faces (-X,+X,-Y,+Y,-Z,+Z), so the rotation system
+    # used by the A-trail routing is a clean neighbour permutation at every vertex.
+    faces = [(0, 1, 3, 2), (4, 6, 7, 5), (0, 4, 5, 1),
+             (2, 3, 7, 6), (0, 2, 6, 4), (1, 5, 7, 3)]
     return Mesh("cube", v, _dedup_edges(edges), faces)
 
 
