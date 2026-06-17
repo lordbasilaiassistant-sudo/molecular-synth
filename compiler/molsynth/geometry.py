@@ -149,10 +149,27 @@ def _square() -> Mesh:
     return Mesh("square", v, edges, [(0, 1, 2, 3)])
 
 
+def _icosahedron() -> Mesh:
+    """Regular icosahedron — 12 vertices, 30 edges, 20 triangular faces. A real
+    icosahedral nanocage shape (the geometry of many viral capsids)."""
+    p = (1 + 5 ** 0.5) / 2.0
+    v = [(-1, p, 0), (1, p, 0), (-1, -p, 0), (1, -p, 0),
+         (0, -1, p), (0, 1, p), (0, -1, -p), (0, 1, -p),
+         (p, 0, -1), (p, 0, 1), (-p, 0, -1), (-p, 0, 1)]
+    faces = [(0, 11, 5), (0, 5, 1), (0, 1, 7), (0, 7, 10), (0, 10, 11),
+             (1, 5, 9), (5, 11, 4), (11, 10, 2), (10, 7, 6), (7, 1, 8),
+             (3, 9, 4), (3, 4, 2), (3, 2, 6), (3, 6, 8), (3, 8, 9),
+             (4, 9, 5), (2, 4, 11), (6, 2, 10), (8, 6, 7), (9, 8, 1)]
+    faces = orient_faces(faces)
+    edges = _dedup_edges([(a, b) for f in faces for a, b in zip(f, f[1:] + f[:1])])
+    return Mesh("icosahedron", v, edges, faces)
+
+
 PRESETS = {
     "tetrahedron": _tetrahedron,
     "cube": _cube,
     "octahedron": _octahedron,
+    "icosahedron": _icosahedron,
     "square": _square,
 }
 

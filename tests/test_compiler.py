@@ -43,6 +43,7 @@ class TestGeometry(unittest.TestCase):
         self.assertEqual(len(geometry.load_shape("tetrahedron").edges), 6)
         self.assertEqual(len(geometry.load_shape("cube").edges), 12)
         self.assertEqual(len(geometry.load_shape("octahedron").edges), 12)
+        self.assertEqual(len(geometry.load_shape("icosahedron").edges), 30)
 
     def test_orient_faces_repairs_winding(self):
         """A mesh with one flipped face is re-oriented so the rotation system is a clean
@@ -85,7 +86,7 @@ class TestRouting(unittest.TestCase):
     def test_rotation_system_from_faces(self):
         """The face rotation system (the A-trail turn order) is a clean permutation of
         each vertex's neighbours on EVERY closed preset (needs consistently-wound faces)."""
-        for shape in ("tetrahedron", "cube", "octahedron"):
+        for shape in ("tetrahedron", "cube", "octahedron", "icosahedron"):
             mesh = geometry.load_shape(shape)
             rot = sc._rotation_system(mesh)
             adj = mesh.adjacency()
@@ -335,7 +336,7 @@ class TestEndToEnd(unittest.TestCase):
     def test_all_presets_compile(self):
         """Every built-in preset must route + compile end-to-end (square regressed once)."""
         import tempfile
-        for shape in ("tetrahedron", "cube", "octahedron", "square"):
+        for shape in ("tetrahedron", "cube", "octahedron", "icosahedron", "square"):
             with tempfile.TemporaryDirectory() as d:
                 summary = molsynth.compile_shape(shape, outdir=d, iterations=400)
                 self.assertGreater(summary["n_staples"], 0, shape)
