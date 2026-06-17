@@ -40,3 +40,6 @@ examples/out_*/conf.dat
 examples/out_*/structure.pdb
 # Delete the line below to ignore example outputs entirely.
 # examples/out_*/
+
+# Serena tool index
+.serena/
