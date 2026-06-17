@@ -1,0 +1,2164 @@
+{
+  "meta": {
+    "design_name": "dodecahedron",
+    "shape": "dodecahedron",
+    "approx_nm": 21.4,
+    "scaffold_name": "M13mp18",
+    "scaffold_len_used": 3780,
+    "scaffold_total": 7255,
+    "scaffold_offset": 3627,
+    "synthetic_scaffold": false,
+    "n_staples": 102,
+    "total_staple_bases": 3780,
+    "decorations": 0,
+    "scaffold_nM": 20,
+    "staple_excess": 10,
+    "mg_mM": 12.5,
+    "reaction_uL": 50,
+    "anneal_ramp": [
+      [
+        90,
+        5
+      ],
+      [
+        85.0,
+        8.6
+      ],
+      [
+        80.0,
+        8.6
+      ],
+      [
+        75.0,
+        8.6
+      ],
+      [
+        70.0,
+        8.6
+      ],
+      [
+        65.0,
+        8.6
+      ],
+      [
+        60.0,
+        8.6
+      ],
+      [
+        55.0,
+        8.6
+      ],
+      [
+        50.0,
+        8.6
+      ],
+      [
+        45.0,
+        8.6
+      ],
+      [
+        40.0,
+        8.6
+      ],
+      [
+        35.0,
+        8.6
+      ],
+      [
+        30.0,
+        8.6
+      ],
+      [
+        25.0,
+        8.6
+      ],
+      [
+        20.0,
+        8.6
+      ]
+    ],
+    "mesh": {
+      "name": "dodecahedron",
+      "vertices": 20,
+      "edges": 30,
+      "faces": 12,
+      "min_degree": 3,
+      "max_degree": 3,
+      "min_edge_len": 1.0787,
+      "max_edge_len": 1.0787
+    },
+    "staple_stats": {
+      "n_staples": 102,
+      "n_crossover_staples": 59,
+      "n_overloaded_staples": 0,
+      "len_min": 32,
+      "len_max": 42,
+      "len_mean": 37.1,
+      "tm_min_C": 51.2,
+      "tm_max_C": 77.5,
+      "tm_mean_C": 61.8,
+      "tm_stdev_C": 5.68,
+      "total_bases_ordered": 3780,
+      "offtarget_max": 32,
+      "n_offtarget_risk": 4,
+      "dimer_max_cross_dimer": 11,
+      "dimer_n_dimer_pairs": 83,
+      "dimer_worst_pair": [
+        "dodecahedron-st040",
+        "dodecahedron-st043"
+      ]
+    },
+    "optimizer_score": 250.224,
+    "optimizer_score_initial": 301.515,
+    "structure_check": {
+      "max_unit_dev": 2.220446049250313e-16,
+      "max_orth_dev": 1.6653345369377348e-16
+    }
+  },
+  "scaffold": {
+    "name": "M13mp18",
+    "synthetic": false,
+    "len_used": 3780,
+    "sequence": "ATCCGCCTGGTACTGAGCAAAACCCCGCTAATCCTAATCCTTCTCTTGAGGAGTCTCAGCCTCTTAATACTTTCATGTTTCAGAATAATAGGTTCCGAAATAGGCAGGGGGCATTAACTGTTTATACGGGCACTGTTACTCAAGGCACTGACCCCGTTAAAACTTATTACCAGTACACTCCTGTATCATCAAAAGCCATGTATGACGCTTACTGGAACGGTAAATTCAGAGACTGCGCTTTCCATTCTGGCTTTAATGAGGATTTATTTGTTTGTGAATATCAAGGCCAATCGTCTGACCTGCCTCAACCTCCTGTCAATGCTGGCGGCGGCTCTGGTGGTGGTTCTGGTGGCGGCTCTGAGGGTGGTGGCTCTGAGGGTGGCGGTTCTGAGGGTGGCGGCTCTGAGGGAGGCGGTTCCGGTGGTGGCTCTGGTTCCGGTGATTTTGATTATGAAAAGATGGCAAACGCTAATAAGGGGGCTATGACCGAAAATGCCGATGAAAACGCGCTACAGTCTGACGCTAAAGGCAAACTTGATTCTGTCGCTACTGATTACGGTGCTGCTATCGATGGTTTCATTGGTGACGTTTCCGGCCTTGCTAATGGTAATGGTGCTACTGGTGATTTTGCTGGCTCTAATTCCCAAATGGCTCAAGTCGGTGACGGTGATAATTCACCTTTAATGAATAATTTCCGTCAATATTTACCTTCCCTCCCTCAATCGGTTGAATGTCGCCCTTTTGTCTTTGGCGCTGGTAAACCATATGAATTTTCTATTGATTGTGACAAAATAAACTTATTCCGTGGTGTCTTTGCGTTTCTTTTATATGTTGCCACCTTTATGTATGTATTTTCTACGTTTGCTAACATACTGCGTAATAAGGAGTCTTAATCATGCCAGTTCTTTTGGGTATTCCGTTATTATTGCGTTTCCTCGGTTTCCTTCTGGTAACTTTGTTCGGCTATCTGCTTACTTTTCTTAAAAAGGGCTTCGGTAAGATAGCTATTGCTATTTCATTGTTTCTTGCTCTTATTATTGGGCTTAACTCAATTCTTGTGGGTTATCTCTCTGATATTAGCGCTCAATTACCCTCTGACTTTGTTCAGGGTGTTCAGTTAATTCTCCCGTCTAATGCGCTTCCCTGTTTTTATGTTATTCTCTCTGTAAAGGCTGCTATTTTCATTTTTGACGTTAAACAAAAAATCGTTTCTTATTTGGATTGGGATAAATAATATGGCTGTTTATTTTGTAACTGGCAAATTAGGCTCTGGAAAGACGCTCGTTAGCGTTGGTAAGATTCAGGATAAAATTGTAGCTGGGTGCAAAATAGCAACTAATCTTGATTTAAGGCTTCAAAACCTCCCGCAAGTCGGGAGGTTCGCTAAAACGCCTCGCGTTCTTAGAATACCGGATAAGCCTTCTATATCTGATTTGCTTGCTATTGGGCGCGGTAATGATTCCTACGATGAAAATAAAAACGGCTTGCTTGTTCTCGATGAGTGCGGTACTTGGTTTAATACCCGTTCTTGGAATGATAAGGAAAGACAGCCGATTATTGATTGGTTTCTACATGCTCGTAAATTAGGATGGGATATTATTTTTCTTGTTCAGGACTTATCTATTGTTGATAAACAGGCGCGTTCTGCATTAGCTGAACATGTTGTTTATTGTCGTCGTCTGGACAGAATTACTTTACCTTTTGTCGGTACTTTATATTCTCTTATTACTGGCTCGAAAATGCCTCTGCCTAAATTACATGTTGGCGTTGTTAAATATGGCGATTCTCAATTAAGCCCTACTGTTGAGCGTTGGCTTTATACTGGTAAGAATTTGTATAACGCATATGATACTAAACAGGCTTTTTCTAGTAATTATGATTCCGGTGTTTATTCTTATTTAACGCCTTATTTATCACACGGTCGGTATTTCAAACCATTAAATTTAGGTCAGAAGATGAAATTAACTAAAATATATTTGAAAAAGTTTTCTCGCGTTCTTTGTCTTGCGATTGGATTTGCATCAGCATTTACATATAGTTATATAACCCAACCTAAGCCGGAGGTTAAAAAGGTAGTCTCTCAGACCTATGATTTTGATAAATTCACTATTGACTCTTCTCAGCGTCTTAATCTAAGCTATCGCTATGTTTTCAAGGATTCTAAGGGAAAATTAATTAATAGCGACGATTTACAGAAGCAAGGTTATTCACTCACATATATTGATTTATGTACTGTTTCCATTAAAAAAGGTAATTCAAATGAAATTGTTAAATGTAATTAATTTTGTTTTCTTGATGTTTGTTTCATCATCTTCTTTTGCTCAGGTAATTGAAATGAATAATTCGCCTCTGCGCGATTTTGTAACTTGGTATTCAAAGCAATCAGGCGAATCCGTTATTGTTTCTCCCGATGTAAAAGGTACTGTTACTGTATATTCATCTGACGTTAAACCTGAAAATCTACGCAATTTCTTTATTTCTGTTTTACGTGCAAATAATTTTGATATGGTAGGTTCTAACCCTTCCATTATTCAGAAGTATAATCCAAACAATCAGGATTATATTGATGAATTGCCATCATCTGATAATCAGGAATATGATGATAATTCCGCTCCTTCTGGTGGTTTCTTTGTTCCGCAAAATGATAATGTTACTCAAACTTTTAAAATTAATAACGTTCGGGCAAAGGATTTAATACGAGTTGTCGAATTGTTTGTAAAGTCTAATACTTCTAAATCCTCAAATGTATTATCTATTGACGGCTCTAATCTATTAGTTGTTAGTGCTCCTAAAGATATTTTAGATAACCTTCCTCAATTCCTTTCAACTGTTGATTTGCCAACTGACCAGATATTGATTGAGGGTTTGATATTTGAGGTTCAGCAAGGTGATGCTTTAGATTTTTCATTTGCTGCTGGCTCTCAGCGTGGCACTGTTGCAGGCGGTGTTAATACTGACCGCCTCACCTCTGTTTTATCTTCTGCTGGTGGTTCGTTCGGTATTTTTAATGGCGATGTTTTAGGGCTATCAGTTCGCGCATTAAAGACTAATAGCCATTCAAAAATATTGTCTGTGCCACGTATTCTTACGCTTTCAGGTCAGAAGGGTTCTATCTCTGTTGGCCAGAATGTCCCTTTTATTACTGGTCGTGTGACTGGTGAATCTGCCAATGTAAATAATCCATTTCAGACGATTGAGCGTCAAAATGTAGGTATTTCCATGAGCGTTTTTCCTGTTGCAATGGCTGGCGGTAATATTGTTCTGGATATTACCAGCAAGGCCGATAGTTTGAGTTCTTCTACTCAGGCAAGTGATGTTATTACTAATCAAAGAAGTATTGCTACAACGGTTAATTTGCGTGATGGACAGACTCTTTTACTCGGTGGCCTCACTGATTATAAAAACACTTCTCAGGATTCTGGCGTACCGTTCCTGTCTAAAATCCCTTTAATCGGCCTCCTGTTTAGCTCCCGCTCTGATTCTAACGAGGAAAGCACGTTATACGTGCTCGTCAAAGCAACCATAGTACGCGCCCTGTAGCGGCGCATTAAGCGCGGCGGGTGTGGTGGTTACGCGCAGCGTGACCGCTACACTTGCCAGCGCCCTAGCGCCCGCTCCTTTCGCTTTCCACAATTTCCCTTCCTTTCTCGCCACGTTCGCCGGCTTTCCCCGTCAAGCTCTAAATCGGGGGCTCCCTTTAGGGTTCCGATTTAGTGCTTTACGGCACCTCGACCCCAAAAAACTTGATTTGGGTGATGGTTCACGTAGTGGGCCATCGCC"
+  },
+  "edges_bp": {
+    "0-4": 63,
+    "3-4": 63,
+    "2-3": 63,
+    "1-2": 63,
+    "0-1": 63,
+    "2-9": 63,
+    "9-19": 63,
+    "5-19": 63,
+    "1-5": 63,
+    "7-16": 63,
+    "11-16": 63,
+    "11-12": 63,
+    "12-17": 63,
+    "7-17": 63,
+    "10-14": 63,
+    "13-14": 63,
+    "12-13": 63,
+    "10-11": 63,
+    "6-15": 63,
+    "10-15": 63,
+    "6-16": 63,
+    "5-15": 63,
+    "0-6": 63,
+    "8-17": 63,
+    "13-18": 63,
+    "8-18": 63,
+    "3-8": 63,
+    "9-18": 63,
+    "14-19": 63,
+    "4-7": 63
+  },
+  "segments": [
+    {
+      "order": 0,
+      "arc": [
+        0,
+        6
+      ],
+      "edge": [
+        0,
+        6
+      ],
+      "bp": 63,
+      "scaffold_start": 0
+    },
+    {
+      "order": 1,
+      "arc": [
+        6,
+        16
+      ],
+      "edge": [
+        6,
+        16
+      ],
+      "bp": 63,
+      "scaffold_start": 63
+    },
+    {
+      "order": 2,
+      "arc": [
+        16,
+        7
+      ],
+      "edge": [
+        7,
+        16
+      ],
+      "bp": 63,
+      "scaffold_start": 126
+    },
+    {
+      "order": 3,
+      "arc": [
+        7,
+        4
+      ],
+      "edge": [
+        4,
+        7
+      ],
+      "bp": 63,
+      "scaffold_start": 189
+    },
+    {
+      "order": 4,
+      "arc": [
+        4,
+        0
+      ],
+      "edge": [
+        0,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 252
+    },
+    {
+      "order": 5,
+      "arc": [
+        0,
+        1
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 315
+    },
+    {
+      "order": 6,
+      "arc": [
+        1,
+        5
+      ],
+      "edge": [
+        1,
+        5
+      ],
+      "bp": 63,
+      "scaffold_start": 378
+    },
+    {
+      "order": 7,
+      "arc": [
+        5,
+        15
+      ],
+      "edge": [
+        5,
+        15
+      ],
+      "bp": 63,
+      "scaffold_start": 441
+    },
+    {
+      "order": 8,
+      "arc": [
+        15,
+        6
+      ],
+      "edge": [
+        6,
+        15
+      ],
+      "bp": 63,
+      "scaffold_start": 504
+    },
+    {
+      "order": 9,
+      "arc": [
+        6,
+        0
+      ],
+      "edge": [
+        0,
+        6
+      ],
+      "bp": 63,
+      "scaffold_start": 567
+    },
+    {
+      "order": 10,
+      "arc": [
+        0,
+        4
+      ],
+      "edge": [
+        0,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 630
+    },
+    {
+      "order": 11,
+      "arc": [
+        4,
+        3
+      ],
+      "edge": [
+        3,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 693
+    },
+    {
+      "order": 12,
+      "arc": [
+        3,
+        2
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 756
+    },
+    {
+      "order": 13,
+      "arc": [
+        2,
+        1
+      ],
+      "edge": [
+        1,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 819
+    },
+    {
+      "order": 14,
+      "arc": [
+        1,
+        2
+      ],
+      "edge": [
+        1,
+        2
+      ],
+      "bp": 63,
+      "scaffold_start": 882
+    },
+    {
+      "order": 15,
+      "arc": [
+        2,
+        9
+      ],
+      "edge": [
+        2,
+        9
+      ],
+      "bp": 63,
+      "scaffold_start": 945
+    },
+    {
+      "order": 16,
+      "arc": [
+        9,
+        19
+      ],
+      "edge": [
+        9,
+        19
+      ],
+      "bp": 63,
+      "scaffold_start": 1008
+    },
+    {
+      "order": 17,
+      "arc": [
+        19,
+        5
+      ],
+      "edge": [
+        5,
+        19
+      ],
+      "bp": 63,
+      "scaffold_start": 1071
+    },
+    {
+      "order": 18,
+      "arc": [
+        5,
+        19
+      ],
+      "edge": [
+        5,
+        19
+      ],
+      "bp": 63,
+      "scaffold_start": 1134
+    },
+    {
+      "order": 19,
+      "arc": [
+        19,
+        14
+      ],
+      "edge": [
+        14,
+        19
+      ],
+      "bp": 63,
+      "scaffold_start": 1197
+    },
+    {
+      "order": 20,
+      "arc": [
+        14,
+        10
+      ],
+      "edge": [
+        10,
+        14
+      ],
+      "bp": 63,
+      "scaffold_start": 1260
+    },
+    {
+      "order": 21,
+      "arc": [
+        10,
+        15
+      ],
+      "edge": [
+        10,
+        15
+      ],
+      "bp": 63,
+      "scaffold_start": 1323
+    },
+    {
+      "order": 22,
+      "arc": [
+        15,
+        10
+      ],
+      "edge": [
+        10,
+        15
+      ],
+      "bp": 63,
+      "scaffold_start": 1386
+    },
+    {
+      "order": 23,
+      "arc": [
+        10,
+        11
+      ],
+      "edge": [
+        10,
+        11
+      ],
+      "bp": 63,
+      "scaffold_start": 1449
+    },
+    {
+      "order": 24,
+      "arc": [
+        11,
+        16
+      ],
+      "edge": [
+        11,
+        16
+      ],
+      "bp": 63,
+      "scaffold_start": 1512
+    },
+    {
+      "order": 25,
+      "arc": [
+        16,
+        11
+      ],
+      "edge": [
+        11,
+        16
+      ],
+      "bp": 63,
+      "scaffold_start": 1575
+    },
+    {
+      "order": 26,
+      "arc": [
+        11,
+        12
+      ],
+      "edge": [
+        11,
+        12
+      ],
+      "bp": 63,
+      "scaffold_start": 1638
+    },
+    {
+      "order": 27,
+      "arc": [
+        12,
+        17
+      ],
+      "edge": [
+        12,
+        17
+      ],
+      "bp": 63,
+      "scaffold_start": 1701
+    },
+    {
+      "order": 28,
+      "arc": [
+        17,
+        7
+      ],
+      "edge": [
+        7,
+        17
+      ],
+      "bp": 63,
+      "scaffold_start": 1764
+    },
+    {
+      "order": 29,
+      "arc": [
+        7,
+        17
+      ],
+      "edge": [
+        7,
+        17
+      ],
+      "bp": 63,
+      "scaffold_start": 1827
+    },
+    {
+      "order": 30,
+      "arc": [
+        17,
+        8
+      ],
+      "edge": [
+        8,
+        17
+      ],
+      "bp": 63,
+      "scaffold_start": 1890
+    },
+    {
+      "order": 31,
+      "arc": [
+        8,
+        3
+      ],
+      "edge": [
+        3,
+        8
+      ],
+      "bp": 63,
+      "scaffold_start": 1953
+    },
+    {
+      "order": 32,
+      "arc": [
+        3,
+        8
+      ],
+      "edge": [
+        3,
+        8
+      ],
+      "bp": 63,
+      "scaffold_start": 2016
+    },
+    {
+      "order": 33,
+      "arc": [
+        8,
+        18
+      ],
+      "edge": [
+        8,
+        18
+      ],
+      "bp": 63,
+      "scaffold_start": 2079
+    },
+    {
+      "order": 34,
+      "arc": [
+        18,
+        9
+      ],
+      "edge": [
+        9,
+        18
+      ],
+      "bp": 63,
+      "scaffold_start": 2142
+    },
+    {
+      "order": 35,
+      "arc": [
+        9,
+        18
+      ],
+      "edge": [
+        9,
+        18
+      ],
+      "bp": 63,
+      "scaffold_start": 2205
+    },
+    {
+      "order": 36,
+      "arc": [
+        18,
+        13
+      ],
+      "edge": [
+        13,
+        18
+      ],
+      "bp": 63,
+      "scaffold_start": 2268
+    },
+    {
+      "order": 37,
+      "arc": [
+        13,
+        14
+      ],
+      "edge": [
+        13,
+        14
+      ],
+      "bp": 63,
+      "scaffold_start": 2331
+    },
+    {
+      "order": 38,
+      "arc": [
+        14,
+        13
+      ],
+      "edge": [
+        13,
+        14
+      ],
+      "bp": 63,
+      "scaffold_start": 2394
+    },
+    {
+      "order": 39,
+      "arc": [
+        13,
+        12
+      ],
+      "edge": [
+        12,
+        13
+      ],
+      "bp": 63,
+      "scaffold_start": 2457
+    },
+    {
+      "order": 40,
+      "arc": [
+        12,
+        13
+      ],
+      "edge": [
+        12,
+        13
+      ],
+      "bp": 63,
+      "scaffold_start": 2520
+    },
+    {
+      "order": 41,
+      "arc": [
+        13,
+        18
+      ],
+      "edge": [
+        13,
+        18
+      ],
+      "bp": 63,
+      "scaffold_start": 2583
+    },
+    {
+      "order": 42,
+      "arc": [
+        18,
+        8
+      ],
+      "edge": [
+        8,
+        18
+      ],
+      "bp": 63,
+      "scaffold_start": 2646
+    },
+    {
+      "order": 43,
+      "arc": [
+        8,
+        17
+      ],
+      "edge": [
+        8,
+        17
+      ],
+      "bp": 63,
+      "scaffold_start": 2709
+    },
+    {
+      "order": 44,
+      "arc": [
+        17,
+        12
+      ],
+      "edge": [
+        12,
+        17
+      ],
+      "bp": 63,
+      "scaffold_start": 2772
+    },
+    {
+      "order": 45,
+      "arc": [
+        12,
+        11
+      ],
+      "edge": [
+        11,
+        12
+      ],
+      "bp": 63,
+      "scaffold_start": 2835
+    },
+    {
+      "order": 46,
+      "arc": [
+        11,
+        10
+      ],
+      "edge": [
+        10,
+        11
+      ],
+      "bp": 63,
+      "scaffold_start": 2898
+    },
+    {
+      "order": 47,
+      "arc": [
+        10,
+        14
+      ],
+      "edge": [
+        10,
+        14
+      ],
+      "bp": 63,
+      "scaffold_start": 2961
+    },
+    {
+      "order": 48,
+      "arc": [
+        14,
+        19
+      ],
+      "edge": [
+        14,
+        19
+      ],
+      "bp": 63,
+      "scaffold_start": 3024
+    },
+    {
+      "order": 49,
+      "arc": [
+        19,
+        9
+      ],
+      "edge": [
+        9,
+        19
+      ],
+      "bp": 63,
+      "scaffold_start": 3087
+    },
+    {
+      "order": 50,
+      "arc": [
+        9,
+        2
+      ],
+      "edge": [
+        2,
+        9
+      ],
+      "bp": 63,
+      "scaffold_start": 3150
+    },
+    {
+      "order": 51,
+      "arc": [
+        2,
+        3
+      ],
+      "edge": [
+        2,
+        3
+      ],
+      "bp": 63,
+      "scaffold_start": 3213
+    },
+    {
+      "order": 52,
+      "arc": [
+        3,
+        4
+      ],
+      "edge": [
+        3,
+        4
+      ],
+      "bp": 63,
+      "scaffold_start": 3276
+    },
+    {
+      "order": 53,
+      "arc": [
+        4,
+        7
+      ],
+      "edge": [
+        4,
+        7
+      ],
+      "bp": 63,
+      "scaffold_start": 3339
+    },
+    {
+      "order": 54,
+      "arc": [
+        7,
+        16
+      ],
+      "edge": [
+        7,
+        16
+      ],
+      "bp": 63,
+      "scaffold_start": 3402
+    },
+    {
+      "order": 55,
+      "arc": [
+        16,
+        6
+      ],
+      "edge": [
+        6,
+        16
+      ],
+      "bp": 63,
+      "scaffold_start": 3465
+    },
+    {
+      "order": 56,
+      "arc": [
+        6,
+        15
+      ],
+      "edge": [
+        6,
+        15
+      ],
+      "bp": 63,
+      "scaffold_start": 3528
+    },
+    {
+      "order": 57,
+      "arc": [
+        15,
+        5
+      ],
+      "edge": [
+        5,
+        15
+      ],
+      "bp": 63,
+      "scaffold_start": 3591
+    },
+    {
+      "order": 58,
+      "arc": [
+        5,
+        1
+      ],
+      "edge": [
+        1,
+        5
+      ],
+      "bp": 63,
+      "scaffold_start": 3654
+    },
+    {
+      "order": 59,
+      "arc": [
+        1,
+        0
+      ],
+      "edge": [
+        0,
+        1
+      ],
+      "bp": 63,
+      "scaffold_start": 3717
+    }
+  ],
+  "staples": [
+    {
+      "name": "dodecahedron-st000",
+      "well": "A1",
+      "seq": "GGCGATGGCCCACTACGTGAACCATCACCCAAATCAAGTTT",
+      "order_seq": "GGCGATGGCCCACTACGTGAACCATCACCCAAATCAAGTTT",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 69.82,
+      "gc": 0.512,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st001",
+      "well": "B1",
+      "seq": "TTTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACCC",
+      "order_seq": "TTTGGGGTCGAGGTGCCGTAAAGCACTAAATCGGAACCC",
+      "handle": "",
+      "guest": "",
+      "length": 39,
+      "tm_C": 70.17,
+      "gc": 0.538,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st002",
+      "well": "C1",
+      "seq": "TAAAGGGAGCCCCCGATTTAGAGCTTGACGGGGAAAGCCGG",
+      "order_seq": "TAAAGGGAGCCCCCGATTTAGAGCTTGACGGGGAAAGCCGG",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 73.37,
+      "gc": 0.585,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st003",
+      "well": "D1",
+      "seq": "CGAACGTGGCGAGAAAGGAAGGGAAATTGTGGAAAGC",
+      "order_seq": "CGAACGTGGCGAGAAAGGAAGGGAAATTGTGGAAAGC",
+      "handle": "",
+      "guest": "",
+      "length": 37,
+      "tm_C": 67.57,
+      "gc": 0.514,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st004",
+      "well": "E1",
+      "seq": "GAAAGGAGCGGGCGCTAGGGCGCTGGCAAGTGTAGC",
+      "order_seq": "GAAAGGAGCGGGCGCTAGGGCGCTGGCAAGTGTAGC",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 75.66,
+      "gc": 0.667,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st005",
+      "well": "F1",
+      "seq": "GGTCACGCTGCGCGTAACCACCACACCCGCCGCGCTTAATG",
+      "order_seq": "GGTCACGCTGCGCGTAACCACCACACCCGCCGCGCTTAATG",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 77.5,
+      "gc": 0.659,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st006",
+      "well": "G1",
+      "seq": "CGCCGCTACAGGGCGCGTACTATGGTTGCTTT",
+      "order_seq": "CGCCGCTACAGGGCGCGTACTATGGTTGCTTT",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 70.34,
+      "gc": 0.594,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st007",
+      "well": "H1",
+      "seq": "GACGAGCACGTATAACGTGCTTTCCTCGTTAGA",
+      "order_seq": "GACGAGCACGTATAACGTGCTTTCCTCGTTAGA",
+      "handle": "",
+      "guest": "",
+      "length": 33,
+      "tm_C": 63.61,
+      "gc": 0.485,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st008",
+      "well": "A2",
+      "seq": "ATCAGAGCGGGAGCTAAACAGGAGGCCGATTAAA",
+      "order_seq": "ATCAGAGCGGGAGCTAAACAGGAGGCCGATTAAA",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 66.28,
+      "gc": 0.5,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st009",
+      "well": "B2",
+      "seq": "GGGATTTTAGACAGGAACGGTACGCCAGAATC",
+      "order_seq": "GGGATTTTAGACAGGAACGGTACGCCAGAATC",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 63.21,
+      "gc": 0.5,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st010",
+      "well": "C2",
+      "seq": "CTGAGAAGTGTTTTTATAATCAGTGAGGCCACCGAGTAAAA",
+      "order_seq": "CTGAGAAGTGTTTTTATAATCAGTGAGGCCACCGAGTAAAA",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 62.0,
+      "gc": 0.39,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st011",
+      "well": "D2",
+      "seq": "GAGTCTGTCCATCACGCAAATTAACCGTTGTAGCAATACTTC",
+      "order_seq": "GAGTCTGTCCATCACGCAAATTAACCGTTGTAGCAATACTTC",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 64.01,
+      "gc": 0.429,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st012",
+      "well": "E2",
+      "seq": "TTTGATTAGTAATAACATCACTTGCCTGAGTAGAAGAACTC",
+      "order_seq": "TTTGATTAGTAATAACATCACTTGCCTGAGTAGAAGAACTC",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 58.74,
+      "gc": 0.341,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st013",
+      "well": "F2",
+      "seq": "AAACTATCGGCCTTGCTGGTAATATCCAGAAC",
+      "order_seq": "AAACTATCGGCCTTGCTGGTAATATCCAGAAC",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 60.75,
+      "gc": 0.438,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st014",
+      "well": "G2",
+      "seq": "AATATTACCGCCAGCCATTGCAACAGGAAAAACG",
+      "order_seq": "AATATTACCGCCAGCCATTGCAACAGGAAAAACG",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 63.49,
+      "gc": 0.441,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st015",
+      "well": "H2",
+      "seq": "CTCATGGAAATACCTACATTTTGACGCTCAAT",
+      "order_seq": "CTCATGGAAATACCTACATTTTGACGCTCAAT",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 57.59,
+      "gc": 0.375,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st016",
+      "well": "A3",
+      "seq": "CGTCTGAAATGGATTATTTACATTGGCAGATTCACCAGTCA",
+      "order_seq": "CGTCTGAAATGGATTATTTACATTGGCAGATTCACCAGTCA",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 62.35,
+      "gc": 0.39,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st017",
+      "well": "B3",
+      "seq": "CACGACCAGTAATAAAAGGGACATTCTGGCCAA",
+      "order_seq": "CACGACCAGTAATAAAAGGGACATTCTGGCCAA",
+      "handle": "",
+      "guest": "",
+      "length": 33,
+      "tm_C": 62.6,
+      "gc": 0.455,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st018",
+      "well": "C3",
+      "seq": "CAGAGATAGAACCCTTCTGACCTGAAAGCGTAAGAATACGT",
+      "order_seq": "CAGAGATAGAACCCTTCTGACCTGAAAGCGTAAGAATACGT",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 64.02,
+      "gc": 0.439,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st019",
+      "well": "D3",
+      "seq": "GGCACAGACAATATTTTTGAATGGCTATTAGTCTTTAA",
+      "order_seq": "GGCACAGACAATATTTTTGAATGGCTATTAGTCTTTAA",
+      "handle": "",
+      "guest": "",
+      "length": 38,
+      "tm_C": 57.18,
+      "gc": 0.316,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st020",
+      "well": "E3",
+      "seq": "TGCGCGAACTGATAGCCCTAAAACATCGCCATTAAAAATACC",
+      "order_seq": "TGCGCGAACTGATAGCCCTAAAACATCGCCATTAAAAATACC",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 65.27,
+      "gc": 0.429,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st021",
+      "well": "F3",
+      "seq": "GAACGAACCACCAGCAGAAGATAAAACAGAGGTGA",
+      "order_seq": "GAACGAACCACCAGCAGAAGATAAAACAGAGGTGA",
+      "handle": "",
+      "guest": "",
+      "length": 35,
+      "tm_C": 63.49,
+      "gc": 0.457,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st022",
+      "well": "G3",
+      "seq": "GGCGGTCAGTATTAACACCGCCTGCAACAGTG",
+      "order_seq": "GGCGGTCAGTATTAACACCGCCTGCAACAGTG",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 67.56,
+      "gc": 0.562,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st023",
+      "well": "H3",
+      "seq": "CCACGCTGAGAGCCAGCAGCAAATGAAAAATCTAAAG",
+      "order_seq": "CCACGCTGAGAGCCAGCAGCAAATGAAAAATCTAAAG",
+      "handle": "",
+      "guest": "",
+      "length": 37,
+      "tm_C": 64.6,
+      "gc": 0.459,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st024",
+      "well": "A4",
+      "seq": "CATCACCTTGCTGAACCTCAAATATCAAACCCTCAATCAAT",
+      "order_seq": "CATCACCTTGCTGAACCTCAAATATCAAACCCTCAATCAAT",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 62.61,
+      "gc": 0.39,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st025",
+      "well": "B4",
+      "seq": "ATCTGGTCAGTTGGCAAATCAACAGTTGAAAG",
+      "order_seq": "ATCTGGTCAGTTGGCAAATCAACAGTTGAAAG",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 60.0,
+      "gc": 0.406,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st026",
+      "well": "C4",
+      "seq": "GAATTGAGGAAGGTTATCTAAAATATCTTTAGGA",
+      "order_seq": "GAATTGAGGAAGGTTATCTAAAATATCTTTAGGA",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 52.88,
+      "gc": 0.294,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st027",
+      "well": "D4",
+      "seq": "GCACTAACAACTAATAGATTAGAGCCGTCAATAGATAA",
+      "order_seq": "GCACTAACAACTAATAGATTAGAGCCGTCAATAGATAA",
+      "handle": "",
+      "guest": "",
+      "length": 38,
+      "tm_C": 57.33,
+      "gc": 0.342,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st028",
+      "well": "E4",
+      "seq": "TACATTTGAGGATTTAGAAGTATTAGACTTTACAAACAATT",
+      "order_seq": "TACATTTGAGGATTTAGAAGTATTAGACTTTACAAACAATT",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 54.35,
+      "gc": 0.244,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st029",
+      "well": "F4",
+      "seq": "CGACAACTCGTATTAAATCCTTTGCCCGAACGTT",
+      "order_seq": "CGACAACTCGTATTAAATCCTTTGCCCGAACGTT",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 62.62,
+      "gc": 0.441,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st030",
+      "well": "G4",
+      "seq": "ATTAATTTTAAAAGTTTGAGTAACATTATCATTTTGCGGAAC",
+      "order_seq": "ATTAATTTTAAAAGTTTGAGTAACATTATCATTTTGCGGAAC",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 54.97,
+      "gc": 0.238,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st031",
+      "well": "H4",
+      "seq": "AAAGAAACCACCAGAAGGAGCGGAATTATCATCATATTC",
+      "order_seq": "AAAGAAACCACCAGAAGGAGCGGAATTATCATCATATTC",
+      "handle": "",
+      "guest": "",
+      "length": 39,
+      "tm_C": 61.1,
+      "gc": 0.385,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st032",
+      "well": "A5",
+      "seq": "CTGATTATCAGATGATGGCAATTCATCAATATA",
+      "order_seq": "CTGATTATCAGATGATGGCAATTCATCAATATA",
+      "handle": "",
+      "guest": "",
+      "length": 33,
+      "tm_C": 53.46,
+      "gc": 0.303,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st033",
+      "well": "B5",
+      "seq": "ATCCTGATTGTTTGGATTATACTTCTGAATAAT",
+      "order_seq": "ATCCTGATTGTTTGGATTATACTTCTGAATAAT",
+      "handle": "",
+      "guest": "",
+      "length": 33,
+      "tm_C": 52.65,
+      "gc": 0.273,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st034",
+      "well": "C5",
+      "seq": "GGAAGGGTTAGAACCTACCATATCAAAATTATTTGCACGTAA",
+      "order_seq": "GGAAGGGTTAGAACCTACCATATCAAAATTATTTGCACGTAA",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 60.54,
+      "gc": 0.357,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st035",
+      "well": "D5",
+      "seq": "AACAGAAATAAAGAAATTGCGTAGATTTTCAGGTTTAACG",
+      "order_seq": "AACAGAAATAAAGAAATTGCGTAGATTTTCAGGTTTAACG",
+      "handle": "",
+      "guest": "",
+      "length": 40,
+      "tm_C": 57.47,
+      "gc": 0.3,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st036",
+      "well": "E5",
+      "seq": "TCAGATGAATATACAGTAACAGTACCTTTTACATCGGGA",
+      "order_seq": "TCAGATGAATATACAGTAACAGTACCTTTTACATCGGGA",
+      "handle": "",
+      "guest": "",
+      "length": 39,
+      "tm_C": 59.32,
+      "gc": 0.359,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st037",
+      "well": "F5",
+      "seq": "GAAACAATAACGGATTCGCCTGATTGCTTTGAAT",
+      "order_seq": "GAAACAATAACGGATTCGCCTGATTGCTTTGAAT",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 59.96,
+      "gc": 0.382,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st038",
+      "well": "G5",
+      "seq": "ACCAAGTTACAAAATCGCGCAGAGGCGAATTATT",
+      "order_seq": "ACCAAGTTACAAAATCGCGCAGAGGCGAATTATT",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 62.39,
+      "gc": 0.412,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st039",
+      "well": "H5",
+      "seq": "CATTTCAATTACCTGAGCAAAAGAAGATGATGAA",
+      "order_seq": "CATTTCAATTACCTGAGCAAAAGAAGATGATGAA",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 56.07,
+      "gc": 0.324,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st040",
+      "well": "A6",
+      "seq": "ACAAACATCAAGAAAACAAAATTAATTACATTTAACAAT",
+      "order_seq": "ACAAACATCAAGAAAACAAAATTAATTACATTTAACAAT",
+      "handle": "",
+      "guest": "",
+      "length": 39,
+      "tm_C": 51.81,
+      "gc": 0.179,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st041",
+      "well": "B6",
+      "seq": "TTCATTTGAATTACCTTTTTTAATGGAAACAGTACAT",
+      "order_seq": "TTCATTTGAATTACCTTTTTTAATGGAAACAGTACAT",
+      "handle": "",
+      "guest": "",
+      "length": 37,
+      "tm_C": 53.93,
+      "gc": 0.243,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st042",
+      "well": "C6",
+      "seq": "AAATCAATATATGTGAGTGAATAACCTTGCTTCTGTAAATC",
+      "order_seq": "AAATCAATATATGTGAGTGAATAACCTTGCTTCTGTAAATC",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 56.59,
+      "gc": 0.293,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st043",
+      "well": "D6",
+      "seq": "GTCGCTATTAATTAATTTTCCCTTAGAATCCTTGAAAACAT",
+      "order_seq": "GTCGCTATTAATTAATTTTCCCTTAGAATCCTTGAAAACAT",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 56.86,
+      "gc": 0.293,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st044",
+      "well": "E6",
+      "seq": "AGCGATAGCTTAGATTAAGACGCTGAGAAGAGTCAATAGT",
+      "order_seq": "AGCGATAGCTTAGATTAAGACGCTGAGAAGAGTCAATAGT",
+      "handle": "",
+      "guest": "",
+      "length": 40,
+      "tm_C": 62.08,
+      "gc": 0.4,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st045",
+      "well": "F6",
+      "seq": "GAATTTATCAAAATCATAGGTCTGAGAGACTACCTT",
+      "order_seq": "GAATTTATCAAAATCATAGGTCTGAGAGACTACCTT",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 56.06,
+      "gc": 0.333,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st046",
+      "well": "G6",
+      "seq": "TTTAACCTCCGGCTTAGGTTGGGTTATATAACTATA",
+      "order_seq": "TTTAACCTCCGGCTTAGGTTGGGTTATATAACTATA",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 58.25,
+      "gc": 0.361,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st047",
+      "well": "H6",
+      "seq": "TGTAAATGCTGATGCAAATCCAATCGCAAGACAA",
+      "order_seq": "TGTAAATGCTGATGCAAATCCAATCGCAAGACAA",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 61.02,
+      "gc": 0.382,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st048",
+      "well": "A7",
+      "seq": "AGAACGCGAGAAAACTTTTTCAAATATATTTTAGTT",
+      "order_seq": "AGAACGCGAGAAAACTTTTTCAAATATATTTTAGTT",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 53.96,
+      "gc": 0.25,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st049",
+      "well": "B7",
+      "seq": "AATTTCATCTTCTGACCTAAATTTAATGGTTTGA",
+      "order_seq": "AATTTCATCTTCTGACCTAAATTTAATGGTTTGA",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 53.5,
+      "gc": 0.265,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st050",
+      "well": "C7",
+      "seq": "AATACCGACCGTGTGATAAATAAGGCGTTAAATAAGAA",
+      "order_seq": "AATACCGACCGTGTGATAAATAAGGCGTTAAATAAGAA",
+      "handle": "",
+      "guest": "",
+      "length": 38,
+      "tm_C": 59.04,
+      "gc": 0.342,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st051",
+      "well": "D7",
+      "seq": "TAAACACCGGAATCATAATTACTAGAAAAAGCCTG",
+      "order_seq": "TAAACACCGGAATCATAATTACTAGAAAAAGCCTG",
+      "handle": "",
+      "guest": "",
+      "length": 35,
+      "tm_C": 56.97,
+      "gc": 0.343,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st052",
+      "well": "E7",
+      "seq": "TTTAGTATCATATGCGTTATACAAATTCTTACCAGTATAAAG",
+      "order_seq": "TTTAGTATCATATGCGTTATACAAATTCTTACCAGTATAAAG",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 54.48,
+      "gc": 0.262,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st053",
+      "well": "F7",
+      "seq": "CCAACGCTCAACAGTAGGGCTTAATTGAGAATCGCCATATT",
+      "order_seq": "CCAACGCTCAACAGTAGGGCTTAATTGAGAATCGCCATATT",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 65.15,
+      "gc": 0.439,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st054",
+      "well": "G7",
+      "seq": "TAACAACGCCAACATGTAATTTAGGCAGAGGC",
+      "order_seq": "TAACAACGCCAACATGTAATTTAGGCAGAGGC",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 61.56,
+      "gc": 0.438,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st055",
+      "well": "H7",
+      "seq": "ATTTTCGAGCCAGTAATAAGAGAATATAAAGTACCGA",
+      "order_seq": "ATTTTCGAGCCAGTAATAAGAGAATATAAAGTACCGA",
+      "handle": "",
+      "guest": "",
+      "length": 37,
+      "tm_C": 56.93,
+      "gc": 0.324,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st056",
+      "well": "A8",
+      "seq": "CAAAAGGTAAAGTAATTCTGTCCAGACGACGACAATAAAC",
+      "order_seq": "CAAAAGGTAAAGTAATTCTGTCCAGACGACGACAATAAAC",
+      "handle": "",
+      "guest": "",
+      "length": 40,
+      "tm_C": 60.17,
+      "gc": 0.375,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st057",
+      "well": "B8",
+      "seq": "AACATGTTCAGCTAATGCAGAACGCGCCTGTTTATC",
+      "order_seq": "AACATGTTCAGCTAATGCAGAACGCGCCTGTTTATC",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 64.16,
+      "gc": 0.444,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st058",
+      "well": "C8",
+      "seq": "AACAATAGATAAGTCCTGAACAAGAAAAATAATATCCC",
+      "order_seq": "AACAATAGATAAGTCCTGAACAAGAAAAATAATATCCC",
+      "handle": "",
+      "guest": "",
+      "length": 38,
+      "tm_C": 55.0,
+      "gc": 0.289,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st059",
+      "well": "D8",
+      "seq": "ATCCTAATTTACGAGCATGTAGAAACCAATCAAT",
+      "order_seq": "ATCCTAATTTACGAGCATGTAGAAACCAATCAAT",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 56.44,
+      "gc": 0.324,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st060",
+      "well": "E8",
+      "seq": "AATCGGCTGTCTTTCCTTATCATTCCAAGAACGGGTATT",
+      "order_seq": "AATCGGCTGTCTTTCCTTATCATTCCAAGAACGGGTATT",
+      "handle": "",
+      "guest": "",
+      "length": 39,
+      "tm_C": 63.42,
+      "gc": 0.41,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st061",
+      "well": "F8",
+      "seq": "AAACCAAGTACCGCACTCATCGAGAACAAGCAAG",
+      "order_seq": "AAACCAAGTACCGCACTCATCGAGAACAAGCAAG",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 64.26,
+      "gc": 0.471,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st062",
+      "well": "G8",
+      "seq": "CCGTTTTTATTTTCATCGTAGGAATCATTACCGCGC",
+      "order_seq": "CCGTTTTTATTTTCATCGTAGGAATCATTACCGCGC",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 61.52,
+      "gc": 0.417,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st063",
+      "well": "H8",
+      "seq": "CCAATAGCAAGCAAATCAGATATAGAAGGCTTATCCGGT",
+      "order_seq": "CCAATAGCAAGCAAATCAGATATAGAAGGCTTATCCGGT",
+      "handle": "",
+      "guest": "",
+      "length": 39,
+      "tm_C": 62.31,
+      "gc": 0.41,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st064",
+      "well": "A9",
+      "seq": "ATTCTAAGAACGCGAGGCGTTTTAGCGAACCTC",
+      "order_seq": "ATTCTAAGAACGCGAGGCGTTTTAGCGAACCTC",
+      "handle": "",
+      "guest": "",
+      "length": 33,
+      "tm_C": 64.34,
+      "gc": 0.485,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st065",
+      "well": "B9",
+      "seq": "CCGACTTGCGGGAGGTTTTGAAGCCTTAAATC",
+      "order_seq": "CCGACTTGCGGGAGGTTTTGAAGCCTTAAATC",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 64.14,
+      "gc": 0.5,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st066",
+      "well": "C9",
+      "seq": "AAGATTAGTTGCTATTTTGCACCCAGCTACAATTTTATCCTG",
+      "order_seq": "AAGATTAGTTGCTATTTTGCACCCAGCTACAATTTTATCCTG",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 61.06,
+      "gc": 0.357,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st067",
+      "well": "D9",
+      "seq": "AATCTTACCAACGCTAACGAGCGTCTTTCCAGAGCCTAATTT",
+      "order_seq": "AATCTTACCAACGCTAACGAGCGTCTTTCCAGAGCCTAATTT",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 65.47,
+      "gc": 0.429,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st068",
+      "well": "E9",
+      "seq": "GCCAGTTACAAAATAAACAGCCATATTATTTATCCCAATCCA",
+      "order_seq": "GCCAGTTACAAAATAAACAGCCATATTATTTATCCCAATCCA",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 59.64,
+      "gc": 0.333,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st069",
+      "well": "F9",
+      "seq": "AATAAGAAACGATTTTTTGTTTAACGTCAAAA",
+      "order_seq": "AATAAGAAACGATTTTTTGTTTAACGTCAAAA",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 51.18,
+      "gc": 0.219,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st070",
+      "well": "G9",
+      "seq": "ATGAAAATAGCAGCCTTTACAGAGAGAATAACATA",
+      "order_seq": "ATGAAAATAGCAGCCTTTACAGAGAGAATAACATA",
+      "handle": "",
+      "guest": "",
+      "length": 35,
+      "tm_C": 55.91,
+      "gc": 0.314,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st071",
+      "well": "H9",
+      "seq": "AAAACAGGGAAGCGCATTAGACGGGAGAATTAACTGAACAC",
+      "order_seq": "AAAACAGGGAAGCGCATTAGACGGGAGAATTAACTGAACAC",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 65.27,
+      "gc": 0.439,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st072",
+      "well": "A10",
+      "seq": "CCTGAACAAAGTCAGAGGGTAATTGAGCGCTAATA",
+      "order_seq": "CCTGAACAAAGTCAGAGGGTAATTGAGCGCTAATA",
+      "handle": "",
+      "guest": "",
+      "length": 35,
+      "tm_C": 61.61,
+      "gc": 0.429,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st073",
+      "well": "B10",
+      "seq": "TCAGAGAGATAACCCACAAGAATTGAGTTAAGCCCA",
+      "order_seq": "TCAGAGAGATAACCCACAAGAATTGAGTTAAGCCCA",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 62.08,
+      "gc": 0.417,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st074",
+      "well": "C10",
+      "seq": "ATAATAAGAGCAAGAAACAATGAAATAGCAATAGCTATC",
+      "order_seq": "ATAATAAGAGCAAGAAACAATGAAATAGCAATAGCTATC",
+      "handle": "",
+      "guest": "",
+      "length": 39,
+      "tm_C": 55.25,
+      "gc": 0.282,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st075",
+      "well": "D10",
+      "seq": "TTACCGAAGCCCTTTTTAAGAAAAGTAAGCAGATAGCCGA",
+      "order_seq": "TTACCGAAGCCCTTTTTAAGAAAAGTAAGCAGATAGCCGA",
+      "handle": "",
+      "guest": "",
+      "length": 40,
+      "tm_C": 63.15,
+      "gc": 0.4,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st076",
+      "well": "E10",
+      "seq": "ACAAAGTTACCAGAAGGAAACCGAGGAAACGCAA",
+      "order_seq": "ACAAAGTTACCAGAAGGAAACCGAGGAAACGCAA",
+      "handle": "",
+      "guest": "",
+      "length": 34,
+      "tm_C": 63.65,
+      "gc": 0.441,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st077",
+      "well": "F10",
+      "seq": "TAATAACGGAATACCCAAAAGAACTGGCATGATTAAGAC",
+      "order_seq": "TAATAACGGAATACCCAAAAGAACTGGCATGATTAAGAC",
+      "handle": "",
+      "guest": "",
+      "length": 39,
+      "tm_C": 59.63,
+      "gc": 0.359,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st078",
+      "well": "G10",
+      "seq": "TCCTTATTACGCAGTATGTTAGCAAACGTAGAAAATA",
+      "order_seq": "TCCTTATTACGCAGTATGTTAGCAAACGTAGAAAATA",
+      "handle": "",
+      "guest": "",
+      "length": 37,
+      "tm_C": 57.38,
+      "gc": 0.324,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st079",
+      "well": "H10",
+      "seq": "CATACATAAAGGTGGCAACATATAAAAGAAACGCAAAG",
+      "order_seq": "CATACATAAAGGTGGCAACATATAAAAGAAACGCAAAG",
+      "handle": "",
+      "guest": "",
+      "length": 38,
+      "tm_C": 58.27,
+      "gc": 0.342,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st080",
+      "well": "A11",
+      "seq": "ACACCACGGAATAAGTTTATTTTGTCACAATCAATA",
+      "order_seq": "ACACCACGGAATAAGTTTATTTTGTCACAATCAATA",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 56.74,
+      "gc": 0.306,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st081",
+      "well": "B11",
+      "seq": "GAAAATTCATATGGTTTACCAGCGCCAAAGAC",
+      "order_seq": "GAAAATTCATATGGTTTACCAGCGCCAAAGAC",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 59.1,
+      "gc": 0.406,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st082",
+      "well": "C11",
+      "seq": "AAAAGGGCGACATTCAACCGATTGAGGGAGGGAAG",
+      "order_seq": "AAAAGGGCGACATTCAACCGATTGAGGGAGGGAAG",
+      "handle": "",
+      "guest": "",
+      "length": 35,
+      "tm_C": 67.19,
+      "gc": 0.514,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st083",
+      "well": "D11",
+      "seq": "GTAAATATTGACGGAAATTATTCATTAAAGGTGAA",
+      "order_seq": "GTAAATATTGACGGAAATTATTCATTAAAGGTGAA",
+      "handle": "",
+      "guest": "",
+      "length": 35,
+      "tm_C": 52.51,
+      "gc": 0.257,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st084",
+      "well": "E11",
+      "seq": "TTATCACCGTCACCGACTTGAGCCATTTGGGAATTAGAGC",
+      "order_seq": "TTATCACCGTCACCGACTTGAGCCATTTGGGAATTAGAGC",
+      "handle": "",
+      "guest": "",
+      "length": 40,
+      "tm_C": 66.64,
+      "gc": 0.475,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st085",
+      "well": "F11",
+      "seq": "CAGCAAAATCACCAGTAGCACCATTACCATTAGCAAGGCC",
+      "order_seq": "CAGCAAAATCACCAGTAGCACCATTACCATTAGCAAGGCC",
+      "handle": "",
+      "guest": "",
+      "length": 40,
+      "tm_C": 66.49,
+      "gc": 0.475,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st086",
+      "well": "G11",
+      "seq": "GGAAACGTCACCAATGAAACCATCGATAGCAGCACC",
+      "order_seq": "GGAAACGTCACCAATGAAACCATCGATAGCAGCACC",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 66.11,
+      "gc": 0.5,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st087",
+      "well": "H11",
+      "seq": "GTAATCAGTAGCGACAGAATCAAGTTTGCCTTTAGCGTCAGA",
+      "order_seq": "GTAATCAGTAGCGACAGAATCAAGTTTGCCTTTAGCGTCAGA",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 64.5,
+      "gc": 0.429,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st088",
+      "well": "A12",
+      "seq": "CTGTAGCGCGTTTTCATCGGCATTTTCGGTCATAGC",
+      "order_seq": "CTGTAGCGCGTTTTCATCGGCATTTTCGGTCATAGC",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 66.31,
+      "gc": 0.5,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st089",
+      "well": "B12",
+      "seq": "CCCCTTATTAGCGTTTGCCATCTTTTCATAATCAAAATCA",
+      "order_seq": "CCCCTTATTAGCGTTTGCCATCTTTTCATAATCAAAATCA",
+      "handle": "",
+      "guest": "",
+      "length": 40,
+      "tm_C": 60.19,
+      "gc": 0.35,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st090",
+      "well": "C12",
+      "seq": "CCGGAACCAGAGCCACCACCGGAACCGCCTCCC",
+      "order_seq": "CCGGAACCAGAGCCACCACCGGAACCGCCTCCC",
+      "handle": "",
+      "guest": "",
+      "length": 33,
+      "tm_C": 77.3,
+      "gc": 0.727,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st091",
+      "well": "D12",
+      "seq": "TCAGAGCCGCCACCCTCAGAACCGCCACCCTC",
+      "order_seq": "TCAGAGCCGCCACCCTCAGAACCGCCACCCTC",
+      "handle": "",
+      "guest": "",
+      "length": 32,
+      "tm_C": 75.23,
+      "gc": 0.688,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st092",
+      "well": "E12",
+      "seq": "AGAGCCACCACCCTCAGAGCCGCCACCAGAACCAC",
+      "order_seq": "AGAGCCACCACCCTCAGAGCCGCCACCAGAACCAC",
+      "handle": "",
+      "guest": "",
+      "length": 35,
+      "tm_C": 75.2,
+      "gc": 0.657,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st093",
+      "well": "F12",
+      "seq": "CACCAGAGCCGCCGCCAGCATTGACAGGAGGTTGAG",
+      "order_seq": "CACCAGAGCCGCCGCCAGCATTGACAGGAGGTTGAG",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 73.97,
+      "gc": 0.639,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st094",
+      "well": "G12",
+      "seq": "GCAGGTCAGACGATTGGCCTTGATATTCACAAACAAATA",
+      "order_seq": "GCAGGTCAGACGATTGGCCTTGATATTCACAAACAAATA",
+      "handle": "",
+      "guest": "",
+      "length": 39,
+      "tm_C": 63.02,
+      "gc": 0.41,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st095",
+      "well": "H12",
+      "seq": "AATCCTCATTAAAGCCAGAATGGAAAGCGCAGTCTC",
+      "order_seq": "AATCCTCATTAAAGCCAGAATGGAAAGCGCAGTCTC",
+      "handle": "",
+      "guest": "",
+      "length": 36,
+      "tm_C": 63.69,
+      "gc": 0.444,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st096",
+      "well": "P2-A1",
+      "seq": "TGAATTTACCGTTCCAGTAAGCGTCATACATGGCTTTTGA",
+      "order_seq": "TGAATTTACCGTTCCAGTAAGCGTCATACATGGCTTTTGA",
+      "handle": "",
+      "guest": "",
+      "length": 40,
+      "tm_C": 63.47,
+      "gc": 0.4,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st097",
+      "well": "P2-B1",
+      "seq": "TGATACAGGAGTGTACTGGTAATAAGTTTTAACGGGGTCAG",
+      "order_seq": "TGATACAGGAGTGTACTGGTAATAAGTTTTAACGGGGTCAG",
+      "handle": "",
+      "guest": "",
+      "length": 41,
+      "tm_C": 62.65,
+      "gc": 0.415,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st098",
+      "well": "P2-C1",
+      "seq": "TGCCTTGAGTAACAGTGCCCGTATAAACAGTTAATGC",
+      "order_seq": "TGCCTTGAGTAACAGTGCCCGTATAAACAGTTAATGC",
+      "handle": "",
+      "guest": "",
+      "length": 37,
+      "tm_C": 63.3,
+      "gc": 0.432,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st099",
+      "well": "P2-D1",
+      "seq": "CCCCTGCCTATTTCGGAACCTATTATTCTGAAACA",
+      "order_seq": "CCCCTGCCTATTTCGGAACCTATTATTCTGAAACA",
+      "handle": "",
+      "guest": "",
+      "length": 35,
+      "tm_C": 61.65,
+      "gc": 0.429,
+      "crossovers": 0
+    },
+    {
+      "name": "dodecahedron-st100",
+      "well": "P2-E1",
+      "seq": "TGAAAGTATTAAGAGGCTGAGACTCCTCAAGAGAAGGATTAG",
+      "order_seq": "TGAAAGTATTAAGAGGCTGAGACTCCTCAAGAGAAGGATTAG",
+      "handle": "",
+      "guest": "",
+      "length": 42,
+      "tm_C": 62.02,
+      "gc": 0.405,
+      "crossovers": 1
+    },
+    {
+      "name": "dodecahedron-st101",
+      "well": "P2-F1",
+      "seq": "GATTAGCGGGGTTTTGCTCAGTACCAGGCGGAT",
+      "order_seq": "GATTAGCGGGGTTTTGCTCAGTACCAGGCGGAT",
+      "handle": "",
+      "guest": "",
+      "length": 33,
+      "tm_C": 67.81,
+      "gc": 0.545,
+      "crossovers": 0
+    }
+  ]
+}

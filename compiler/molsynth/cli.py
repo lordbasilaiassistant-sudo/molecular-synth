@@ -87,7 +87,7 @@ def build_parser():
     sub = p.add_subparsers(dest="cmd", required=True)
 
     c = sub.add_parser("compile", help="compile a shape into a DNA origami recipe")
-    c.add_argument("shape", help="preset (tetrahedron/cube/octahedron/icosahedron/square), .stl/.ply, or .json")
+    c.add_argument("shape", help="preset (tetrahedron/cube/octahedron/icosahedron/dodecahedron/square), .stl/.ply, or .json")
     c.add_argument("--out", default="out", help="output directory")
     c.add_argument("--iterations", type=int, default=4000, help="optimizer iterations")
     c.add_argument("--min-edge-bp", type=int, default=42, dest="min_edge_bp")

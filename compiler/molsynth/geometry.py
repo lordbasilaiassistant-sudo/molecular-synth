@@ -165,11 +165,48 @@ def _icosahedron() -> Mesh:
     return Mesh("icosahedron", v, edges, faces)
 
 
+def _dodecahedron() -> Mesh:
+    """Regular dodecahedron — 20 vertices, 30 edges, 12 pentagonal faces. Built as the
+    DUAL of the (verified) icosahedron: dodeca vertices are icosa face-centroids, and
+    each dodeca pentagon is the ring of faces around one icosa vertex (in rotation
+    order). Derived from a correct mesh, so the topology is guaranteed right."""
+    ico = _icosahedron()
+    dverts = [tuple(sum(ico.vertices[i][k] for i in f) / len(f) for k in range(3))
+              for f in ico.faces]
+    tri_idx = {frozenset(f): fi for fi, f in enumerate(ico.faces)}
+    # rotation system of the icosa: succ[v][a]=b for each face corner (a, v, b)
+    rot = {v: {} for v in range(len(ico.vertices))}
+    for f in ico.faces:
+        n = len(f)
+        for idx in range(n):
+            a, vv, b = f[(idx - 1) % n], f[idx], f[(idx + 1) % n]
+            rot[vv][a] = b
+    dfaces = []
+    for v in range(len(ico.vertices)):
+        succ = rot[v]
+        start = next(iter(succ))
+        order, cur = [start], succ[start]
+        while cur != start and len(order) < 12:
+            order.append(cur)
+            cur = succ[cur]
+        face = []
+        for k in range(len(order)):
+            a, b = order[k], order[(k + 1) % len(order)]
+            fi = tri_idx.get(frozenset((v, a, b)))
+            if fi is not None:
+                face.append(fi)
+        dfaces.append(tuple(face))
+    dfaces = orient_faces(dfaces)
+    edges = _dedup_edges([(a, b) for f in dfaces for a, b in zip(f, f[1:] + f[:1])])
+    return Mesh("dodecahedron", dverts, edges, dfaces)
+
+
 PRESETS = {
     "tetrahedron": _tetrahedron,
     "cube": _cube,
     "octahedron": _octahedron,
     "icosahedron": _icosahedron,
+    "dodecahedron": _dodecahedron,
     "square": _square,
 }
 
