@@ -527,6 +527,28 @@ class TestEndToEnd(unittest.TestCase):
             self.assertEqual(nstrands, 1 + len(staples))
             self.assertEqual(len(lines) - 1, nbases)  # one row per nucleotide
 
+    def test_oxdna_structure_reads_in_oat(self):
+        """If oxDNA_analysis_tools is installed, the emitted design.top + conf.dat must read
+        back through the REAL oat reader with the right base count and finite coordinates --
+        i.e. a structure oxDNA/oxView will actually load and relax, not a malformed file.
+        Skipped cleanly when oat isn't installed (it is an optional, heavy dependency)."""
+        try:
+            from oxDNA_analysis_tools.UTILS.RyeReader import describe, get_confs
+        except Exception:
+            self.skipTest("oxDNA_analysis_tools not installed")
+        from molsynth import compile_shape
+        with tempfile.TemporaryDirectory() as d:
+            compile_shape("tetrahedron", outdir=d, iterations=400, scaffold_search=1)
+            top = os.path.join(d, "design.top")
+            conf = os.path.join(d, "conf.dat")
+            ti, di = describe(top, conf)
+            confs = get_confs(di.idxs, di.path, 0, 1, ti.nbases)
+            pos = confs[0].positions
+            self.assertGreater(ti.nbases, 0)
+            self.assertEqual(len(pos), ti.nbases)              # one position per base
+            import math
+            self.assertTrue(all(math.isfinite(c) for p in pos for c in p))  # no NaN/Inf
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
