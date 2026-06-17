@@ -243,7 +243,52 @@ def proof_fluidics():
     ])
 
 
+def proof_matches_published_wireframe_envelopes():
+    """Would a compiled design fold like the ones that ALREADY HAVE? The digital half of
+    wet-lab validation (#7): check that every preset's design parameters fall inside the
+    quantitative envelopes of experimentally-folded wireframe DNA origami --
+      * Veneziano et al., Science 352:1534 (2016) (DAEDALUS): scaffold-routed wireframe
+        polyhedra; edges are integer helical turns (in-phase crossovers), minimum ~31 bp;
+        45 objects built + cryo-EM/AFM verified, tens of nm.
+      * Benson et al., Nature 523:441 (2015): polyhedral-mesh wireframes on M13.
+    We assert: edges are within +-0.75 bp of an integer number of 10.5-bp turns (crossover
+    phase), every edge >= 31 bp (DAEDALUS minimum) and >= 10 nm, staple lengths in the
+    synthesizable+bindable 21-78 nt band, and scaffold usage <= M13 (7249 nt). Matching the
+    demonstrated envelope makes a design the SAME physical class as folded structures -- it
+    raises fold confidence; it does not replace a wet-lab yield measurement."""
+    from molsynth import geometry, scaffold as sc
+    from molsynth.staples import build_staples
+    from molsynth.optimizer import YieldModel
+    BP_PER_TURN, NM_PER_BP, M13 = 10.5, 0.34, 7249
+    EDGE_MIN_BP, STAP_LO, STAP_HI, PHASE_TOL = 31, 21, 78, 0.75
+    s, name, synth = sc.load_scaffold()
+    rows, all_ok = [], True
+    for shape in ("tetrahedron", "cube", "octahedron", "icosahedron", "dodecahedron"):
+        mesh = geometry.load_shape(shape)
+        r = sc.route(mesh, s, name, synth)
+        stp, _ = build_staples(r, YieldModel(), iterations=1200, seed=7)
+        ebp = sorted(r.edge_bp.values())
+        # crossover phase: distance (bp) from each edge to the nearest integer-turn length
+        phase = max(abs(bp - round(bp / BP_PER_TURN) * BP_PER_TURN) for bp in ebp)
+        slen = sorted(len(x.seq) for x in stp)
+        edge_nm = ebp[0] * NM_PER_BP
+        ok = (ebp[0] >= EDGE_MIN_BP and phase <= PHASE_TOL and edge_nm >= 10.0
+              and slen[0] >= STAP_LO and slen[-1] <= STAP_HI
+              and r.scaffold_len_used <= M13)
+        all_ok = all_ok and ok
+        rows.append(
+            f"  {shape:13s} edge {ebp[0]}-{ebp[-1]}bp (>=31, phase<= {phase:.2f}bp) "
+            f"{edge_nm:.0f}nm  staples {slen[0]}-{slen[-1]}nt (21-78)  "
+            f"scaf {r.scaffold_len_used}<=7249 -> {ok}")
+    return ("Matches published wireframe-origami envelopes (DAEDALUS/Benson)", all_ok, rows + [
+        "=> every preset's edges, crossover phase, staple lengths, size, and scaffold use "
+        "sit inside the demonstrated, cryo-EM/AFM-verified design space -- same physical",
+        "   class as folded structures. Wet-lab yield still needs the bench (issue #7).",
+    ])
+
+
 PROOFS = [proof_single_scaffold_circuit, proof_staple_addressing, proof_cadnano_roundtrip,
+          proof_matches_published_wireframe_envelopes,
           proof_tm_vs_biopython, proof_structure_oxdna, proof_thermocycler_control,
           proof_power_budget, proof_fluidics]
 

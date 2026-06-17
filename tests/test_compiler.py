@@ -295,6 +295,27 @@ class TestScience(unittest.TestCase):
             rc = seq.reverse_complement(k)
             self.assertEqual(seq.NN_PARAMS[rc], v, f"{k} vs {rc}")
 
+    def test_design_matches_published_wireframe_envelopes(self):
+        """Digital half of wet-lab validation (#7): each preset's parameters sit inside the
+        envelopes of experimentally-folded wireframe origami (Veneziano 2016 DAEDALUS,
+        Science 352:1534; Benson 2015, Nature 523:441) -- edges on integer helical turns
+        (in-phase crossovers), >= 31 bp / >= 10 nm, staples 21-78 nt, scaffold <= M13."""
+        BP_PER_TURN, NM_PER_BP, M13 = 10.5, 0.34, 7249
+        s, name, synth = sc.load_scaffold()
+        for shape in ("tetrahedron", "cube", "octahedron", "icosahedron", "dodecahedron"):
+            mesh = geometry.load_shape(shape)
+            r = sc.route(mesh, s, name, synth)
+            stp, _ = build_staples(r, YieldModel(), iterations=600, seed=7)
+            ebp = sorted(r.edge_bp.values())
+            phase = max(abs(bp - round(bp / BP_PER_TURN) * BP_PER_TURN) for bp in ebp)
+            slen = sorted(len(x.seq) for x in stp)
+            self.assertGreaterEqual(ebp[0], 31, (shape, "edge < DAEDALUS min"))
+            self.assertLessEqual(phase, 0.75, (shape, "crossover out of phase"))
+            self.assertGreaterEqual(ebp[0] * NM_PER_BP, 10.0, shape)
+            self.assertGreaterEqual(slen[0], 21, (shape, "staple too short to bind"))
+            self.assertLessEqual(slen[-1], 78, (shape, "staple too long to synthesise cheaply"))
+            self.assertLessEqual(r.scaffold_len_used, M13, (shape, "exceeds M13"))
+
     def test_tm_physical_range(self):
         # a ~36 nt, ~50% GC staple should melt in a physically sane band
         s = "ACGTACGTACGTGGCCAATTGGCCAATTACGTACGT"
