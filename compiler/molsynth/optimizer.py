@@ -136,6 +136,43 @@ def boundaries_in(start, end, xovers):
     return [c for c in xovers if start < c < end]
 
 
+def proxy_score(routing, model: YieldModel, offtarget_mask=None, target_len=37):
+    """Cheap quality estimate of a routing WITHOUT running SA: the objective of a single
+    EVEN partition. The offset's intrinsic quality (its M13 region's Tm distribution and
+    repeat content) is mostly captured by the even partition, so this ranks scaffold
+    offsets ~as well as a full anneal at a tiny fraction of the cost."""
+    template = sq.reverse_complement(routing.scaffold_seq)
+    S = len(template)
+    lo, hi = model.weights["len_lo"], model.weights["len_hi"]
+    xovers_t = sorted(S - p for p in routing.crossover_positions if 0 < p < S)
+    n_boundaries = len(xovers_t)
+    if S <= hi:
+        cuts = []
+    else:
+        n = max(1, round(S / target_len))
+        n = max(n, math.ceil(S / hi))
+        n = min(n, max(1, S // lo))
+        cuts = sorted(set(round(S * k / n) for k in range(1, n)))
+    spans, prev = [], 0
+    for c in list(cuts) + [S]:
+        spans.append((prev, c))
+        prev = c
+    seqs, counts, loops, offt = [], [], [], []
+    covered = set()
+    for a, b in spans:
+        seqs.append(template[a:b])
+        bnds = boundaries_in(a, b, xovers_t)
+        counts.append(len(bnds))
+        covered.update(bnds)
+        pts = [a] + bnds + [b]
+        for i in range(1, len(pts)):
+            loops.append(pts[i] - pts[i - 1])
+        if offtarget_mask is not None:
+            offt.append(sq.longest_run(offtarget_mask, S - b, S - a))
+    return model.score_set(seqs, counts, loops, n_boundaries, len(covered),
+                           offtarget_runs=offt if offtarget_mask is not None else None)
+
+
 def anneal(template, crossover_positions_scaffold, model: YieldModel,
            iterations=4000, seed=12345, target_len=37, offtarget_mask=None):
     """Simulated annealing over the cut positions of the staple template.

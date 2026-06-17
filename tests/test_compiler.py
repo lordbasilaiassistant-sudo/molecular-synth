@@ -120,6 +120,12 @@ class TestStaples(unittest.TestCase):
     def test_optimizer_improves(self):
         self.assertLessEqual(self.history[-1], self.history[0])
 
+    def test_proxy_score_runs(self):
+        from molsynth.optimizer import proxy_score
+        sc_score = proxy_score(self.routing, YieldModel())
+        self.assertIsInstance(sc_score, float)
+        self.assertGreater(sc_score, 0)
+
     def test_wells_unique(self):
         wells = [st.well for st in self.staples]
         self.assertEqual(len(wells), len(set(wells)))

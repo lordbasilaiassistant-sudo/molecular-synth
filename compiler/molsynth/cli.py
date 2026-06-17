@@ -100,7 +100,7 @@ def build_parser():
     c.add_argument("--t-hot", type=float, default=90, dest="t_hot")
     c.add_argument("--t-cold", type=float, default=20, dest="t_cold")
     c.add_argument("--anneal-min", type=float, default=120, dest="anneal_min")
-    c.add_argument("--scaffold-search", type=int, default=4, dest="scaffold_search",
+    c.add_argument("--scaffold-search", type=int, default=8, dest="scaffold_search",
                    help="search N scaffold start offsets, keep the best-scoring (yield lever; "
                         "halves the objective + tightens Tm). Use 1 to disable.")
     c.add_argument("--scaffold-offset", type=int, default=0, dest="scaffold_offset")
