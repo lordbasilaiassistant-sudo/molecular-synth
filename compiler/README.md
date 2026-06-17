@@ -79,7 +79,9 @@ summary = compile_shape("cube", outdir="out/cube", iterations=8000)
 relax/simulate in [oxDNA](https://lorenzo-rovigatti.github.io/oxDNA/)) and
 `structure.pdb` (one bead/nucleotide — opens in PyMOL/ChimeraX/Mol*); `oxdna_min.input`
 + `oxdna_relax.input` (ready-to-run oxDNA min→relax); `screen.md` (the per-design Mg²⁺ ×
-ramp folding screen). `design.sc` (scadnano) if the package is installed.
+ramp folding screen); `shape.ply` (the input mesh in PLY — hand off to
+**PERDIX/DAEDALUS/ATHENA** for a fabrication-grade design and cross-check). `design.sc`
+(scadnano) if the package is installed.
 
 **Chemical validity:** every staple is the exact reverse complement of a contiguous
 scaffold stretch, so it really hybridises (asserted by `tests/test_compiler.py`).

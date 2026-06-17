@@ -327,7 +327,7 @@ class TestEndToEnd(unittest.TestCase):
             for f in ("scaffold.fasta", "staples.csv", "staples_idt_plate.txt",
                       "staples_opool.txt", "design.json", "design.top", "conf.dat",
                       "structure.pdb", "oxdna_min.input", "oxdna_relax.input",
-                      "protocol.md", "diagnostics.md", "screen.md"):
+                      "shape.ply", "protocol.md", "diagnostics.md", "screen.md"):
                 self.assertTrue(os.path.exists(os.path.join(d, f)), f)
             self.assertGreater(summary["n_staples"], 0)
             self.assertGreater(summary["approx_nm"], 0)
@@ -339,6 +339,16 @@ class TestEndToEnd(unittest.TestCase):
             with tempfile.TemporaryDirectory() as d:
                 summary = molsynth.compile_shape(shape, outdir=d, iterations=400)
                 self.assertGreater(summary["n_staples"], 0, shape)
+
+    def test_shape_ply_roundtrips(self):
+        """The emitted shape.ply (PERDIX/DAEDALUS hand-off) re-parses to the same mesh."""
+        from molsynth import export, geometry
+        mesh = geometry.load_shape("octahedron")
+        with tempfile.TemporaryDirectory() as d:
+            path = export.write_ply(d, mesh)
+            back = geometry.load_shape(path)
+            self.assertEqual(len(back.vertices), len(mesh.vertices))
+            self.assertEqual(len(back.edges), len(mesh.edges))
 
     def test_oxdna_topology_header(self):
         mesh = geometry.load_shape("tetrahedron")

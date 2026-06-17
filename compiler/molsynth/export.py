@@ -152,6 +152,25 @@ def write_oxdna(outdir, nucs, box):
     return top_path, conf_path
 
 
+def write_ply(outdir, mesh):
+    """Emit the input shape as an ASCII PLY mesh — the format the reference automated
+    wireframe-design tools (PERDIX/DAEDALUS/TALOS/ATHENA) consume. This is the honest
+    bridge to a FABRICATION-GRADE design: run the same shape through those tools to get
+    production crossover geometry, and cross-check against this compiler's output."""
+    path = os.path.join(outdir, "shape.ply")
+    lines = ["ply", "format ascii 1.0",
+             f"element vertex {len(mesh.vertices)}",
+             "property float x", "property float y", "property float z",
+             f"element face {len(mesh.faces)}",
+             "property list uchar int vertex_indices", "end_header"]
+    for v in mesh.vertices:
+        lines.append(f"{v[0]} {v[1]} {v[2]}")
+    for f in mesh.faces:
+        lines.append(f"{len(f)} " + " ".join(str(int(i)) for i in f))
+    _w(path, "\n".join(lines) + "\n")
+    return path
+
+
 def write_oxdna_inputs(outdir, salt_M=0.5, temp_c=20):
     """Emit ready-to-run oxDNA relaxation input files. conf.dat is a STARTING config
     with over-stretched vertex-junction backbones; the documented fix is a two-step
@@ -276,6 +295,8 @@ def write_all(outdir, design, mesh, routing, staples):
     written["oxdna_min.input"] = mn
     written["oxdna_relax.input"] = rx
 
+    if mesh.faces:                      # PERDIX/DAEDALUS-ready mesh for fabrication-grade
+        written["shape.ply"] = write_ply(outdir, mesh)
     sc_path = write_scadnano(outdir, routing, staples)
     if sc_path:
         written["design.sc"] = sc_path
