@@ -27,8 +27,12 @@ in without touching the optimizer. `anneal()` does simulated annealing over the 
 positions (the flexible backend from Babatunde 2021; a k-shortest-path backend is the
 deterministic alternative used by pyOrigamiBreak), then `equalize_tm()` runs a focused
 deterministic pass that tightens the per-staple Tm SPREAD (cooperative annealing) while
-provably preserving every hard guarantee -- length window, crossover coverage, loop
-balance, off-target -- so uniformity improves with no structural cost.
+preserving the hard guarantees -- length window, crossover coverage, loop balance,
+off-target. Crucially, anneal() keeps that refinement ONLY when it lowers the FULL
+objective: Tm variance is already a scored term (w_tm_var), and an experiment showed that
+accepting it on Tm-stdev alone net-WORSENED predicted yield on every small preset (it
+overshot variance and paid more in the Tm-window penalty). So it now acts as a deterministic
+refiner that can never worsen what the SA found, and still helps on the large presets.
 
 Honest framing: this is a physics-grounded optimizer with an ML-ready scoring hook,
 not a black-box neural net. That is the defensible, demonstrated claim and the
@@ -390,25 +394,24 @@ def anneal(template, crossover_positions_scaffold, model: YieldModel,
                 best_cuts = list(new_cuts)
         history.append(cur_score)
 
-    # Deterministic Tm-equalisation refinement (cooperative annealing). equalize_tm only
-    # moves cuts within the SAME hard envelope the SA respects -- it never violates the
-    # length window, never reduces boundary coverage, never increases loop overload -- so
-    # accept it whenever it actually tightens the Tm spread. (It is driven by Tm stdev, the
-    # explicit yield lever of issue #6; the small length-recentring it trades away is
-    # cosmetic, every staple stays in [len_lo, len_hi].)
-    def _tm_stdev(seqs):
-        ts = [t for t in (sq.tm(s, **model.tm_kwargs) for s in seqs) if not math.isnan(t)]
-        if len(ts) < 2:
-            return 0.0
-        mu = sum(ts) / len(ts)
-        return math.sqrt(sum((t - mu) ** 2 for t in ts) / len(ts))
-
+    # Deterministic Tm-equalisation refinement (cooperative annealing): a focused local
+    # search that nudges cuts to tighten the staple Tm spread. It preserves the hard
+    # guarantees (length window, boundary coverage, loop balance, off-target), but tightening
+    # the Tm STDEV is only ONE term of the objective -- pushing it past the model's optimum
+    # can raise the Tm-WINDOW penalty (staples driven out of [tm_lo, tm_hi]) by more than the
+    # variance penalty falls, which NET-WORSENS predicted yield. Measured: gating acceptance
+    # on Tm-stdev alone degraded the proxy in 12/12 small-shape cases (tetra/cube/octa/square)
+    # by +4..+9, helping only the two largest presets. Since Tm variance is ALREADY weighted
+    # in score_set (w_tm_var), the consistent rule is to keep the refinement only when it
+    # improves the FULL objective -- so it acts as a deterministic refiner that can never
+    # worsen the design. (To value uniformity more, raise w_tm_var in the model and
+    # re-validate; don't let a post-pass silently override the calibrated objective.)
     if best_cuts:
         refined = equalize_tm(template, best_cuts, xovers_t, model,
                               offtarget_mask=offtarget_mask)
         if refined != best_cuts and length_valid(refined):
             r_score, r_seqs, r_counts = evaluate(refined)
-            if _tm_stdev(r_seqs) < _tm_stdev(best_seqs) - 1e-9:
+            if r_score < best_score - 1e-9:
                 best_cuts, best_seqs, best_counts = refined, r_seqs, r_counts
                 best_score = r_score
                 history.append(best_score)

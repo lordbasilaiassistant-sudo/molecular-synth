@@ -276,6 +276,33 @@ class TestStaples(unittest.TestCase):
         self.assertGreaterEqual(coverage(cuts1), coverage(cuts0))     # coverage not reduced
         self.assertLessEqual(overload(cuts1), overload(cuts0))        # loop-balance held
 
+    def test_equalize_never_worsens_the_optimizer_objective(self):
+        """Regression guard (found by experiment): equalize_tm tightens Tm STDEV, but that
+        is only one objective term -- pushing it too far can raise the Tm-window penalty and
+        net-degrade predicted yield. anneal() must therefore keep the refinement ONLY when it
+        improves the FULL score, so the post-pass can never worsen what the SA achieved.
+        (Before the fix this regressed the proxy on every small preset.)"""
+        import molsynth.optimizer as opt
+        from molsynth import sequences as sq2
+        from molsynth.optimizer import YieldModel, anneal
+        model = YieldModel()
+        for shape in ("tetrahedron", "cube", "octahedron", "icosahedron"):
+            mesh = geometry.load_shape(shape)
+            s, name, synth = sc.load_scaffold()
+            routing = sc.route(mesh, s, name, synth)
+            template = sq2.reverse_complement(routing.scaffold_seq)
+            mask = sq2.repeat_mask(routing.scaffold_seq)[:len(template)]
+            kw = dict(iterations=2000, seed=11, offtarget_mask=mask)
+            with_eq = anneal(template, routing.crossover_positions, model, **kw)[3][-1]
+            orig = opt.equalize_tm
+            opt.equalize_tm = lambda *a, **k: a[1]      # disable -> pure SA
+            try:
+                sa_only = anneal(template, routing.crossover_positions, model, **kw)[3][-1]
+            finally:
+                opt.equalize_tm = orig
+            self.assertLessEqual(with_eq, sa_only + 1e-6,
+                                 f"{shape}: equalize worsened the objective {sa_only}->{with_eq}")
+
 
 class TestScience(unittest.TestCase):
     """Anchor the numerics to the literature, not just to ourselves."""
