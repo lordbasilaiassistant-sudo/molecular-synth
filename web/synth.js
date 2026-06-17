@@ -16,7 +16,7 @@
     [['cookie', 'cake', 'bread', 'pizza', 'pasta', 'soup', 'meal', 'sandwich', 'snack', 'sauce', 'dish', 'rice', 'egg', 'food', 'candy', 'chocolate', 'lasagna', 'taco', 'burger', 'burrito', 'noodle', 'fries', 'salad', 'stew', 'curry', 'pancake', 'waffle', 'muffin', 'donut', 'pie', 'fruit'],
       ['assemble', 'kitchen (planned)', 'food', ['stocked ingredients', 'polysaccharides/proteins/lipids/water', 'atoms']]],
     [['case', 'bracket', 'holder', 'part', 'tool', 'toy', 'gear', 'mount', 'widget', 'clip', 'knob', 'object', 'figurine', 'enclosure'],
-      ['assemble', '3dprint (planned)', 'object', ['a 3D mesh of thermoplastic', 'polymer (PLA/PETG)', 'atoms']]],
+      ['assemble', 'printsynth (FDM)', 'object', ['a 3D mesh of thermoplastic', 'polymer (PLA/PETG)', 'atoms']]],
     [['protein', 'enzyme', 'antibody', 'peptide', 'hormone', 'insulin'],
       ['frontier', 'biofab (frontier)', 'component', ['amino-acid chain', 'amino acids', 'encoded by DNA', 'atoms']]],
     [['drug', 'molecule', 'compound', 'medicine', 'aspirin', 'vitamin', 'chemical', 'ethanol', 'whiskey', 'alcohol'],

@@ -36,7 +36,9 @@ Tracked in [Issues](https://github.com/lordbasilaiassistant-sudo/molecular-synth
   then trust novel compiled designs. This is the moment the blueprint becomes a result.
 
 ## New maker domains (extend the thesis)
-- **#8** 3D-print maker (object requests → slice → gcode) through the same request-compiler.
+- **#8** 3D-print maker — ✅ **shipped** (`synth/printsynth`): STL → print job (material,
+  settings, filament/time/cost estimate, slicer hand-off). Physical objects join the
+  catalog of what the synth makes.
 - Future: automated kitchen, PCB mill — each must pass the gate (cheap, orderable,
   demonstrated) before it ships.
 

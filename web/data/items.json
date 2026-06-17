@@ -101,10 +101,11 @@
       "name": "printed object", "aliases": ["bracket", "phone case", "widget", "part", "tool"],
       "category": "object",
       "decomposition": ["a solid plastic object", "a 3D mesh of thermoplastic", "polymer (PLA/PETG)", "C/H/O atoms"],
-      "styles": [{"style": "3D print", "maker": "3dprint (planned, issue #8)", "feasibility": "assemble",
-        "how": "slice an STL -> gcode -> FDM/resin printer", "needs": ["3D printer", "filament/resin"],
-        "citation": "FDM/SLA additive manufacturing (standard)"}],
-      "notes": "Form only, single material class. Not functional electronics."
+      "styles": [{"style": "3D print", "maker": "printsynth", "feasibility": "assemble",
+        "how": "printsynth: STL -> print job (material, settings, time/filament/cost estimate) -> standard FDM printer + free slicer",
+        "needs": ["FDM printer (~$150-250)", "filament"],
+        "citation": "FDM additive manufacturing (standard); printsynth in /synth"}],
+      "notes": "Form in plastic, single material class. Not functional electronics. A real maker now (synth/printsynth)."
     },
     {
       "name": "enzyme", "aliases": ["protein", "antibody", "catalyst protein"],
