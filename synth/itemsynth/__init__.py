@@ -18,6 +18,7 @@ every routing decision is reproducible and explains itself (`r["matched"]`).
 
 CLI:  python -m itemsynth "iced oat latte, large"
 """
-from .router import route, classify, MAKERS   # noqa: F401
+from .router import route, classify          # noqa: F401
+from .makers import MAKERS, MAKER_DOMAINS, Maker   # noqa: F401
 
 __version__ = "0.1.0"
