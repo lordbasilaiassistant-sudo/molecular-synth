@@ -9,6 +9,7 @@ python research/exp1_tm_salt_calibration.py     # Tm validation + folding-buffer
 python research/exp2_scale_physics.py           # "what if we built molecules but bigger?" — the physics of scale
 python research/exp3_design_sweet_spots.py      # scaffold-offset lever + objective ablation
 python research/exp4_gc_uniformity_offset.py    # ingenuity lever: GC-uniformity-guided offset selection
+python research/exp5_why_scale_matters.py       # WHY size matters at bedrock, and the dodge
 ```
 
 Deps: Biopython (independent NN thermodynamics) for exp1; pure stdlib for exp2/exp3.
@@ -124,3 +125,40 @@ which captures this only indirectly. **Concrete improvement:** add a GC-uniformi
 offset ranking in `compile_shape()`'s scaffold search — cheap (no extra anneal) and targets the
 one floor that cut-placement cannot move. This is the highest-leverage, lowest-risk next step,
 and it stacks with the Exp 1 buffer recalibration.
+
+---
+
+## Exp 5 — WHY size matters at bedrock, and the dodge
+
+The root cause is **geometry of exponents, not a wall**. Every force is sourced by a
+different-dimensional feature of an object, so each scales as a different power of linear size L
+(measured slopes, log-log):
+
+| quantity | exponent n (E ∝ Lⁿ) | sourced by |
+|---|---|---|
+| thermal kT | **0** (constant!) | one degree of freedom — scale-free |
+| surface (vdW, adhesion, drag, tension) | **2** | interfaces (area) |
+| gravity / weight | **3–4** | amount of stuff (volume) |
+| diffusive reach per second | **−0.5** | thermal vs viscous drag |
+
+A "crossover scale" is simply where two lines of different slope intersect (gravity = thermal at
+~0.79 µm). **The bedrock that cannot be dodged:** the atomic scale is pinned by the fundamental
+constants — the Bohr radius `a₀ = 4πε₀ℏ²/(mₑe²) = 0.053 nm` derives from raw constants in the
+script. Bonds (~0.15 nm), bond energy (~eV), and kT (~0.026 eV) are all set there. There is no
+"bigger atom," and kT is scale-free — so as you move away from the atomic scale, the *count* of
+fundamental units (atoms, bonds, area, volume) changes and each force, caring about a different
+count, re-sorts. That is the entire origin of why size matters.
+
+**Why you can't "have it all ways" in one object — and the dodge.** A *monolithic* object has
+one size, so the L³-vs-L²-vs-L⁰ competition already picked a winner; it can't be both
+thermally-self-assembling (needs small) and rigidly gravity-defying (needs big). But a
+**multi-scale** object can. Nature never accepts the 1/L surface penalty: it makes area fractal,
+A ∝ L^D with D→3. A solid 15 cm sphere has 0.07 m² of surface; a 15 cm human lung packs **~75 m²
+(>1000× more)** by nesting airways across scales — molecular-scale surface chemistry *and*
+macroscopic size simultaneously. Bone, wood, nacre, gut, mitochondria all do this. **You don't
+break the scaling laws; you compose them across scales** (paying structural complexity + energy).
+That — not inflating a molecule — is "the missing something," and it's exactly the lever DNA
+origami opens at the bottom rung (program the smallest scale; let hierarchy carry it up). Two
+further escapes the passive laws don't see: **active matter** (burn energy to fight the scaling,
+as living cells do) and **metamaterials** (engineered structure gives bulk properties the base
+chemistry "shouldn't" have).
