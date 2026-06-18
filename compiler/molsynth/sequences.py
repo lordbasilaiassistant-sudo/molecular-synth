@@ -211,6 +211,41 @@ def longest_run(mask: list, a: int, b: int) -> int:
     return best
 
 
+def tm_buffer(seq: str, strand_conc_M: float = 0.25e-6) -> float:
+    """Buffer-accurate Tm for the ~12.5 mM MgCl2 origami folding buffer.
+
+    Mg2+ stabilises duplexes far more than its naive monovalent equivalent. Validated in
+    research/exp1_tm_salt_calibration.py: against the Owczarzy 2008 divalent correction the
+    monovalent-equivalent of 12.5 mM Mg2+ for 32-42 nt staples is [Na+]_eq ~= 166 mM (NOT the
+    50 mM default, which under-predicts folding Tm by ~9 C, and NOT the old 120*sqrt[Mg]=13 mM
+    rule, ~22 C low). This reports the temperature staples actually melt at in the real fold.
+
+    Ref: Owczarzy et al., Biochemistry 47:5336 (2008)."""
+    return tm(seq, strand_conc_M=strand_conc_M, na_M=0.166)
+
+
+def g_quadruplex_sites(seq: str) -> int:
+    """Count canonical G-quadruplex motifs: four G>=3 tracts separated by 1-7 nt loops
+    (G3+N1-7G3+N1-7G3+N1-7G3+). A staple that folds into a G4 is sequestered from the
+    scaffold (lost to folding), and G4s are NOT caught by the duplex-hairpin proxy. Cheap,
+    dependency-free screen; a real design would confirm with QGRS/G4Hunter.
+
+    Ref: Burge et al., Nucleic Acids Res. 34:5402 (2006) (quadruplex consensus)."""
+    import re as _re
+    return len(_re.findall(r"G{3,}\w{1,7}G{3,}\w{1,7}G{3,}\w{1,7}G{3,}", seq.upper()))
+
+
+def wlc_rms_bend_deg(length_bp: float, lp_bp: float = 147.0) -> float:
+    """RMS thermal bending angle (degrees) of a single B-DNA duplex of `length_bp`, from the
+    worm-like-chain model: <theta^2> = L/Lp. dsDNA persistence length Lp ~= 50 nm ~= 147 bp.
+    A single-duplex wireframe edge much longer than Lp is floppy -> the polyhedron distorts;
+    stiff edges (multi-helix bundles, Lp ~ 1-10 um) are the remedy for large rigid shapes.
+
+    Refs: Hagerman, Annu. Rev. Biophys. 17:265 (1988) (dsDNA Lp ~50 nm);
+          Benson et al., Nature 523:441 (2015) (single-duplex wireframe is intentionally compliant)."""
+    return math.degrees(math.sqrt(max(0.0, length_bp) / lp_bp)) if length_bp > 0 else 0.0
+
+
 def describe(seq: str, **tm_kwargs) -> dict:
     """Full per-staple quality readout."""
     return {

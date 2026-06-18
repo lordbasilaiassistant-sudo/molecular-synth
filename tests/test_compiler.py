@@ -613,5 +613,37 @@ class TestEndToEnd(unittest.TestCase):
             self.assertTrue(all(math.isfinite(c) for p in pos for c in p))  # no NaN/Inf
 
 
+class TestPhysicsRealityCheck(unittest.TestCase):
+    """The adversarial physics/materials audit: failure modes that break the REAL build even
+    when the compile succeeds (edge stiffness, G-quadruplex, buffer Tm). See research/exp6."""
+
+    def test_g_quadruplex_screen(self):
+        from molsynth import sequences as sq
+        self.assertGreaterEqual(sq.g_quadruplex_sites("GGGTTAGGGTTAGGGTTAGGG"), 1)  # canonical G4
+        self.assertEqual(sq.g_quadruplex_sites("ACGTACGTACGTACGTACGTACGT"), 0)      # clean
+
+    def test_buffer_tm_is_hotter_than_default(self):
+        from molsynth import sequences as sq
+        s = "GCATGCATGCATGCATGCATGCATGCATGCAT"
+        # 12.5 mM Mg2+ stabilises the duplex vs the 50 mM-Na default -> several deg hotter
+        self.assertGreater(sq.tm_buffer(s), sq.tm(s, na_M=0.05) + 3.0)
+
+    def test_wlc_bend_follows_sqrt_law(self):
+        from molsynth import sequences as sq
+        b1, b2 = sq.wlc_rms_bend_deg(63), sq.wlc_rms_bend_deg(126)
+        self.assertAlmostEqual(b2 / b1, 2 ** 0.5, places=3)   # <theta^2> = L/Lp
+        self.assertEqual(sq.wlc_rms_bend_deg(0), 0.0)
+        self.assertGreater(b1, 25)                            # 63 bp single duplex is floppy
+
+    def test_diagnostics_emits_reality_check(self):
+        from molsynth import compile_shape
+        with tempfile.TemporaryDirectory() as d:
+            compile_shape("tetrahedron", outdir=d, iterations=300, scaffold_search=1)
+            txt = open(os.path.join(d, "diagnostics.md"), encoding="utf-8").read()
+            self.assertIn("Physics & materials reality check", txt)
+            self.assertIn("edge stiffness", txt)
+            self.assertIn("buffer-accurate Tm", txt)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

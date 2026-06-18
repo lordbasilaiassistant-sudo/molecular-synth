@@ -10,6 +10,7 @@ python research/exp2_scale_physics.py           # "what if we built molecules bu
 python research/exp3_design_sweet_spots.py      # scaffold-offset lever + objective ablation
 python research/exp4_gc_uniformity_offset.py    # ingenuity lever: GC-uniformity-guided offset selection
 python research/exp5_why_scale_matters.py       # WHY size matters at bedrock, and the dodge
+python research/exp6_physics_redteam.py          # adversarial physics/materials audit of the end product
 ```
 
 Deps: Biopython (independent NN thermodynamics) for exp1; pure stdlib for exp2/exp3.
@@ -162,3 +163,26 @@ origami opens at the bottom rung (program the smallest scale; let hierarchy carr
 further escapes the passive laws don't see: **active matter** (burn energy to fight the scaling,
 as living cells do) and **metamaterials** (engineered structure gives bulk properties the base
 chemistry "shouldn't" have).
+
+---
+
+## Exp 6 — physics & materials red-team (audit the end product like code)
+
+Thinking like a security auditor, but the "exploits" are physical assumptions that break the
+*real folded object* even when `compile_shape()` succeeds and every file is written. Findings
+(audited over the 11 committed designs):
+
+| # | severity | finding | evidence | the lever (not a wall) |
+|---|---|---|---|---|
+| F1 | HIGH | single-duplex wireframe edges are thermally **floppy** | every edge ~63 bp → RMS bend **~38°** (WLC, Lp≈50 nm); 11/11 designs | stiffness is a *design variable*: multi-helix-bundle edges (6HB Lp ~1–10 µm, ~20–70× stiffer) → large rigid shapes. **Now reported in diagnostics.** |
+| F2 | HIGH | Tm mis-calibrated for the Mg²⁺ buffer | Exp 1: real staples ~**+9 °C** hotter than the 50 mM default | `sequences.tm_buffer()` added; diagnostics report the offset. Next: shift the optimiser window +9 °C. |
+| F3 | MED | G-quadruplex sequestration not screened | audited **490 staples → 0 G4 motifs** (clean today) | `g_quadruplex_sites()` added + reported; promote to an optimiser term before novel/denser sequences. |
+| F4 | MED | objective is thermodynamic; folding is **kinetic** | no topological-order term (optimizer.py); pathway control matters (Dunn 2015; Sobczak 2012) | program a Tm ladder matched to assembly order (seams last) → kinetic programming toward ~100% yield. |
+
+**What shipped from this audit (additive, no orderable output changed):** a *Physics & materials
+reality check* section in every `diagnostics.md` (edge-stiffness verdict, G4 audit,
+buffer-accurate Tm offset, kinetic caveat), backed by three new validated functions in
+`sequences.py` (`tm_buffer`, `g_quadruplex_sites`, `wlc_rms_bend_deg`) and 4 new tests. The
+digital pipeline was already sound; these are the physics gaps that decide whether the *atoms*
+cooperate — and none of them is a wall. Each is a design lever toward making the impossible
+buildable.

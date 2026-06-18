@@ -10,6 +10,49 @@ distribution (the other yield lever) and the optimizer's score improvement.
 
 from __future__ import annotations
 
+from . import sequences as sq
+
+BP_NM = 0.34   # rise per base pair, B-form DNA
+
+
+def _reality_check(design: dict, staples) -> str:
+    """Adversarial physics/materials audit: the failure modes that break the REAL build even
+    when the compile 'succeeds'. Report-only (does not change any orderable output)."""
+    approx_nm = design.get("approx_nm") or 0
+    max_edge_bp = approx_nm / BP_NM if approx_nm else 0
+    bend = sq.wlc_rms_bend_deg(max_edge_bp)
+    if bend <= 10:
+        stiff = "rigid (edge << persistence length) -> holds its designed shape"
+    elif bend <= 25:
+        stiff = "semi-rigid -> minor vertex-angle fluctuation"
+    else:
+        stiff = ("FLOPPY: single-duplex edges fluctuate >25 deg rms -> the wireframe breathes; "
+                 "for a rigid shape use multi-helix-bundle edges (6HB Lp ~1-10 um) or accept "
+                 "an ensemble-averaged shape (intended for DAEDALUS-style compliant wireframes)")
+
+    seqs = [getattr(s, "seq", "") for s in staples]
+    g4 = sum(sq.g_quadruplex_sites(s) for s in seqs)
+    g4_line = (f"{g4} staple(s) with a G-quadruplex motif -> sequestered from folding; redesign"
+               if g4 else "0 G-quadruplex motifs -> clean (audited)")
+
+    tms = [s.tm_C for s in staples]
+    bufs = [sq.tm_buffer(s) for s in seqs if s]
+    offset = (sum(bufs) / len(bufs) - sum(tms) / len(tms)) if (bufs and tms) else 0.0
+
+    return f"""## Physics & materials reality check (adversarial)
+_Failure modes that break the physical build even when the compile succeeds. Verify these,
+not just that files were written._
+- edge stiffness: longest edge ~{max_edge_bp:.0f} bp (~{approx_nm} nm); single B-DNA duplex
+  RMS thermal bend ~{bend:.0f} deg (worm-like chain, Lp~50 nm) -> {stiff}
+- sequence liability: {g4_line}
+- buffer-accurate Tm: the model Tm above assumes ~50 mM Na+; in the real ~12.5 mM Mg2+ fold,
+  staples melt ~{offset:+.1f} C hotter (Owczarzy 2008; research/exp1). Anneal-ramp top end
+  should clear the hottest staple's buffer Tm.
+- kinetic blind spot: this score is THERMODYNAMIC (equilibrium Tm). Folding is kinetic --
+  if hot staples close loops before the structure nucleates, yield drops despite good Tm.
+  Mitigate with the Mg2+ x ramp screen (screen.md); program nucleation seams last.
+"""
+
 
 def _ascii_hist(values, lo, hi, bins=16, width=40):
     if not values:
@@ -110,4 +153,5 @@ mean {st.get('tm_mean_C')}  stdev {spread}  range {st.get('tm_min_C')}-{st.get('
 
 ## Length distribution
 min {st.get('len_min')}  mean {st.get('len_mean')}  max {st.get('len_max')} nt (target 32-42)
-"""
+
+{_reality_check(design, staples)}"""
