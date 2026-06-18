@@ -112,7 +112,8 @@ and to enable scadnano/STL/Biopython integrations.
 | [`validate/`](validate/) | **the gate**: mechanically checks every BOM line is orderable < $1500 and every claim is demonstrated. |
 | [`proofs/`](proofs/) | **would it work IRL, given the parts?** — runnable proofs with evidence: staples tile + hybridise, Tm matches Biopython (independent tool), the 3D structure is valid oxDNA, a simulated PID tracks the fold ramp, power/fluidics close. |
 | [`northstar/`](northstar/) | the geometry-only diamondoid simulation, clearly labelled not-yet-buildable. |
-| [`tests/`](tests/) | 13 stdlib tests incl. a chemical-validity check (staples are exact reverse-complements). |
+| [`research/`](research/) | **measured, reproducible experiments + [`FINDINGS.md`](research/FINDINGS.md)** — independent Tm validation (vs Biopython), folding-buffer salt calibration, the physics of scale (why the nanoscale is the manipulation sweet spot), the compiler's design levers, and an adversarial physics/materials red-team of the end product. Each is a runnable script. |
+| [`tests/`](tests/) | the compiler test suite (50 stdlib tests: chemical validity, the foldability partition invariant, oxDNA/scadnano/caDNAno round-trips, and the physics reality-check). |
 | [`examples/`](examples/) | sample shapes + committed sample outputs. |
 
 ## The validation gate (anti-rebuttal mechanism)
@@ -164,8 +165,19 @@ formats). The hardware is designed and parametric; the firmware compiles for Ard
 **It has not yet been run as a full wet-lab build by the authors** — contributions and
 wet-lab replications welcome.
 
+Beyond the buildable rig, the compiler is now **federated behind one front door**
+([`synth/itemsynth`](synth/itemsynth/)): one natural request routes to the maker that fits
+(water / drink / print / molecular) or honestly to the north-star, with the Maker Catalog
+wired in as an engine (feasibility + cross-maker decomposition). And every compiled design
+ships a **"Physics & materials reality check"** in its `diagnostics.md` — an honest
+edge-stiffness verdict (worm-like-chain bending), a G-quadruplex audit, the
+folding-buffer-accurate melting temperature, and the thermodynamic-vs-kinetic caveat —
+so the diagnostics never overclaim what the atoms will actually do. The reasoning behind
+each of these is measured and reproducible in [`research/`](research/).
+
 See [`docs/science.md`](docs/science.md) for the citation-backed case that every piece
-of this is real.
+of this is real, and [`research/FINDINGS.md`](research/FINDINGS.md) for the measured study
+of the molecular thermodynamics and the scale physics underneath it.
 
 ---
 

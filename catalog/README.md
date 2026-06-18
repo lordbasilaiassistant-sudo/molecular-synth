@@ -44,6 +44,12 @@ composes a **cross-maker** plan. Rule-based by default; pass an **LLM hook**
 "just ask" experience. **Voice** is an input adapter: a speech-to-text front end (browser
 Web Speech API, or a local whisper model) feeds the recognised text into `order`.
 
+> **The catalog is an engine of the one front door.** `synth/itemsynth` is the federation's
+> single entry point; its `feasibility()` and `plan()` delegate to this package's `check` and
+> `order`, and `synthesize()` falls back here for cross-maker / cataloged asks. So you can
+> reach the catalog directly (`python -m makerlib ...`) *or* through `itemsynth` — one spine,
+> two doors into it.
+
 Each item lists its **decomposition** (the substance ladder), its **styles** (method +
 maker + feasibility + what it needs + a citation), and honest **notes**. `check` on an
 uncataloged thing classifies it by its nearest category and flags it as an estimate to

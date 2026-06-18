@@ -42,6 +42,17 @@ real.
 python northstar/diamond_sim.py --nm 5 --out northstar/out/diamond_5nm.xyz
 ```
 
+## A second, independent reason it's hard (the physics of scale)
+
+The operation-count above is the *throughput* wall. There is also a *force* wall:
+macroscopic atom-up assembly fights physics that re-sorts with size. Below ~0.8 µm, thermal
+motion dominates and matter can assemble itself; above it, gravity and contact forces take
+over and self-assembly stops — you need a fundamentally different mechanism. The manipulation
+sweet spot (~10 nm–0.8 µm) is exactly the DNA-origami window, and the route upward is
+**hierarchical** assembly (compose scales), not a single tooltip placing 10²⁰ atoms. The
+computed crossover scales are in [`../research/FINDINGS.md`](../research/FINDINGS.md) (exp 2 & 5).
+Both walls point the same way: parallelism + hierarchy, or a wholly different approach.
+
 ## The honest bridge from the buildable track
 
 The buildable rig already does **programmable, sequence-addressed self-assembly** and

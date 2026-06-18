@@ -87,6 +87,16 @@ ramp folding screen); `shape.ply` (the input mesh in PLY — hand off to
 scaffold stretch, so it really hybridises (asserted by `tests/test_compiler.py`).
 Staples whose span crosses a vertex are crossover staples that hold the wireframe.
 
+**Physics & materials reality check** (in every `diagnostics.md`): an adversarial
+audit of what could break the *real* fold even when the compile succeeds — the
+single-duplex **edge stiffness** verdict (worm-like-chain RMS bending vs the ~50 nm
+persistence length; long edges are floppy), a **G-quadruplex** sequence audit, the
+**folding-buffer-accurate Tm** (the model's ~50 mM Na⁺ default runs ~9 °C cold for the
+real ~12.5 mM Mg²⁺ buffer; `sequences.tm_buffer()` reports the offset), and the
+**thermodynamic-vs-kinetic** caveat. The physics behind each line is measured and
+reproducible in [`../research/`](../research/) (Tm validated against Biopython; Owczarzy
+2008 salt; the scale-physics sweet spot).
+
 ## Honest limitations (and the upgrade path)
 
 The router produces a **topologically- and sequence-valid** design (single scaffold
@@ -103,5 +113,5 @@ simulatable 3D structure) + the physics-grounded yield optimizer with an ML-read
 ## Tests
 
 ```bash
-python tests/test_compiler.py        # 13 stdlib tests, ~15 s
+python tests/test_compiler.py        # 50 stdlib tests, ~90 s
 ```

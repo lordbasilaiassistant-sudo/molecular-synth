@@ -14,6 +14,32 @@ cheap materials** allow, and we keep the universal-replicator dream honestly on 
 - Water Synth: "a glass of drinkable water on demand" via atmospheric water generation
   (Peltier condensation + carbon filter + UV-C). The most tractable maker, humanity-useful.
 
+## Federation & research (shipped this cycle)
+- **One front door.** `synth/itemsynth` is now a registry-driven spine (`makers.py` = a single
+  source of truth per maker: keywords + compiler + output adapter) and orchestrates the Maker
+  Catalog as an engine — `synthesize()` routes one ask to a maker, north-stars the impossible,
+  or falls back to the catalog for cross-maker / cataloged requests (`feasibility()`, `plan()`).
+- **Measured molecular study** ([research/FINDINGS.md](research/FINDINGS.md)) — reproducible
+  experiments: the Tm model validated against Biopython (mean |ΔT| = 0.86 °C); a folding-buffer
+  salt calibration (the 50 mM default runs ~9 °C cold for the real 12.5 mM Mg²⁺ fold; na_eq ≈
+  166 mM); the physics of scale (the manipulation/self-assembly sweet spot is ~10 nm–0.8 µm =
+  the origami window); the compiler's design levers (scaffold offset ≈ 3× proxy lever;
+  GC-uniformity predicts the Tm-spread floor at r = +0.73); and an adversarial physics red-team.
+- **Reality-check diagnostics.** Every `diagnostics.md` now carries a "Physics & materials
+  reality check": edge-stiffness verdict (worm-like chain), G-quadruplex audit, buffer-accurate
+  Tm, and the thermodynamic-vs-kinetic caveat — so diagnostics never overclaim the real fold.
+
+## Active: physics-backed compiler upgrades (in progress, not yet merged)
+Driven by the red-team findings; each must land tested + measured before it ships:
+- **Stiffness as a dial** — multi-helix-bundle edges (6HB Lp ~1–10 µm) so the compiler can emit
+  *rigid* large shapes, not only compliant single-duplex wireframes (red-team F1).
+- **Buffer Tm recalibration + GC-uniformity offset ranking** — shift the optimiser Tm window to
+  the real-buffer scale and rank scaffold offsets by GC-uniformity (the r = +0.73 lever).
+- **Kinetic Tm-ladder** — an opt-in objective term that programs folding *order*, not just
+  equilibrium Tm (red-team F4; Dunn 2015).
+- **Hierarchy simulation** — origami unit cells → super-lattice, measuring where the assembly's
+  own physics crossovers land (the literal next step of "compose the scales" toward macroscopic).
+
 ## Climbing the ladder ([docs/the-ladder.md](docs/the-ladder.md))
 - **Rung 0–1** (fold + harden): shipped, on a desk.
 - **Rung 2** (DNA as a breadboard): ✅ `--decorate` emits functional handle staples that

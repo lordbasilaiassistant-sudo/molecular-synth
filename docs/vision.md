@@ -56,20 +56,32 @@ energy, not *having it on demand*.
 > desktop maker, and we add makers one domain at a time — only where today + cheap
 > allows.**
 
-Two instances live in this repo, sharing the exact same pattern:
+The repo ships this as **one front door over four makers** ([`/synth/itemsynth`](../synth/itemsynth/)):
+a single natural request is classified and routed to the maker that fits, or honestly to
+the north-star, with the [Maker Catalog](../catalog/) wired in as an engine for feasibility
+and cross-maker decomposition. The makers, sharing the exact same pattern:
 
 1. **Molecular Synth** (the deep-tech flagship) — *atomic precision*, nanoscale. Shape →
    DNA staple recipe → folded nanostructure → optional silica hardening. This is the
    rung almost nobody has on their desk; it's the hard, novel one.
-2. **Drink Synth** ([`/synth`](../synth/)) — *macroscale, today, ~$120 of cheap parts*.
-   "iced oat latte" → recipe → pump/heater/chiller command sequence → a drink in a cup.
-   It proves the "ask → it makes it" loop is buildable now, and it reuses the same
+2. **Water Synth** — "a glass of drinkable water on demand" from humid air (the most
+   tractable, humanity-useful maker).
+3. **Drink Synth** — *macroscale, today, ~$120 of cheap parts*. "iced oat latte" → recipe →
+   pump/heater/chiller command sequence → a drink in a cup. It reuses the same
    repurposed-parts ethos (Peltier, Arduino, peristaltic pumps).
+4. **Print Synth** — an `.stl` → a real 3D-print job (material, settings, filament/time/cost).
 
-Both are the *same machine philosophy* at different scales: a request gets **compiled**
-to a deterministic machine recipe by software, executed by cheap hardware. New domains
-(3D-print router, automated kitchen, PCB mill) plug into the same request-compiler as
-they become cheap and reliable.
+All are the *same machine philosophy* at different scales: a request gets **compiled** to a
+deterministic machine recipe by software, executed by cheap hardware. New domains (automated
+kitchen, PCB mill) plug into the same registry as they become cheap and reliable.
+
+> **Why nanoscale is the tractable frontier (measured, not asserted).** The honest reason
+> "atomic precision on a desk" works while "macroscopic matter from atoms" doesn't is the
+> *physics of scale*: forces re-sort by size, and there's a sweet spot (~10 nm–0.8 µm) where
+> thermal motion assembles matter for free yet structures still hold a programmed shape —
+> exactly the DNA-origami window. The path molecule→macroscopic is **hierarchical
+> self-assembly**, not inflating a molecule. See [`../research/FINDINGS.md`](../research/FINDINGS.md)
+> (exp 2 & 5) for the computed crossover scales.
 
 ## "If we can figure out DNA, we can figure out this"
 

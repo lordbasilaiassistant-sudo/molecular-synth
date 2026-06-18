@@ -18,5 +18,10 @@ python -m molsynth compile ../examples/square_pyramid.json --out ../examples/out
 ```
 
 Open `out_cube/protocol.md` to see the auto-emitted wet-lab recipe, `staples.csv` for
-the orderable oligos, and `design.json` for the full design. These are illustrative;
-the synthetic-vs-real-M13 scaffold is noted in each output's header.
+the orderable oligos, and `design.json` for the full design. `diagnostics.md` carries the
+per-design yield report plus the **Physics & materials reality check** (edge stiffness,
+G-quadruplex audit, buffer-accurate Tm, kinetic caveat). These are illustrative; the
+synthetic-vs-real-M13 scaffold is noted in each output's header.
+
+> Note: these committed snapshots predate the latest diagnostics section; regenerate with the
+> commands above to see the current reality-check output (the orderable oligos are unchanged).

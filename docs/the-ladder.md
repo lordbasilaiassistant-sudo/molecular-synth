@@ -13,6 +13,11 @@ This is the bridge between the [buildable](science.md) track (our desk) and the
 [north-star](north-star.md) (not demonstrated). Call it the **demonstrated frontier**:
 real, shown once, not yet a factory.
 
+> **Why the rungs sit where they do** is not arbitrary — it falls out of the physics of
+> scale (forces re-sort by size; structure climbs by *hierarchical* self-assembly, not by
+> inflating a molecule). The computed crossover scales and the "ingenuity sweet spot" are in
+> [`../research/FINDINGS.md`](../research/FINDINGS.md) (exp 2 & 5).
+
 ## The staircase (each rung is demonstrated)
 
 | Rung | What it does | Demonstrated by | Where it is |

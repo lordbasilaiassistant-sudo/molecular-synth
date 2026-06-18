@@ -7,6 +7,13 @@ claim and every part's orderability); corrections from that pass are folded into
 `claims.json` (e.g. the Aksel-2024 "balance, not 6–30× minimization" framing and the
 staple-reuse citation).
 
+> **Background vs. measured experiments.** This folder is the *literature background*. The
+> repo-root [`research/`](../../research/) folder holds the *measured, reproducible
+> experiments* run against this codebase (Tm validated vs Biopython, folding-buffer salt
+> calibration, the physics of scale, the compiler's design levers, and the physics red-team) —
+> see [`research/FINDINGS.md`](../../research/FINDINGS.md). Dossiers explain the science we
+> built on; `research/` reports what we then measured and found.
+
 | # | file | covers |
 |---|---|---|
 | 01 | [01-origami-design-tools.md](01-origami-design-tools.md) | DNA origami fundamentals; automated mesh→scaffold routing (caDNAno, vHelix, DAEDALUS, PERDIX/TALOS/METIS, scadnano, oxDNA); the routing algorithm; M13mp18 |
