@@ -3,7 +3,7 @@ name: pages
 on:
   push:
     branches: [main]
-    paths: ['web/**', 'bom/bom.json', 'catalog/**', '.github/workflows/pages.yml']
+    paths: ['web/**', 'bom/bom.json', '.github/workflows/pages.yml']
   workflow_dispatch:
 
 permissions:
@@ -28,8 +28,6 @@ jobs:
         run: |
           mkdir -p web/data
           cp bom/bom.json web/data/bom.json
-          cp catalog/items.json web/data/items.json
-          cp catalog/makerlib/cocktails.json web/data/cocktails.json
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web

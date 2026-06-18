@@ -4,8 +4,7 @@
 
 ## Checklist
 
-- [ ] `python tests/test_compiler.py` passes
-- [ ] `python synth/tests/test_drinksynth.py` passes (if touched)
+- [ ] `python tests/test_compiler.py` and `python tests/test_hierarchy.py` pass
 - [ ] `python validate/validate.py` PASSes (rig < $1500, claims demonstrated)
 - [ ] New numerics are anchored to the literature (cite it) and have a test
 - [ ] Honesty rules hold: new capability claims cite a demonstrated paper and are on the

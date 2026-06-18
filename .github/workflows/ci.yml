@@ -18,17 +18,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Compiler tests (stdlib only)
-        run: python tests/test_compiler.py
-
-      - name: Synth tests (buildable-today maker instances)
         run: |
-          python synth/tests/test_drinksynth.py
-          python synth/tests/test_watersynth.py
-          python synth/tests/test_printsynth.py
-          python synth/tests/test_itemsynth.py
-
-      - name: Maker Catalog + order brain tests
-        run: python catalog/tests/test_makerlib.py
+          python tests/test_compiler.py
+          python tests/test_hierarchy.py
 
       - name: Proofs (would it work IRL, given the parts?)
         run: |

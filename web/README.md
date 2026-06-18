@@ -1,19 +1,20 @@
-# /web — the browser 3D sim (GitHub Pages)
+# /web — the project landing page (GitHub Pages)
 
-A self-contained Three.js simulation of the **water module** making a clean glass of
-water in seconds. Deployed to GitHub Pages from this folder (`.github/workflows/pages.yml`):
+A self-contained, dependency-free landing page for **Molecular Synth** — the desktop
+DNA-origami nanofactory. Deployed to GitHub Pages from this folder
+(`.github/workflows/pages.yml`):
 
 **Live:** https://lordbasilaiassistant-sudo.github.io/molecular-synth/
 
-It's a *sim to design/test the real machine*: the machine constants are at the top of
-[`index.html`](index.html) (glass volume, valve rate, UV-C dose, buffer, AWG rate), and
-the on-screen proof readout shows volume, elapsed time, **UV-C dose** (✓ at ≥40 mJ/cm²,
-the 4-log bacteria drinking-water standard), temperature, and buffer level.
+Tabs:
+- **Overview** — what the machine is, the headline numbers, and how a request becomes matter.
+- **What it makes** — a live Three.js DNA-origami wireframe nanostructure, plus the three
+  outputs (shapes · functionalised · hardened). Atomic precision, nanoscale.
+- **Blueprint & parts** — the parts table + build phases, rendered live from the repo's
+  single-source `bom.json` (`data/bom.json`, the same file the validate gate checks).
+- **The vision** — the honest "what's real vs north-star" table and the research ladder from
+  DNA origami toward molecular manufacturing.
 
-**Honest model:** the glass is valve-dispensed (~42 mL/s) from a treated, pre-chilled
-buffer that is filled from a **tap/reservoir (instant)** or, off-grid, by the slow Peltier
-**atmospheric-water-generator** (~0.1–0.3 L/hr) — so it never depends on humidity. Dispense
-is seconds; air-harvest is the slow background. This harvests + treats + dispenses water;
-it does not synthesise matter.
-
-Run locally: open `index.html` in a browser (no build step; Three.js from CDN).
+Pure HTML + a little Three.js (from CDN) — no build step, no framework. `pages.yml` stages
+`bom/bom.json` into `data/` at deploy time so the blueprint table stays in sync with the repo.
+Run locally: open `index.html` in a browser.

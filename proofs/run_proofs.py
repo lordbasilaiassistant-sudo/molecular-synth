@@ -216,30 +216,16 @@ def proof_thermocycler_control():
 
 
 def proof_power_budget():
-    """Given the BOM, the worst-case simultaneous electrical draw fits the PSU."""
-    draws = {"TEC1-12706 Peltier": 60, "heatsink fan": 3, "Arduino": 2.5,
-             "BTS7960 H-bridge": 1.0, "pump (peristaltic)": 4.0, "UV-C LED": 1.0}
-    active = sum(draws.values())           # one thermal module + its pump active
+    """Given the BOM, the rig's worst-case simultaneous electrical draw fits the PSU."""
+    draws = {"TEC1-12706 Peltier (thermocycler)": 60, "heatsink fan": 3,
+             "Arduino": 2.5, "BTS7960 H-bridge": 1.0, "gel + transilluminator": 8.0}
+    active = sum(draws.values())           # thermocycler ramp + control + gel imaging
     psu = 12 * 30                          # 360 W PSU in the BOM
     passed = active < psu
     return ("Power budget closes (given the BOM PSU)", passed, [
-        f"worst simultaneous draw (one module active): ~{active:.0f} W",
+        f"worst simultaneous draw: ~{active:.0f} W",
         f"BOM PSU: 12 V x 30 A = {psu} W   headroom: {psu - active:.0f} W",
-        "=> the specified PSU powers any single active module with large margin.",
-    ])
-
-
-def proof_fluidics():
-    """Given the pump flow rates, drinks/water dispense in a reasonable time."""
-    t_water = 250 / 2.2
-    t_whiskey = 60 / 2.0
-    t_gt = (50 + 150) / 1.9
-    passed = t_water < 300 and t_whiskey < 60
-    return ("Fluidics dosing achievable (given the pumps)", passed, [
-        f"250 mL water @ 2.2 mL/s: {t_water:.0f} s",
-        f"60 mL whiskey @ 2.0 mL/s: {t_whiskey:.0f} s",
-        f"gin+tonic 200 mL @ ~1.9 mL/s: {t_gt:.0f} s",
-        "=> target volumes dispense in seconds-to-minutes with the specified pumps.",
+        "=> the specified PSU powers the rig (Peltier ramp + control + gel) with large margin.",
     ])
 
 
@@ -290,7 +276,7 @@ def proof_matches_published_wireframe_envelopes():
 PROOFS = [proof_single_scaffold_circuit, proof_staple_addressing, proof_cadnano_roundtrip,
           proof_matches_published_wireframe_envelopes,
           proof_tm_vs_biopython, proof_structure_oxdna, proof_thermocycler_control,
-          proof_power_budget, proof_fluidics]
+          proof_power_budget]
 
 
 def main():

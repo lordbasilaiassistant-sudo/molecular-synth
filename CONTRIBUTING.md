@@ -20,8 +20,7 @@ makes it different: **honesty about what is real.**
 ```bash
 # compiler tests (pure stdlib, no installs)
 python tests/test_compiler.py
-# drink-synth tests
-python synth/tests/test_drinksynth.py
+python tests/test_hierarchy.py
 # the validate gate (sourceable AND demonstrated, rig < $1500)
 python validate/validate.py
 # end-to-end smoke

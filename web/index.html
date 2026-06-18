@@ -88,7 +88,6 @@
 
 <nav class="tabs" id="tabs">
   <button data-tab="overview" class="on">Overview</button>
-  <button data-tab="synth">🎙 Synthesizer</button>
   <button data-tab="makes">What it makes</button>
   <button data-tab="blueprint">Blueprint &amp; parts</button>
   <button data-tab="vision">The vision</button>
@@ -116,45 +115,32 @@
        off-target · cross-dimer) → order oligos → fold (90→20 °C in Mg²⁺) → gel-verify → optional silica hardening</p>
   </section>
 
-  <!-- SYNTHESIZER CONSOLE -->
-  <section class="panel" id="synth">
-    <h2>The synthesizer — just ask</h2>
-    <p>Type a request like the Orville synthesizer. The brain (a JS port of the repo's
-       <span class="mono">makerlib</span>) decomposes it, gives an <b>honest feasibility verdict</b>,
-       routes it to a maker, and shows the machine plan — and <b>declines</b> what the synth can't make.</p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;">
-      <input id="ask" placeholder='e.g. "whiskey on the rocks", "a DNA tetrahedron", "carbon to oxygen"'
-        style="flex:1;min-width:240px;background:#0c131c;border:1px solid #244a6b;border-radius:9px;color:#fff;font:inherit;font-size:14px;padding:10px 12px;" />
-      <button id="askbtn" class="btn p" style="cursor:pointer;">Synthesize ▶</button>
-    </div>
-    <div id="chips" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;"></div>
-    <div id="result"></div>
-  </section>
-
   <!-- WHAT IT MAKES -->
   <section class="panel" id="makes">
     <h2>What it makes — today</h2>
-    <p>The flagship is atomic-precision nanostructures. Two cheap macroscale makers share the same
-       “request → compiler → machine recipe” pattern. Everything else is honestly labelled on
-       <a href="#" data-go="vision">the vision</a> tab.</p>
+    <p>Atomic-precision DNA-origami nanostructures: any shape you describe, folded from a scaffold +
+       optimized staples, in ~10¹² copies per reaction. Everything above this rung is honestly labelled
+       on <a href="#" data-go="vision">the vision</a> tab.</p>
     <div style="position:relative;height:300px;margin:6px 0 14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0a121c;">
       <canvas id="nano3d" style="width:100%;height:100%;display:block;"></canvas>
       <div style="position:absolute;left:12px;bottom:10px;font-size:12px;color:var(--mut);pointer-events:none;">
         A DNA-origami wireframe nanostructure — each edge is a DNA double-helix. The compiler folds shapes like this (~10–100 nm).</div>
     </div>
     <div class="grid">
-      <div class="card"><h4>🧬 Nanostructures <span class="pill">flagship</span></h4>
-        <p>DNA origami shapes; rung-2 functionalisation positions enzymes/nanoparticles at chosen sites;
-           optional silica/metal hardening. Atomic precision, nanoscale.</p></div>
-      <div class="card"><h4>🧪 Drinks</h4><p>“iced oat latte” → pumps + Peltier hot/cold. Assembly from
-           stocked ingredients, not atomic synthesis.</p></div>
-      <div class="card"><h4>💧 Water</h4><p>Tap/reservoir (or off-grid AWG) → carbon filter → UV-C → glass.
-           Harvest + treat, not matter synthesis.</p></div>
+      <div class="card"><h4>🧬 Shapes</h4>
+        <p>Platonic presets, or any STL/PLY/JSON wireframe → a single closed scaffold route + optimized
+           staple set + the wet-lab protocol + a relaxable 3D oxDNA structure.</p></div>
+      <div class="card"><h4>🔬 Functionalised</h4>
+        <p>Rung-2: handle staples position enzymes / catalysts / nanoparticles at nm-precise sites;
+           cascade placement at a target inter-guest spacing.</p></div>
+      <div class="card"><h4>🪨 Hardened</h4>
+        <p>Optional sol–gel silica converts the floppy DNA into a rigid SiO₂ replica — a real rung toward
+           durable inorganic nanostructures.</p></div>
     </div>
     <h3>The honest line</h3>
-    <p>A universal “materialise anything from energy” replicator is north-star (E=mc²). What’s real is a
-       <b>federation of cheap desktop makers + an AI request brain</b>, with the DNA nanofab as the deep-tech
-       rung that’s genuinely novel. We add makers only where today + cheap allows.</p>
+    <p>The output is a DNA-self-assembled nanostructure (~10 nm–1 µm), not a macroscopic object and not
+       Drexler diamondoid mechanosynthesis. Every capability cites a demonstrated paper; the bigger
+       “matter compiler” ambition stays clearly on the north-star track. We climb one tested rung at a time.</p>
   </section>
 
   <!-- BLUEPRINT -->
@@ -182,8 +168,7 @@
     <table>
       <tr><th>You ask for…</th><th>Today?</th><th>How</th></tr>
       <tr><td>A nanostructure (atomic precision)</td><td class="ok">✓ ready</td><td>this repo (DNA origami)</td></tr>
-      <tr><td>A drink / a glass of water</td><td class="ok">✓ ready</td><td>cheap makers (assemble/treat)</td></tr>
-      <tr><td>A cookie / printed object</td><td class="warn">~ assemble</td><td>kitchen / 3D-printer maker (planned)</td></tr>
+      <tr><td>A functionalised / hardened nanostructure</td><td class="ok">✓ ready</td><td>handle staples; sol–gel silica</td></tr>
       <tr><td>A custom enzyme / molecule</td><td class="warn">🔬 frontier</td><td>directed evolution, DNA-templated synthesis</td></tr>
       <tr><td>Carbon → oxygen / a working phone</td><td>⭐ north-star</td><td>nuclear / fabs — not buildable</td></tr>
     </table>
@@ -205,7 +190,6 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="synth.js"></script>
 <script>
 // ---------- tabs ----------
 const tabs=document.getElementById('tabs');
@@ -213,7 +197,6 @@ function show(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===id));
   tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));
   if(id==='blueprint') loadBOM();
-  if(id==='synth') initSynth();
   if(id==='makes') initNano();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -264,45 +247,6 @@ function initNano(){
   new ResizeObserver(resize).observe(canvas); resize(); requestAnimationFrame(loop);
 }
 
-// ---------- synthesizer console ----------
-let synthInit=false;
-const EXAMPLES=['whiskey on the rocks','iced oat latte, large, extra shot','g&t','a DNA tetrahedron',
-  'a glass of cold water','a cookie','an enzyme','ethanol from air','a working phone','carbon to oxygen'];
-function initSynth(){
-  if(synthInit) return; synthInit=true;
-  const chips=document.getElementById('chips');
-  chips.innerHTML=EXAMPLES.map(e=>`<button class="pill" data-ex="${e.replace(/"/g,'&quot;')}" style="cursor:pointer;background:#0c131c;">${e}</button>`).join('');
-  chips.addEventListener('click',e=>{ if(e.target.dataset.ex){ document.getElementById('ask').value=e.target.dataset.ex; run(); }});
-  document.getElementById('askbtn').onclick=run;
-  document.getElementById('ask').addEventListener('keydown',e=>{ if(e.key==='Enter') run(); });
-  document.getElementById('ask').value='whiskey on the rocks'; run();
-}
-async function run(){
-  const q=document.getElementById('ask').value.trim(); if(!q) return;
-  const out=document.getElementById('result'); out.innerHTML='<p class="mut">synthesizing…</p>';
-  const p=await window.Synth.order(q);
-  const verdict=window.Synth.LABEL[p.best]||p.best;
-  let h=`<div class="card"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">`+
-        `<h4 style="margin:0;">“${q}” → ${p.name}</h4><span class="pill">${verdict}</span></div>`;
-  if(p.kind==='drink'){
-    h+=`<p style="margin:8px 0 4px;color:#fff;">build:</p><ul style="margin:0 0 8px;padding-left:18px;color:#a9c4dd;">`;
-    for(const [k,v] of Object.entries(p.pour)) h+=`<li>${k}: ${v} mL</li>`;
-    if(p.ice) h+='<li>ice (~80 g, machine-made)</li>';
-    if(p.garnish) h+=`<li>garnish: ${p.garnish}</li>`;
-    h+='</ul>';
-    if(p.modifiers&&p.modifiers.length) h+=`<p class="mut" style="margin:2px 0;">modifiers: ${p.modifiers.join(', ')}</p>`;
-    h+=`<p style="margin:8px 0 2px;color:#fff;">plan (cross-maker):</p><div class="mono" style="font-size:12.5px;color:#9fd8ff;">`;
-    h+=p.steps.map(s=>`[${s[0]}] ${s[1]}`).join('<br>');
-    h+=`</div><p class="mono mut" style="margin-top:8px;">${p.cmds.join(' | ')}</p>`;
-    h+=`<p class="mut" style="margin-top:8px;">makers: ${p.makers.join(', ')} · assembles from stocked ingredients + machine ice — not matter synthesis.</p>`;
-  } else {
-    h+=`<p class="mono" style="margin:8px 0;color:#9fd8ff;font-size:13px;">${p.decomposition.join('  →  ')}</p>`;
-    h+=`<p class="mut" style="margin:4px 0;">route: ${(p.makers||[]).join(', ')||'—'}${p.cataloged?'':' · (estimate — not yet cataloged)'}</p>`;
-    if(p.best==='north-star') h+=`<p class="warn" style="margin:4px 0;">Not synth-makeable — recognised &amp; honestly declined. See <a href="https://github.com/lordbasilaiassistant-sudo/molecular-synth/blob/main/docs/north-star.md">north-star.md</a> / <a href="https://github.com/lordbasilaiassistant-sudo/molecular-synth/blob/main/docs/molecule-vs-element.md">molecule-vs-element.md</a>.</p>`;
-    if(p.notes) h+=`<p class="mut" style="margin:4px 0;">${p.notes}</p>`;
-  }
-  h+='</div>'; out.innerHTML=h;
-}
 tabs.addEventListener('click',e=>{ if(e.target.dataset.tab) show(e.target.dataset.tab); });
 document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show(a.dataset.go);}));
 

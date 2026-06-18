@@ -22,28 +22,24 @@ silica.
 This is genuine, demonstrated bottom-up nanofabrication — the real first rung of the
 ladder — described without overclaiming the rungs above it.
 
-> 🧪 **The bigger picture — the "synthesizer" (ask for anything, a machine makes it):**
-> a universal matter replicator (materialising matter from energy) is north-star — not
-> possible today, any price. But the *spirit* — "ask, and it appears" — is partly real
-> now as a **federation of cheap desktop makers + an AI request-compiler**. This repo
-> holds four maker instances: **Molecular Synth** (atomic precision, nanoscale, the
-> deep-tech flagship), **[Water Synth](synth/)** (a glass of drinkable water harvested
-> from air — the most tractable one, and humanity-useful), **[Drink Synth](synth/)**
-> ("iced oat latte" → machine recipe), and **[Print Synth](synth/printsynth/)** (STL →
-> 3D-print job) — all behind one front door, **[Item Synth](synth/itemsynth/)**, the
-> request-router that takes *one* natural ask and dispatches it to the maker that fits
-> (or returns the honest north-star verdict when no desktop maker can do it).
-> See [`docs/vision.md`](docs/vision.md).
+> 🧬 **The bigger picture — a molecular synthesizer.** The dream is a *matter compiler*:
+> describe a structure, a machine builds it with atomic precision. A universal replicator
+> (arbitrary macroscopic matter from atoms) is **north-star** — not possible today, any
+> price. But the bottom rung is **real now**: programmable, sequence-addressed
+> self-assembly of atomically-defined nanostructures by DNA origami — that's what this repo
+> compiles and folds. From there, a real research staircase (functionalisation →
+> DNA-templated synthesis → molecular robots → assemblers) climbs toward molecular
+> manufacturing, every rung demonstrated in a lab. See [`docs/vision.md`](docs/vision.md)
+> and [`docs/the-ladder.md`](docs/the-ladder.md).
 >
 > ```bash
-> cd synth && python -m itemsynth "a large glass of cold water"   # -> water maker recipe
-> python -m itemsynth "an octahedron DNA nanocage"                # -> molecular compiler
-> python -m itemsynth "a working smartphone"                      # -> honest north-star
+> cd compiler
+> python -m molsynth compile octahedron --out out/octa   # shape -> scaffold + staples + protocol + 3D
 > ```
 
-> 🖥️ **Live 3D sim:** [**a clean glass of water in seconds**](https://lordbasilaiassistant-sudo.github.io/molecular-synth/)
-> — the water module, simulated in the browser (valve-dispenses a UV-C-treated, filtered
-> glass from a buffer; honest about the slow air-harvest). Source: [`web/`](web/).
+> 🖥️ **Live site:** [**the interactive blueprint**](https://lordbasilaiassistant-sudo.github.io/molecular-synth/)
+> — the nanofactory, its live parts list, and the research ladder, in the browser.
+> Source: [`web/`](web/).
 
 > 🔧 **Building it for real? Start with the [BUILD GUIDE](docs/build-guide.md)** —
 > the full blueprint from an empty bench and $623 to a folded, gel-verified
@@ -106,9 +102,7 @@ and to enable scadnano/STL/Biopython integrations.
 | [`hardware/`](hardware/) | parametric CAD (`*.scad`: gel box, thermocycler block, STM mount) + Arduino thermocycler firmware + host ramp streamer. |
 | [`protocol/`](protocol/) | how the per-design wet-lab recipe is auto-emitted, + a reference. |
 | [`bom/`](bom/) | the live, linked, priced Bill of Materials (`bom.json` + `bom.md`). |
-| [`catalog/`](catalog/) | **The Maker Catalog + order brain** — the *menu of what the synth can make* (decompose → feasibility → route), plus a natural-language order brain: `"whiskey on the rocks"` → ICE (watersynth) + POUR whiskey (drinksynth). Rule-based with an LLM/voice hook. **Wired in as an engine of the one front door:** `itemsynth.feasibility()` / `.plan()` delegate here, and `itemsynth.synthesize()` falls back to it for cross-maker / cataloged asks — so there's a single spine, not two routers. |
-| [`docs/`](docs/) | **`build-guide.md`** (the end-to-end blueprint), **`integration.md`** (how every cog fits into one real machine), **`vision.md`** (the synthesizer thesis), **`the-ladder.md`** (the demonstrated research staircase from DNA toward molecular manufacturing), `science.md` (a paper per claim), `claims.json`, `north-star.md`, and the `research/` dossiers. |
-| [`synth/`](synth/) | **Item Synth + Water/Drink/Print makers** — buildable-*today* instances of the synthesizer thesis. [`itemsynth/`](synth/itemsynth/) is the request-router front door ("ask for X" → the right maker, or an honest north-star verdict); the makers turn "glass of cold water" → harvest/filter/UV commands, "iced oat latte" → pump/heater commands, and an STL → a 3D-print job. ~$60–180 of cheap parts. Same architecture, macroscale. Honest: harvest/assembly + treatment, not matter-from-energy. |
+| [`docs/`](docs/) | **`build-guide.md`** (the end-to-end blueprint), **`integration.md`** (how every cog fits into one real machine), **`vision.md`** (the molecular-synthesizer vision), **`the-ladder.md`** (the demonstrated research staircase from DNA toward molecular manufacturing), `science.md` (a paper per claim), `claims.json`, `north-star.md`, and the `research/` dossiers. |
 | [`validate/`](validate/) | **the gate**: mechanically checks every BOM line is orderable < $1500 and every claim is demonstrated. |
 | [`proofs/`](proofs/) | **would it work IRL, given the parts?** — runnable proofs with evidence: staples tile + hybridise, Tm matches Biopython (independent tool), the 3D structure is valid oxDNA, a simulated PID tracks the fold ramp, power/fluidics close. |
 | [`northstar/`](northstar/) | the geometry-only diamondoid simulation, clearly labelled not-yet-buildable. |
@@ -165,15 +159,12 @@ formats). The hardware is designed and parametric; the firmware compiles for Ard
 **It has not yet been run as a full wet-lab build by the authors** — contributions and
 wet-lab replications welcome.
 
-Beyond the buildable rig, the compiler is now **federated behind one front door**
-([`synth/itemsynth`](synth/itemsynth/)): one natural request routes to the maker that fits
-(water / drink / print / molecular) or honestly to the north-star, with the Maker Catalog
-wired in as an engine (feasibility + cross-maker decomposition). And every compiled design
-ships a **"Physics & materials reality check"** in its `diagnostics.md` — an honest
-edge-stiffness verdict (worm-like-chain bending), a G-quadruplex audit, the
-folding-buffer-accurate melting temperature, and the thermodynamic-vs-kinetic caveat —
-so the diagnostics never overclaim what the atoms will actually do. The reasoning behind
-each of these is measured and reproducible in [`research/`](research/).
+Every compiled design ships a **"Physics & materials reality check"** in its
+`diagnostics.md` — an honest edge-stiffness verdict (worm-like-chain bending, with a
+single-vs-multi-helix-bundle dial), a G-quadruplex audit, the folding-buffer-accurate
+melting temperature, and the thermodynamic-vs-kinetic caveat — so the diagnostics never
+overclaim what the atoms will actually do. The reasoning behind each is measured and
+reproducible in [`research/`](research/).
 
 See [`docs/science.md`](docs/science.md) for the citation-backed case that every piece
 of this is real, and [`research/FINDINGS.md`](research/FINDINGS.md) for the measured study
