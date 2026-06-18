@@ -50,7 +50,13 @@ from . import sequences as sq
 
 DEFAULT_WEIGHTS = {
     "len_lo": 32, "len_hi": 42,
-    "tm_lo": 50.0, "tm_hi": 64.0,
+    # Tm window in the REAL folding buffer (~12.5 mM Mg2+). The model scores every Tm at the
+    # buffer-accurate salt (tm_kwargs na_M=0.166; research/exp1), so the window must be on that
+    # same scale. The old [50,64] was a 50-mM-Na window; the buffer fold runs ~+9 C hotter
+    # (exp1, measured +9.0 C mean on the octahedron), so the physically-equivalent window is
+    # [59,73]. Window and salt shift together -> the dominant Tm-window term (exp3) now targets
+    # the temperature staples actually melt at, instead of fighting a mis-calibrated target.
+    "tm_lo": 59.0, "tm_hi": 73.0,
     "xmax": 2,            # crossovers/loop-closures per staple before penalty (Aksel 2024)
     "w_len": 1.0,        # penalty per nt outside the length window
     "w_tm": 0.5,         # penalty per degC outside the Tm window
@@ -65,13 +71,21 @@ DEFAULT_WEIGHTS = {
     "offtarget_allow": 14,  # contiguous scaffold-repeat length tolerated within one staple
     "w_dimer": 0.5,      # penalty per nt of worst staple-staple cross-dimer beyond dimer_allow
     "dimer_allow": 10,   # staple-staple complementary length tolerated (used in offset ranking)
+    # --- kinetic folding-ORDER term (OPTIONAL; default OFF so behaviour is byte-identical) ---
+    "w_kinetic": 0.0,    # reward a Tm gradient where high-load staples are NOT the hottest
+    "kinetic_loop_w": 0.5,  # weight of ln(max enclosed loop) inside a staple's "load"
 }
 
 
 @dataclass
 class YieldModel:
     weights: dict = field(default_factory=lambda: dict(DEFAULT_WEIGHTS))
-    tm_kwargs: dict = field(default_factory=dict)
+    # Score every Tm at the buffer-accurate monovalent equivalent of the 12.5 mM Mg2+ fold
+    # ([Na+]_eq ~= 0.166 M; sequences.tm_buffer / research/exp1). sq.tm()'s 50 mM default
+    # under-predicts the fold by ~9 C; scoring at the real salt makes the Tm window above mean
+    # what it says. staples.py reports tm_C at this same salt, so the diagnostics histogram and
+    # the window are on one consistent scale.
+    tm_kwargs: dict = field(default_factory=lambda: {"na_M": 0.166})
 
     @classmethod
     def load(cls, path):
@@ -103,7 +117,7 @@ class YieldModel:
         return pen
 
     def score_set(self, staple_seqs, cross_counts, loop_sizes, n_boundaries, n_covered,
-                  offtarget_runs=None):
+                  offtarget_runs=None, staple_loop_loads=None):
         """Total objective for a full staple set (lower is better).
 
         staple_seqs    : list of staple sequences
@@ -112,12 +126,16 @@ class YieldModel:
         n_boundaries   : total vertex/crossover boundaries in the design
         n_covered      : how many of those boundaries are bridged by >=1 staple
         offtarget_runs : per-staple longest scaffold-repeat stretch (off-target risk)
+        staple_loop_loads : OPTIONAL per-staple largest enclosed-loop size (bases). Only
+                     used by the kinetic folding-ORDER term (w_kinetic); when None the loop
+                     part of a staple's kinetic "load" is taken as 0 (crossover count only).
         """
         if not staple_seqs:
             return 1e9
         w = self.weights
         total = 0.0
         tms = []
+        all_tms = []                                # parallel to staple_seqs (NaN kept)
         for idx, (seq, c) in enumerate(zip(staple_seqs, cross_counts)):
             total += self.staple_seq_penalty(seq)
             if c > w["xmax"]:                       # too many loop closures (Aksel 2024)
@@ -125,6 +143,7 @@ class YieldModel:
             if offtarget_runs is not None and idx < len(offtarget_runs):
                 total += w["w_offtarget"] * max(0, offtarget_runs[idx] - w["offtarget_allow"])
             t = sq.tm(seq, **self.tm_kwargs)
+            all_tms.append(t)
             if not math.isnan(t):
                 tms.append(t)
         for n in loop_sizes:
@@ -137,7 +156,63 @@ class YieldModel:
             mean = sum(tms) / len(tms)
             var = sum((t - mean) ** 2 for t in tms) / len(tms)
             total += w["w_tm_var"] * math.sqrt(var)
+        # kinetic folding-ORDER term (OPTIONAL; w_kinetic defaults to 0 -> no-op, byte-identical)
+        if w.get("w_kinetic", 0.0):
+            total += w["w_kinetic"] * kinetic_penalty(
+                cross_counts, all_tms,
+                loop_loads=staple_loop_loads,
+                loop_w=w.get("kinetic_loop_w", 0.5))
         return total
+
+
+def kinetic_penalty(cross_counts, tms, loop_loads=None, loop_w=0.5):
+    """KINETIC folding-ORDER proxy (OPTIONAL term; see score_set's w_kinetic).
+
+    The default objective is purely THERMODYNAMIC -- it clusters equilibrium melting
+    temperatures so the staples cross their transition together (cooperative annealing,
+    Aksel 2024). But real folding is a KINETIC, ordered process: as the pot is ramped
+    down, staples bind in descending-Tm order, so the highest-Tm staples nucleate first.
+    Two independent lines of work show that the ORDER matters as much as the endpoints:
+    Sobczak et al., Science 338:1458 (2012) fold origami isothermally and find sharp,
+    sequence-of-events-dependent optimal temperatures; Dunn et al., Nature 525:82 (2015)
+    measure the folding pathway base-by-base and show that which staples engage first
+    selects the final yield -- a hot loop-closing/seam staple that engages before its
+    framework is laid down can lock in a kinetic trap.
+
+    Defensible heuristic: a staple's "load" = (# crossovers it bridges) + loop_w * ln(max
+    enclosed loop, in bases). High-load staples (multi-crossover bridges, large enclosed
+    loops -- the structure's seams) should fold LATE, i.e. sit LOW in the Tm distribution,
+    so the framework nucleates first. We penalise the positive covariance between load and
+    Tm: reward designs where high-load staples are cooler, penalise designs where they are
+    the hottest. Concretely, with mean-centred load L_i and mean-centred Tm T_i,
+
+        penalty = max(0, sum_i L_i * T_i) / n        (only the WRONG-sign covariance costs).
+
+    Zero when there is no load or no Tm spread, and zero when high-load staples are already
+    the COOLEST (negative covariance is the desired gradient and is never rewarded below 0,
+    only un-penalised). Units: degC * load, so w_kinetic is "penalty per degC*load of
+    framework-before-seam inversion." This is a KINETIC PROXY built from the equilibrium Tm
+    ranking -- there is NO molecular-dynamics kinetic simulator here; it encodes the
+    descending-Tm folding-order assumption of the cited isothermal/pathway experiments.
+    """
+    n = len(cross_counts)
+    if n < 2:
+        return 0.0
+    loads = []
+    for i in range(n):
+        load = float(cross_counts[i])
+        if loop_loads is not None and i < len(loop_loads) and loop_loads[i] and loop_loads[i] > 1:
+            load += loop_w * math.log(loop_loads[i])
+        loads.append(load)
+    pairs = [(loads[i], tms[i]) for i in range(n) if not math.isnan(tms[i])]
+    if len(pairs) < 2:
+        return 0.0
+    lvals = [p[0] for p in pairs]
+    tvals = [p[1] for p in pairs]
+    lmean = sum(lvals) / len(lvals)
+    tmean = sum(tvals) / len(tvals)
+    cov = sum((l - lmean) * (t - tmean) for l, t in pairs) / len(pairs)
+    return max(0.0, cov)
 
 
 def boundaries_in(start, end, xovers):
@@ -190,7 +265,7 @@ def proxy_score(routing, model: YieldModel, offtarget_mask=None, target_len=37):
     for c in list(cuts) + [S]:
         spans.append((prev, c))
         prev = c
-    seqs, counts, loops, offt = [], [], [], []
+    seqs, counts, loops, offt, loop_loads = [], [], [], [], []
     covered = set()
     for a, b in spans:
         seqs.append(template[a:b])
@@ -198,12 +273,14 @@ def proxy_score(routing, model: YieldModel, offtarget_mask=None, target_len=37):
         counts.append(len(bnds))
         covered.update(bnds)
         pts = [a] + bnds + [b]
-        for i in range(1, len(pts)):
-            loops.append(pts[i] - pts[i - 1])
+        seg_loops = [pts[i] - pts[i - 1] for i in range(1, len(pts))]
+        loops.extend(seg_loops)
+        loop_loads.append(max(seg_loops) if seg_loops else 0)
         if offtarget_mask is not None:
             offt.append(sq.longest_run(offtarget_mask, S - b, S - a))
     score = model.score_set(seqs, counts, loops, n_boundaries, len(covered),
-                            offtarget_runs=offt if offtarget_mask is not None else None)
+                            offtarget_runs=offt if offtarget_mask is not None else None,
+                            staple_loop_loads=loop_loads)
     # Make the offset search dimer-aware: penalise windows whose even-partition staples
     # are complementary to each other (form cross-dimers that compete with folding).
     w = model.weights
@@ -339,7 +416,7 @@ def anneal(template, crossover_positions_scaffold, model: YieldModel,
 
     def evaluate(cs):
         spans = staple_spans(cs)
-        seqs, counts, loops, offt = [], [], [], []
+        seqs, counts, loops, offt, loop_loads = [], [], [], [], []
         covered = set()
         for a, b in spans:
             seqs.append(template[a:b])
@@ -347,13 +424,15 @@ def anneal(template, crossover_positions_scaffold, model: YieldModel,
             counts.append(len(bnds))
             covered.update(bnds)
             pts = [a] + bnds + [b]
-            for i in range(1, len(pts)):
-                loops.append(pts[i] - pts[i - 1])
+            seg_loops = [pts[i] - pts[i - 1] for i in range(1, len(pts))]
+            loops.extend(seg_loops)
+            loop_loads.append(max(seg_loops) if seg_loops else 0)
             if offtarget_mask is not None:
                 # template span [a,b) <-> scaffold-route span [S-b, S-a)
                 offt.append(sq.longest_run(offtarget_mask, S - b, S - a))
         score = model.score_set(seqs, counts, loops, n_boundaries, len(covered),
-                                offtarget_runs=offt if offtarget_mask is not None else None)
+                                offtarget_runs=offt if offtarget_mask is not None else None,
+                                staple_loop_loads=loop_loads)
         return score, seqs, counts
 
     def length_valid(cs):

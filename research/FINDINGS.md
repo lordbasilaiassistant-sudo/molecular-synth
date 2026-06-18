@@ -11,6 +11,8 @@ python research/exp3_design_sweet_spots.py      # scaffold-offset lever + object
 python research/exp4_gc_uniformity_offset.py    # ingenuity lever: GC-uniformity-guided offset selection
 python research/exp5_why_scale_matters.py       # WHY size matters at bedrock, and the dodge
 python research/exp6_physics_redteam.py          # adversarial physics/materials audit of the end product
+python research/exp9_kinetic_ladder.py            # kinetic folding-ORDER term (optional, default OFF): Tm-ladder
+python research/exp10_hierarchy.py               # hierarchy: origami unit cells -> super-lattice (compose the scales)
 ```
 
 Deps: Biopython (independent NN thermodynamics) for exp1; pure stdlib for exp2/exp3.
@@ -186,3 +188,86 @@ buffer-accurate Tm offset, kinetic caveat), backed by three new validated functi
 digital pipeline was already sound; these are the physics gaps that decide whether the *atoms*
 cooperate — and none of them is a wall. Each is a design lever toward making the impossible
 buildable.
+
+---
+
+## Exp 10 — hierarchy: compose the scales (the next rung toward macroscopic)
+
+Exp 2/5 said the honest molecule→macro path is *hierarchical self-assembly*, not inflating one
+molecule. Exp 10 makes that ladder quantitative for **this repo's output**: take a cube origami
+unit cell (~40 nm), let it tile a 3D lattice via sticky-end handles (4 units/edge per level), and
+recurse. At each level we compute the two physics crossovers that decide whether the rung
+self-builds — **gravity vs thermal** (exp2's `(kT/ρg)^¼` form, identical constants) and **handle
+binding vs thermal**.
+
+**The measured self-assembly ladder** (300 K, ρ=1100 kg/m³, 4 handles/interface, 8-bp sticky ends):
+
+| level | units | size | gravity/kT | diffuse/s | bind/kT | regime |
+|---|---|---|---|---|---|---|
+| 0 | 1 | 40 nm | 6.7e-6 | 4.7 µm/s | 47 | self-assembles |
+| 1 | 64 | 160 nm | 1.7e-3 | 2.3 µm/s | 47 | self-assembles |
+| 2 | 4,096 | 640 nm | 0.44 | 1.2 µm/s | 47 | self-assembles |
+| 3 | 262,144 | 2.6 µm | 1.1e+2 | 586 nm/s | 47 | **too heavy → falls/sits** |
+| 4 | 1.7e7 | 10 µm | 2.9e+4 | 293 nm/s | 47 | too heavy |
+| 5 | 1.1e9 | 41 µm | 7.3e+6 | 146 nm/s | 47 | too heavy |
+| 6 | 6.9e10 | 164 µm | 1.9e+9 | 73 nm/s | 47 | too heavy |
+
+**Finding 1 — self-assembly has a hard ceiling, and it is exactly exp2's.** The gravity = thermal
+crossover lands at **L ≈ 0.79 µm** (787 nm) — the same number exp2/exp5 derive, because it is the
+same `(kT/ρg)^¼` with the same constants. So free Brownian super-assembly carries you up to about
+**level 2 (640 nm, ~4,000 units)**; at **level 3 (2.6 µm)** gravity already beats thermal by ~100×
+and the trillion-fold Brownian search that built the bottom rung dies. That is not a wall — it is
+the **measured hand-off point** where you must switch mechanism (silica/metal hardening = rung 1 of
+the-ladder.md, templated placement, or active/energy-burning assembly).
+
+**Finding 2 — super-assembly stability is monotonic in handle valence (the bottom-rung design
+lever).** Per-handle binding free energy is **~1.7 kT for a 4-bp toehold, ~11.7 kT for an 8-bp
+sticky end** (NN free energy ~1.5 kcal/mol·bp, net of the ~+5 kcal/mol nucleation/entropy penalty).
+Total interface binding is strictly increasing in handle count for both lengths (verified 1→12
+handles): a weak 4-bp handle needs ~2 handles to clear the ~3-kT "stays together" bar and ~5 to be
+robust, while an 8-bp handle is robustly multi-kT almost alone. **Valence + handle length is the
+programmable knob** that decides whether the lattice holds, and it sits squarely in the window this
+compiler already targets.
+
+**The honest read:** origami (~40 nm) is right in the exp2 sweet spot; a couple of levels of
+handle-driven tiling reach ~0.6 µm blocks that *still* self-assemble — then gravity takes over. You
+don't inflate the molecule, you **compose scales and switch mechanism at the measured 0.79 µm
+crossover**. Self-contained, no compiler-core change; self-checks assert the crossover matches
+exp2's ~0.79 µm and that binding-vs-kT is monotonic in handle count.
+
+## Exp 9 — a kinetic Tm-ladder term (addresses F4): program folding ORDER, not just the endpoint
+
+Exp 6/F4 flagged that the objective is **thermodynamic** (equilibrium Tm clustering) and ignores
+folding **ORDER** — yet folding is kinetic: as the pot cools, staples bind in descending-Tm
+order, so the hottest engage first. If a loop-/seam-closing staple is also among the hottest it
+can close before its framework nucleates → a kinetic trap (Sobczak et al., Science 338:1458, 2012;
+Dunn et al., Nature 525:82, 2015).
+
+**What shipped (OPTIONAL, default OFF — existing behaviour byte-identical):** a `w_kinetic` term
+(`optimizer.kinetic_penalty`, default weight **0.0**). A staple's *load* = (# crossovers it
+bridges) + `kinetic_loop_w`·ln(largest enclosed loop); the term penalises the positive covariance
+between load and Tm, rewarding a gradient where high-load (seam) staples are NOT the hottest. A
+default model (`w_kinetic=0`) scores **exactly** (`==`) a pre-term model, so no committed output
+changes.
+
+**Measured (cube, seed 12345, 3000 iters; `research/exp9_kinetic_ladder.py`):**
+
+| metric | term OFF (default) | term ON (w_kinetic=8) |
+|---|---|---|
+| Pearson r(crossover-count, Tm) | +0.043 | **+0.012** |
+| Pearson r(crossover+loop load, Tm) | +0.071 | **+0.029** |
+| kinetic covariance (penalty) | 0.186 | **0.075** (−60%) |
+| mean Tm: crossover − non-crossover staples | +0.53 °C | **+0.15 °C** |
+
+So enabling the term measurably drives crossover-heavy staples toward the COOL end (framework
+nucleates first). A deterministic unit check confirms the penalty correctly ranks a *framework-first*
+ladder (cost 0) below a *seam-first* one (cost 1.67).
+
+**Honest structural finding (why the lever is modest on the presets):** the existing length window
+(staples ≤ 42 nt) is *shorter* than the ~63 bp inter-crossover spacing of these single-duplex
+wireframes, so **a staple physically cannot bridge two crossovers — max crossover-load is 1 for
+every preset.** The term's lever here is the binary crossover-vs-framework Tm ordering and the
+enclosed-loop size; it bites hardest on **denser / multi-helix-bundle designs** (the F1 stiffness
+fix) where staples do carry >1 crossover. This is a **kinetic PROXY** built from the equilibrium
+Tm ranking — there is **no MD kinetic simulator** — and it stays a design lever toward the
+~100%-yield kinetic programming that F4 points at.

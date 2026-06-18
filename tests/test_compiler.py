@@ -304,6 +304,114 @@ class TestStaples(unittest.TestCase):
                                  f"{shape}: equalize worsened the objective {sa_only}->{with_eq}")
 
 
+class TestKineticLadder(unittest.TestCase):
+    """Rung 3: the OPTIONAL kinetic folding-ORDER term (w_kinetic, default 0).
+
+    The default objective is thermodynamic (equilibrium Tm clustering); this term programs
+    folding ORDER, rewarding a Tm gradient where high crossover-/loop-load staples (the
+    seams) are NOT the hottest, so the framework nucleates first (Dunn 2015; Sobczak 2012).
+    KINETIC PROXY -- no MD simulator. See research/exp9_kinetic_ladder.py."""
+
+    def _design(self, shape="cube"):
+        mesh = geometry.load_shape(shape)
+        s, name, synth = sc.load_scaffold()
+        routing = sc.route(mesh, s, name, synth)
+        template = seq.reverse_complement(routing.scaffold_seq)
+        S = len(template)
+        from molsynth.optimizer import boundaries_in
+        xovers_t = sorted(S - p for p in routing.crossover_positions if 0 < p < S)
+        n = max(2, round(S / 37))
+        cuts = sorted(set(round(S * k / n) for k in range(1, n)))
+        spans, prev = [], 0
+        for c in list(cuts) + [S]:
+            spans.append((prev, c))
+            prev = c
+        seqs, counts, loops, loop_loads, cov = [], [], [], [], set()
+        for a, b in spans:
+            seqs.append(template[a:b])
+            bnds = boundaries_in(a, b, xovers_t)
+            counts.append(len(bnds))
+            cov.update(bnds)
+            pts = [a] + bnds + [b]
+            seg = [pts[i] - pts[i - 1] for i in range(1, len(pts))]
+            loops.extend(seg)
+            loop_loads.append(max(seg) if seg else 0)
+        return seqs, counts, loops, loop_loads, len(xovers_t), len(cov)
+
+    def test_w_kinetic_zero_is_byte_identical(self):
+        """Existing behaviour MUST be byte-identical with the term OFF: a default model
+        (w_kinetic=0) scores EXACTLY the same as a model with the kinetic keys removed
+        entirely (i.e. the pre-rung-3 objective), regardless of whether per-staple loop
+        loads are passed."""
+        seqs, counts, loops, loop_loads, nb, ncov = self._design()
+        default = YieldModel()                                  # w_kinetic=0 default
+        legacy = YieldModel()
+        del legacy.weights["w_kinetic"]
+        del legacy.weights["kinetic_loop_w"]                    # simulate pre-rung-3 model
+        s_default = default.score_set(seqs, counts, loops, nb, ncov)
+        s_legacy = legacy.score_set(seqs, counts, loops, nb, ncov)
+        s_with_loads = default.score_set(seqs, counts, loops, nb, ncov,
+                                         staple_loop_loads=loop_loads)
+        self.assertEqual(s_default, s_legacy)                   # exact, not approximate
+        self.assertEqual(s_default, s_with_loads)               # loop loads are inert when OFF
+
+    def test_kinetic_penalty_orders_framework_before_seam(self):
+        """The penalty (deterministic) must favour a framework-first ladder: high-load
+        staples at the COOL end cost 0; the same Tm multiset with high-load staples at the
+        HOT end (a kinetic trap) costs strictly more."""
+        from molsynth.optimizer import kinetic_penalty
+        cross = [0, 1, 1]
+        seam_first = kinetic_penalty(cross, [55.0, 60.0, 65.0])      # crossover staples hottest
+        framework_first = kinetic_penalty(cross, [65.0, 55.0, 60.0])  # crossover staples coolest
+        self.assertEqual(framework_first, 0.0)                  # desired gradient is free
+        self.assertGreater(seam_first, framework_first)         # the trap is penalised
+        # trivial inputs are zero (no spurious penalty)
+        self.assertEqual(kinetic_penalty([], []), 0.0)
+        self.assertEqual(kinetic_penalty([1], [60.0]), 0.0)
+
+    def test_enabling_kinetic_reorders_tm_vs_crossload(self):
+        """Enabling the term MEASURABLY reorders the Tm-vs-crossover-load relationship: on a
+        design whose default optimum has a positive load->Tm covariance, turning w_kinetic on
+        drives that covariance (and the load-Tm correlation) DOWN -- seam staples pushed
+        cooler. Reproducible at a fixed shape/seed/iteration (cube, seed 12345, 3000)."""
+        import math
+        from molsynth.optimizer import anneal, boundaries_in, kinetic_penalty
+
+        def measure(w_kinetic):
+            model = YieldModel()
+            model.weights["w_kinetic"] = w_kinetic
+            mesh = geometry.load_shape("cube")
+            s, name, synth = sc.load_scaffold()
+            routing = sc.route(mesh, s, name, synth)
+            template = seq.reverse_complement(routing.scaffold_seq)
+            S = len(template)
+            mask = seq.repeat_mask(routing.scaffold_seq)[:S]
+            xovers_t = sorted(S - p for p in routing.crossover_positions if 0 < p < S)
+            cuts, seqs, counts, hist = anneal(
+                template, routing.crossover_positions, model,
+                iterations=3000, seed=12345, offtarget_mask=mask)
+            spans, prev = [], 0
+            for c in list(cuts) + [S]:
+                spans.append((prev, c))
+                prev = c
+            cross, loop_loads, tms = [], [], []
+            for a, b in spans:
+                bnds = boundaries_in(a, b, xovers_t)
+                cross.append(len(bnds))
+                pts = [a] + bnds + [b]
+                segl = [pts[i] - pts[i - 1] for i in range(1, len(pts))]
+                loop_loads.append(max(segl) if segl else 0)
+                tms.append(seq.tm(template[a:b]))
+            return kinetic_penalty(cross, tms, loop_loads=loop_loads)
+
+        off = measure(0.0)
+        on = measure(8.0)
+        self.assertGreater(off, 0.0, "control: the default optimum must have a load-Tm "
+                                     "inversion for there to be something to fix")
+        self.assertLess(on, off,
+                        f"enabling w_kinetic must lower the load-Tm covariance ({off}->{on})")
+
+
 class TestScience(unittest.TestCase):
     """Anchor the numerics to the literature, not just to ourselves."""
 
@@ -642,7 +750,64 @@ class TestPhysicsRealityCheck(unittest.TestCase):
             txt = open(os.path.join(d, "diagnostics.md"), encoding="utf-8").read()
             self.assertIn("Physics & materials reality check", txt)
             self.assertIn("edge stiffness", txt)
-            self.assertIn("buffer-accurate Tm", txt)
+            self.assertIn("buffer Tm", txt)
+
+
+class TestEdgeStiffnessDial(unittest.TestCase):
+    """Rung 1: stiffness as a first-class design dial (multi-helix-bundle edges).
+
+    exp6 F1: a single-duplex ~63 bp wireframe edge bends ~38 deg RMS (FLOPPY). The
+    mechanics model maps (edge_bp, n_helices) -> persistence length -> RMS bend, anchored
+    to the literature (single duplex Lp~50 nm; 6HB Lp~5 um measured by Kauert 2011)."""
+
+    def test_mechanics_monotonic_in_helix_count(self):
+        """More helices => stiffer bundle (higher EI/Lp) and lower RMS bend, strictly,
+        and the single duplex (n=1) reduces exactly to the existing WLC function."""
+        from molsynth import mechanics as mech
+        # n=1 must equal the pre-existing single-duplex WLC bend exactly (no regression)
+        self.assertAlmostEqual(mech.edge_rms_bend_deg(63, 1), seq.wlc_rms_bend_deg(63), places=9)
+        self.assertEqual(mech.bundle_ei_ratio(1), 1.0)
+        prev_bend, prev_ei, prev_lp = float("inf"), 0.0, 0.0
+        for n in (1, 2, 3, 4, 6, 8):
+            v = mech.stiffness_verdict(63, n)
+            self.assertLess(v["rms_bend_deg"], prev_bend, f"bend not decreasing at n={n}")
+            self.assertGreater(v["ei_ratio"], prev_ei, f"EI not increasing at n={n}")
+            self.assertGreater(v["lp_bp"], prev_lp, f"Lp not increasing at n={n}")
+            prev_bend, prev_ei, prev_lp = v["rms_bend_deg"], v["ei_ratio"], v["lp_bp"]
+
+    def test_six_helix_bundle_lp_matches_literature(self):
+        """The 6HB persistence length must land in the MEASURED 1-10 um range (Kauert 2011
+        ~5 um; Bai 2012; Dietz 2009) -- the calibration anchor, not a free fit."""
+        from molsynth import mechanics as mech
+        lp_um = mech.bundle_lp_nm(6) / 1000.0
+        self.assertTrue(1.0 <= lp_um <= 10.0, f"6HB Lp {lp_um:.2f} um outside literature 1-10 um")
+
+    def test_single_duplex_floppy_bundle_rigid(self):
+        """The core jump: a single-duplex ~63 bp edge is FLOPPY (>25 deg), a 6-helix bundle
+        of the SAME edge is rigid (<=10 deg)."""
+        from molsynth import mechanics as mech
+        self.assertGreater(mech.edge_rms_bend_deg(63, 1), 25.0)        # floppy
+        self.assertLessEqual(mech.edge_rms_bend_deg(63, 6), 10.0)      # rigid
+
+    def test_compile_reports_floppy_by_default_rigid_with_bundle(self):
+        """End-to-end: compile_shape default (edge_helices=1) reports a FLOPPY edge-stiffness
+        verdict; edge_helices=6 reports a rigid (low-bend) verdict for the SAME shape."""
+        from molsynth import compile_shape
+        with tempfile.TemporaryDirectory() as d:
+            s1 = compile_shape("tetrahedron", outdir=d, iterations=300,
+                               scaffold_search=1, edge_helices=1)
+            txt1 = open(os.path.join(d, "diagnostics.md"), encoding="utf-8").read()
+        with tempfile.TemporaryDirectory() as d:
+            s6 = compile_shape("tetrahedron", outdir=d, iterations=300,
+                               scaffold_search=1, edge_helices=6)
+            txt6 = open(os.path.join(d, "diagnostics.md"), encoding="utf-8").read()
+        self.assertEqual(s1["edge_helices"], 1)
+        self.assertEqual(s6["edge_helices"], 6)
+        # default edge is floppy; the bundle edge is rigid (same geometry, only the dial moved)
+        self.assertIn("FLOPPY", txt1)
+        self.assertIn("edge_helices=6", txt6)
+        self.assertIn("holds its designed shape", txt6)   # rigid-only verdict token (not bare "rigid")
+        self.assertNotIn("FLOPPY", txt6)
 
 
 if __name__ == "__main__":

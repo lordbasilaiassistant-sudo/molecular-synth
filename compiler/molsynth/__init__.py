@@ -33,7 +33,7 @@ def _rotate(s, off):
 def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
                   scaffold_nM=20, staple_excess=10, mg_mM=12.5, reaction_uL=50,
                   seed=12345, weights_path=None, t_hot=90, t_cold=20, total_min=120,
-                  scaffold_offset=0, scaffold_search=8,
+                  scaffold_offset=0, scaffold_search=8, edge_helices=1,
                   decorate=0, decorate_end="3p", decorate_spacer="TT", decorate_guests=None,
                   cascade=None, cascade_spacing_nm=10.0):
     """Run the full compile pipeline and write all artifacts to `outdir`.
@@ -43,6 +43,16 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
     (M13mp18 is circular, so the start is a real, free design choice) and keeps the
     offset whose optimized staple set scores best — a genuine yield lever, since
     different M13 regions have different GC bias and repeat content.
+
+    edge_helices is the STIFFNESS DIAL (default 1 = single-duplex wireframe, as today).
+    It selects how many parallel duplexes make up each edge: a multi-helix bundle is
+    tens-to-hundreds of times stiffer (6HB Lp ~5 um vs single-duplex ~50 nm), turning a
+    thermally-floppy ~63 bp edge (~38 deg RMS bend) into a rigid one (~few deg). The value
+    feeds the mechanics model (compiler/molsynth/mechanics.py) and the diagnostics
+    stiffness verdict. NOTE: it currently sets only the REPORTED stiffness verdict --
+    it does NOT yet change the emitted staples/scaffold or the BOM (a real bundle would
+    need ~n_helices x the material). Generating the inter-helix-crossover bundle routing
+    is the next step (see the diagnostics reality-check).
     """
     os.makedirs(outdir, exist_ok=True)
 
@@ -94,6 +104,7 @@ def compile_shape(shape, outdir="out", iterations=4000, min_edge_bp=42,
         "design_name": design_name,
         "shape": mesh.name,
         "approx_nm": round(max_edge_bp * BP_NM, 1),
+        "edge_helices": int(edge_helices),
         "scaffold_name": routing.scaffold_name,
         "scaffold_len_used": routing.scaffold_len_used,
         "scaffold_total": len(seq),

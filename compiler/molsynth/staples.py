@@ -84,7 +84,10 @@ def build_staples(routing, model: YieldModel | None = None,
     for i, ((a, b), seq, cross) in enumerate(zip(spans, seqs, counts)):
         # template[a:b] reverse-complements scaffold[S-b : S-a]
         sc_start, sc_end = S - b, S - a
-        info = sq.describe(seq)
+        # report Tm at the real ~12.5 mM Mg2+ folding-buffer salt ([Na+]_eq=0.166; exp1),
+        # the same scale the optimizer scores against -> staples.csv / diagnostics histogram /
+        # the optimizer Tm window are all consistent (not the 50 mM under-prediction).
+        info = sq.describe(seq, na_M=0.166)
         staples.append(Staple(
             index=i,
             name=f"{design_name}-st{i:03d}",

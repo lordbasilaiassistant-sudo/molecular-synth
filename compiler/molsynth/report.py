@@ -11,6 +11,7 @@ distribution (the other yield lever) and the optimizer's score improvement.
 from __future__ import annotations
 
 from . import sequences as sq
+from . import mechanics as mech
 
 BP_NM = 0.34   # rise per base pair, B-form DNA
 
@@ -20,34 +21,44 @@ def _reality_check(design: dict, staples) -> str:
     when the compile 'succeeds'. Report-only (does not change any orderable output)."""
     approx_nm = design.get("approx_nm") or 0
     max_edge_bp = approx_nm / BP_NM if approx_nm else 0
-    bend = sq.wlc_rms_bend_deg(max_edge_bp)
-    if bend <= 10:
-        stiff = "rigid (edge << persistence length) -> holds its designed shape"
-    elif bend <= 25:
+    n_helices = int(design.get("edge_helices", 1) or 1)
+    v = mech.stiffness_verdict(max_edge_bp, n_helices)
+    bend = v["rms_bend_deg"]
+    lp_um = v["lp_nm"] / 1000.0
+    if n_helices <= 1:
+        bundle_desc = "single B-DNA duplex"
+    else:
+        bundle_desc = (f"{n_helices}-helix bundle (Lp~{lp_um:.2g} um, "
+                       f"{v['ei_ratio']:.0f}x stiffer than one duplex)")
+    if v["category"] == "rigid":
+        stiff = (f"rigid (edge << persistence length, Lp~{lp_um:.2g} um) -> holds its designed "
+                 "shape")
+    elif v["category"] == "semi-rigid":
         stiff = "semi-rigid -> minor vertex-angle fluctuation"
     else:
         stiff = ("FLOPPY: single-duplex edges fluctuate >25 deg rms -> the wireframe breathes; "
-                 "for a rigid shape use multi-helix-bundle edges (6HB Lp ~1-10 um) or accept "
-                 "an ensemble-averaged shape (intended for DAEDALUS-style compliant wireframes)")
+                 "for a rigid shape set edge_helices>=3 (multi-helix bundle, 6HB Lp ~1-10 um) or "
+                 "accept an ensemble-averaged shape (intended for DAEDALUS-style compliant "
+                 "wireframes)")
 
     seqs = [getattr(s, "seq", "") for s in staples]
     g4 = sum(sq.g_quadruplex_sites(s) for s in seqs)
     g4_line = (f"{g4} staple(s) with a G-quadruplex motif -> sequestered from folding; redesign"
                if g4 else "0 G-quadruplex motifs -> clean (audited)")
 
-    tms = [s.tm_C for s in staples]
-    bufs = [sq.tm_buffer(s) for s in seqs if s]
-    offset = (sum(bufs) / len(bufs) - sum(tms) / len(tms)) if (bufs and tms) else 0.0
+    tms = [s.tm_C for s in staples]                       # already at the buffer salt (0.166)
+    na50 = [sq.tm(s, na_M=0.05) for s in seqs if s]       # textbook 50 mM Na+, for contrast
+    delta = (sum(tms) / len(tms) - sum(na50) / len(na50)) if (tms and na50) else 0.0
 
     return f"""## Physics & materials reality check (adversarial)
 _Failure modes that break the physical build even when the compile succeeds. Verify these,
 not just that files were written._
-- edge stiffness: longest edge ~{max_edge_bp:.0f} bp (~{approx_nm} nm); single B-DNA duplex
-  RMS thermal bend ~{bend:.0f} deg (worm-like chain, Lp~50 nm) -> {stiff}
+- edge stiffness (edge_helices={n_helices}): longest edge ~{max_edge_bp:.0f} bp (~{approx_nm} nm);
+  {bundle_desc} RMS thermal bend ~{bend:.0f} deg (worm-like chain) -> {stiff}
 - sequence liability: {g4_line}
-- buffer-accurate Tm: the model Tm above assumes ~50 mM Na+; in the real ~12.5 mM Mg2+ fold,
-  staples melt ~{offset:+.1f} C hotter (Owczarzy 2008; research/exp1). Anneal-ramp top end
-  should clear the hottest staple's buffer Tm.
+- buffer Tm: the Tm histogram above is at the real ~12.5 mM Mg2+ folding-buffer salt
+  ([Na+]_eq=0.166; Owczarzy 2008, research/exp1) -- ~{delta:+.1f} C vs the 50 mM-Na textbook
+  value. The anneal-ramp top end should clear the hottest staple's Tm.
 - kinetic blind spot: this score is THERMODYNAMIC (equilibrium Tm). Folding is kinetic --
   if hot staples close loops before the structure nucleates, yield drops despite good Tm.
   Mitigate with the Mg2+ x ramp screen (screen.md); program nucleation seams last.
