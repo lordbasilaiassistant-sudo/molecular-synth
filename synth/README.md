@@ -9,12 +9,19 @@ north-star).
 
 ## Item Synth — one front door for the whole federation
 
-[`itemsynth/`](itemsynth/) is the **AI request-compiler** of the thesis: ask for *anything*
-and it routes the request to the maker that fits — Water, Drink, Print, or the molecular
-(DNA) compiler — or, for things no cheap desktop can honestly make today (working
-electronics, arbitrary matter from atoms), it returns the **north-star verdict instead of a
-faked recipe**. The classifier is a transparent keyword scorer (no LLM, no black box), so
-every routing decision explains itself (`route(req)["matched"]`).
+[`itemsynth/`](itemsynth/) is the **AI request-compiler** of the thesis and the federation's
+**single front door**: ask for *anything* and it routes the request to the maker that fits —
+Water, Drink, Print, or the molecular (DNA) compiler — or, for things no cheap desktop can
+honestly make today (working electronics, arbitrary matter from atoms), it returns the
+**north-star verdict instead of a faked recipe**. The classifier is a transparent keyword
+scorer (no LLM, no black box), so every routing decision explains itself
+(`route(req)["matched"]`).
+
+It is the *one* spine: a small **maker registry** ([`makers.py`](itemsynth/makers.py)) is the
+single source of truth (each maker bundles its keywords + compiler + output adapter), and the
+**Maker Catalog** ([`../catalog/`](../catalog/)) is wired in as an engine of this front door —
+so feasibility lookup and cross-maker decomposition ("whiskey on the rocks" → machine-made
+ice + a pour) resolve *through itemsynth too*, not via a separate second door:
 
 ```bash
 cd synth
@@ -22,12 +29,14 @@ python -m itemsynth "a large glass of cold water"     # -> water maker
 python -m itemsynth "iced oat latte, large"           # -> drink maker
 python -m itemsynth "a phone case"                    # -> print maker
 python -m itemsynth "an octahedron DNA nanocage"      # -> molecular compiler (emits a design)
+python -m itemsynth "whiskey on the rocks"            # -> catalog: ice (water) + pour (drink)
 python -m itemsynth "a working smartphone"            # -> honest north-star, not faked
 python -m itemsynth --classify-only "matcha latte"    # show the routing decision only
+python -m itemsynth --feasibility "an insulin protein"  # which rung of the ladder?
 ```
 ```python
-from itemsynth import route
-r = route("a large glass of cold water")
+from itemsynth import synthesize, route, feasibility, plan
+r = synthesize("a large glass of cold water")    # smart front door (route, or catalog fallback)
 print(r["maker"], r["recipe"])     # 'water' -> ['HARVEST 400 ...', 'FILTER ...', 'DISPENSE 400 ...']
 ```
 

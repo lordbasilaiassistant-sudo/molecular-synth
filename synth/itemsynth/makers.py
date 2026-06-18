@@ -60,13 +60,18 @@ _SHAPES = ("tetrahedron", "cube", "octahedron", "icosahedron", "dodecahedron",
            "square", "dodec")
 
 
-def _ensure_paths() -> None:
-    """Put synth/ and compiler/ on sys.path so the maker packages import, regardless of
-    where the caller runs from."""
+def ensure_federation_paths() -> None:
+    """The single import seam for the whole federation.
+
+    The maker packages live in three sibling roots (synth/ for water/drink/print,
+    compiler/ for molsynth, catalog/ for the Maker Catalog + order brain). This puts all
+    three on sys.path so any engine imports regardless of where the caller runs from,
+    replacing the per-call sys.path hacks that used to be scattered across the codebase.
+    """
     here = os.path.dirname(os.path.abspath(__file__))           # synth/itemsynth
     synth_dir = os.path.dirname(here)                           # synth/
     repo = os.path.dirname(synth_dir)                           # repo root
-    for p in (synth_dir, os.path.join(repo, "compiler")):
+    for p in (synth_dir, os.path.join(repo, "compiler"), os.path.join(repo, "catalog")):
         if p not in sys.path:
             sys.path.insert(0, p)
 
@@ -99,7 +104,7 @@ def _pick_shape(request: str) -> str:
 # Unused router options are accepted and ignored via **_ so the registry stays generic.
 # --------------------------------------------------------------------------- #
 def _run_water(request: str, **_) -> dict:
-    _ensure_paths()
+    ensure_federation_paths()
     from watersynth import compile_water
     out = compile_water(request)
     return {"maker": "water", "recipe": out["commands"], "ticket": out["protocol"],
@@ -107,7 +112,7 @@ def _run_water(request: str, **_) -> dict:
 
 
 def _run_drink(request: str, **_) -> dict:
-    _ensure_paths()
+    ensure_federation_paths()
     from drinksynth import compile_drink
     out = compile_drink(request)
     return {"maker": "drink", "recipe": out["commands"], "ticket": out["protocol"],
@@ -115,7 +120,7 @@ def _run_drink(request: str, **_) -> dict:
 
 
 def _run_print(request: str, **_) -> dict:
-    _ensure_paths()
+    ensure_federation_paths()
     from printsynth import compile_print
     stl = _extract_stl_path(request)
     if stl:
@@ -137,7 +142,7 @@ def _run_molecular(request: str, outdir: str = None, compile_molecular: bool = T
         return {"maker": "molecular", "recipe": None, "shape": shape,
                 "ticket": f"would compile a DNA-origami {shape} (scaffold + staples + 3D + protocol)",
                 "honest_note": "classify-only; set compile_molecular=True to emit the design"}
-    _ensure_paths()
+    ensure_federation_paths()
     from molsynth import compile_shape
     od = outdir or tempfile.mkdtemp(prefix="itemsynth_")
     summary = compile_shape(shape, outdir=od)

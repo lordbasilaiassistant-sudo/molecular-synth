@@ -10,7 +10,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, os.path.join(ROOT, "synth"))
 sys.path.insert(0, os.path.join(ROOT, "compiler"))
 
-from itemsynth import classify, route        # noqa: E402
+from itemsynth import classify, route, synthesize, feasibility, plan   # noqa: E402
 
 
 class TestClassify(unittest.TestCase):
@@ -106,6 +106,42 @@ class TestRoute(unittest.TestCase):
             # the real maker wrote orderable + foldable artifacts
             for f in ("scaffold.fasta", "staples.csv", "protocol.md"):
                 self.assertTrue(os.path.exists(os.path.join(d, f)), f)
+
+
+class TestUnifiedFrontDoor(unittest.TestCase):
+    """itemsynth is the ONE front door: it dispatches single makers AND, by delegating to
+    the Maker Catalog, covers feasibility + cross-maker decomposition — so the catalog is an
+    engine of this front door, not a second disconnected one."""
+
+    def test_synthesize_routes_single_maker(self):
+        # a request a single maker fits -> identical to route()
+        r = synthesize("a large glass of cold water")
+        self.assertEqual(r["maker"], "water")
+        self.assertTrue(any(cmd.startswith("DISPENSE") for cmd in r["recipe"]))
+
+    def test_synthesize_honors_north_star(self):
+        r = synthesize("a working smartphone")
+        self.assertEqual(r["domain"], "north-star")
+        self.assertIsNone(r["maker"])
+
+    def test_synthesize_falls_back_to_catalog_for_cross_maker(self):
+        # "whiskey on the rocks" isn't a single-maker domain -> catalog decomposes it
+        # into machine-made ice (watersynth) + a pour (drinksynth).
+        r = synthesize("whiskey on the rocks")
+        self.assertEqual(r["domain"], "catalog")
+        self.assertIn("watersynth", r["makers"])
+        self.assertIn("drinksynth", r["makers"])
+        self.assertTrue(r["recipe"])                       # real machine commands
+
+    def test_feasibility_reports_a_rung(self):
+        r = feasibility("a glass of water")
+        self.assertIn(r["best_feasibility"],
+                      ["ready", "assemble", "frontier", "north-star"])
+
+    def test_plan_decomposes_a_cocktail(self):
+        p = plan("gin and tonic")
+        self.assertTrue(p["ticket"])
+        self.assertTrue(p["makers"])                       # routed to >=1 maker
 
 
 if __name__ == "__main__":
